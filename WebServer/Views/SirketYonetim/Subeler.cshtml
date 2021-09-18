@@ -1,0 +1,605 @@
+﻿@{
+    ViewBag.Title = "Şubeler";
+    Layout = "~/Views/Shared/sirketYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+
+<!-- PAGE CONTENT -->
+<script>
+document.getElementById("subeler").className = "active";
+</script>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Şubeler
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Şubeler</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Şube Ekle
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Şube Adı</label>
+                                                <input name="subeAd" required type="text" id="subeAd" class="form-control" placeholder="Şube Adını Girin">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Şube Ülke</label>
+                                                <select id="ulkeId" name="ulkeId" onchange="illerGetir(this.value)" class="form-control select2" style="width: 100%;">
+                                                    @foreach (var ulke in Model.Ulkeler.ToList())
+                                                    {
+                                                        <option value="@ulke.ulkeId">@ulke.ulkeAd</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Şube İl</label>
+                                                <select id="ilId" name="ilId" onchange="ilcelerGetir(this.value)" class="form-control select2" style="width: 100%;"></select>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Şube İlçe</label>
+                                                <select id="ilceId" name="ilceId" class="form-control select2" style="width: 100%;"></select>
+                                            </div>
+                                            <script>
+                                                $(function () {
+                                                    var ulkeSecici = $("#ulkeId");
+                                                    illerGetir(ulkeSecici[0].value);
+                                                });
+                                                function illerGetir(ulkeId) {
+                                                    $.ajax({
+                                                        url: '/SirketYonetim/IllerGetir',
+                                                        type: 'POST',
+                                                        dataType: 'json',
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({ ulkeId: ulkeId }),
+                                                        traditional: true,
+                                                        success: function (gelenIller) {
+                                                            var ilId = $("#ilId");
+                                                            ilId.empty();
+                                                            //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                            $.each(gelenIller, function () {
+                                                                ilId.append($("<option />").val(this.ilId).text(this.ilAd));
+                                                            });
+                                                            ilcelerGetir(ilId.val());
+                                                        }
+                                                    });
+                                                }
+                                                function ilcelerGetir(ilId) {
+                                                    $.ajax({
+                                                        url: '/SirketYonetim/IlcelerGetir',
+                                                        type: 'POST',
+                                                        dataType: 'json',
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({ ilId: ilId }),
+                                                        traditional: true,
+                                                        success: function (gelenIlceler) {
+                                                            var ilceId = $("#ilceId");
+                                                            ilceId.empty();
+                                                            //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                            $.each(gelenIlceler, function () {
+                                                                ilceId.append($("<option />").val(this.ilceId).text(this.ilceAd));
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    İlk Kurulum Yapıldı Mı?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="ilkKurulumYapildiMi" type="checkbox" />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        İlk Kurulum Yapıldı
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                <label>Şube Adres</label>
+                                                <textarea name="subeAdres" required type="text" id="subeAdres" class="form-control" style="resize:none;" placeholder="Şube Adresini Girin"></textarea>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label> </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Personel Yazıcı Adı</label>
+                                                <input name="personelYaziciAd" required type="text" id="personelYaziciAd" class="form-control" style="resize:none;" placeholder="Personel Yazıcı Adını Girin" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Personel Yazıcı Ip'si</label>
+                                                <input name="personelYaziciIp" required type="text" id="personelYaziciIp" class="form-control" style="resize:none;" placeholder="Personel Yazıcı Ip'sini Girin" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    Personel Yazıcısı Otomatik Yazdırsın Mı?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="personelYazicisiOtomatikMi" type="checkbox" />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        Personel Yazıcısı Otomatik Yazdırsın Mı?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Kasa Yazıcı Adı</label>
+                                                <input name="kasaYaziciAd" required type="text" id="kasaYaziciAd" class="form-control" style="resize:none;" placeholder="Kasa Yazıcı Adını Girin" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Kasa Yazıcı Ip'si</label>
+                                                <input name="kasaYaziciIp" required type="text" id="kasaYaziciIp" class="form-control" style="resize:none;" placeholder="Kasa Yazıcı Ip'sini Girin" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    Duyurular Aktif Mi?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="duyuruAlaniAktifMi" type="checkbox" />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        Duyurular Aktif Mi?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>İşlemler</label>
+                                                <button type="button" onclick="subeEkle()" class="btn btn-primary btn-md btn-grad form-control">Şube Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.form -->
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Şube Id</th>
+                                    <th>Şube Ad</th>
+                                    <th>İlçe / İl</th>
+                                    <th>İlk Kurulum Yapıldı Mı?</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var sube in Model.Subeler.OrderBy(x => x.subeId))
+                                {
+                                <tr>
+                                    <td>@sube.subeId</td>
+                                    <td>@sube.subeAd</td>
+                                    <td>@sube.Ilceler.ilceAd / @sube.Ilceler.Iller.ilAd</td>
+                                    <td>
+                                        @{
+                                            if(sube.ilkKurulumYapildiMi == true)
+                                            {
+                                                <text> <i class="fa fa-check"></i> </text>
+                                            }
+                                            else
+                                            {
+                                                <text> <i class="fa fa-times"></i> </text>
+                                            }
+
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#subeDuzenle_@sube.subeId"></button>
+                                            <button class="btn btn-danger  btn-md btn-grad fa fa-trash" name="@sube.subeId" onclick="subeSil(this.name)"></button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @foreach (var sube in Model.Subeler)
+            {
+                <!-- ŞUBE DÜZENLEME -->
+                <div class="modal fade bd-example-modal-lg" id="subeDuzenle_@sube.subeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_subeDuzenle_@sube.subeId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_subeDuzenle_@sube.subeId">@sube.subeAd Şubesini Düzenle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>Şube Adı</label>
+                                            <input name="subeAd_@sube.subeId" required type="text" id="subeAd_@sube.subeId" class="form-control" placeholder="Şube Adını Girin" value="@sube.subeAd">
+                                            <input name="subeId_@sube.subeId" type="text" id="subeId_@sube.subeId" hidden="hidden" value="@sube.subeId">
+                                        </div>
+                                        <div class="col-md-4 col-md-offset-2 col-lg-offset-2 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>
+                                                İlk Kurulum Yapıldı Mı?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="ilkKurulumYapildiMi_@sube.subeId" @{if (sube.ilkKurulumYapildiMi == true) { <text> checked="checked" </text>  }} type="checkbox">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    İlk Kurulum Yapıldı
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Şube Ülke</label>
+                                            <select id="ulkeId_@sube.subeId" name="ulkeId_@sube.subeId" onchange="illerGetirDuzenle(this.value,@sube.subeId)" class="form-control select2" style="width: 100%;">
+                                                <option value="@sube.Ilceler.Iller.ulkeId">@sube.Ilceler.Iller.Ulkeler.ulkeAd</option>
+                                                @foreach (var ulke in Model.Ulkeler.Where(x => x.ulkeId != sube.Ilceler.Iller.ulkeId).ToList())
+                                                {
+                                                    <option value="@ulke.ulkeId">@ulke.ulkeAd</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Şube İl</label>
+                                            <select id="ilId_@sube.subeId" name="ilId_@sube.subeId" onchange="ilcelerGetirDuzenle(this.value,@sube.subeId)" class="form-control select2" style="width: 100%;">
+                                                <option value="@sube.Ilceler.ilId">@sube.Ilceler.Iller.ilAd</option>
+                                                @foreach (var il in Model.Iller.Where(x => x.ilId != sube.Ilceler.ilId && x.ulkeId == sube.Ilceler.Iller.ulkeId).ToList())
+                                                {
+                                                    <option value="@il.ilId">@il.ilAd</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Şube İlçe</label>
+                                            <select id="ilceId_@sube.subeId" name="ilceId_@sube.subeId" class="form-control select2" style="width: 100%;">
+                                                <option value="@sube.ilceId">@sube.Ilceler.ilceAd</option>
+                                                @foreach (var ilce in Model.Ilceler.Where(x => x.ilceId != sube.ilceId && x.ilId == sube.Ilceler.ilId).ToList())
+                                                {
+                                                    <option value="@ilce.ilceId">@ilce.ilceAd</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <label>Şube Adresi</label>
+                                            <textarea name="subeAdres_@sube.subeId" required type="text" id="subeAdres_@sube.subeId" class="form-control" style="resize:none;" placeholder="Şube Adresini Girin">@sube.subeAdres</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Kasa Yazıcı Ad</label>
+                                            <input name="kasaYaziciAd_@sube.subeId" required type="text" id="kasaYaziciAd_@sube.subeId" class="form-control" style="resize:none;" placeholder="Kasa Yazıcı Adını Girin" value="@sube.kasaYaziciAd" />
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Kasa Yazıcı Ip</label>
+                                            <input name="kasaYaziciIp_@sube.subeId" required type="text" id="kasaYaziciIp_@sube.subeId" class="form-control" style="resize:none;" placeholder="Kasa Yazıcı Ip'sini Girin" value="@sube.kasaYaziciIp"/>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Personel Yazıcı Ad</label>
+                                            <input name="personelYaziciAd_@sube.subeId" required type="text" id="personelYaziciAd_@sube.subeId" class="form-control" style="resize:none;" placeholder="Personel Yazıcı Adını Girin" value="@sube.personelYaziciAd"/>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Personel Yazıcı Ip</label>
+                                            <input name="personelYaziciIp_@sube.subeId" required type="text" id="personelYaziciIp_@sube.subeId" class="form-control" style="resize:none;" placeholder="Personel Yazıcı Ip'sini Girin" value="@sube.personelYaziciIp"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>
+                                                Personel Yazıcısı Otomatik Yazdırsın Mı?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="personelYazicisiOtomatikMi_@sube.subeId" @{if (sube.personelYazicisiOtomatikMi == true) { <text> checked="checked" </text>  }} type="checkbox">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    Personel Yazıcısı Her Siparişte Otomatik Yazdırsın Mı?
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>
+                                                Duyuru Alanı Aktif Mi?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="duyuruAlaniAktifMi_@sube.subeId" @{if (sube.duyuruAlaniAktifMi == true) { <text> checked="checked" </text>  }} type="checkbox">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    Duyuru Alanı Aktif Mi?
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-md-offset-8 col-lg-offset-8 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>İşlemler</label>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" onclick="subeDuzenle(this.name)" name="@sube.subeId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ŞUBE SİLMEK İÇİN PAROLA GİR-->
+                <div class="modal fade bd-example-modal-lg" id="SubeSilTamamla_@sube.subeId" tabindex="-1" role="dialog" aria-labelledby="SubeSilTamamla_@sube.subeId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="SubeSilTamamla_@sube.subeId">Devam Etmek İçin Şirket Parolanızı Girmelisiniz</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-3 col-lg-offset-3 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>Şirket Parolası</label>
+                                            <input id="sirketParola" name="sirketParola" class="form-control" type="password" placeholder="Şirket Parolanızı Girin" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-md-offset-6 col-lg-offset-8 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>İşlemler</label>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" onclick="subeSildir(this.name)" name="@sube.subeId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             } 
+        </div>
+    </section>
+</div>
+
+
+<script>
+    function illerGetirDuzenle(ulkeId, subeId) {
+        $.ajax({
+            url: '/SirketYonetim/IllerGetir',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({ ulkeId: ulkeId }),
+            traditional: true,
+            success: function (gelenIller) {
+                var ilId = $("#ilId_" + subeId);
+                ilId.empty();
+                $.each(gelenIller, function () {
+                    ilId.append($("<option />").val(this.ilId).text(this.ilAd));
+                });
+                ilcelerGetirDuzenle(ilId.val(), subeId);
+            }
+        });
+    }
+    function ilcelerGetirDuzenle(ilId, subeId) {
+        $.ajax({
+            url: '/SirketYonetim/IlcelerGetir',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({ ilId: ilId }),
+            traditional: true,
+            success: function (gelenIlceler) {
+                var ilceId = $("#ilceId_" + subeId);
+                ilceId.empty();
+                $.each(gelenIlceler, function () {
+                    ilceId.append($("<option />").val(this.ilceId).text(this.ilceAd));
+                });
+            }
+        });
+    }
+</script>
+<script>
+//URUN DUZENLEME FONKSİYONU
+    function subeDuzenle(subeId) {
+        var formData = new FormData();
+        var subeAd = $('#subeAd_' + subeId).val();
+        var subeAdres = $('#subeAdres_' + subeId).val();
+        var ilkKurulumYapildiMi = $('#ilkKurulumYapildiMi_' + subeId).is(":checked");
+        var ilceId = $('#ilceId_' + subeId).val();
+        var kasaYaziciAd = $('#kasaYaziciAd_' + subeId).val();
+        var kasaYaziciIp = $('#kasaYaziciIp_' + subeId).val();
+        var personelYaziciAd = $('#personelYaziciAd_' + subeId).val();
+        var personelYaziciIp = $('#personelYaziciIp_' + subeId).val();
+        var personelYazicisiOtomatikMi = $('#personelYazicisiOtomatikMi_' + subeId).is(":checked");
+        var duyuruAlaniAktifMi = $('#duyuruAlaniAktifMi_' + subeId).is(":checked");
+
+        if (subeAd != "" && subeAdres != "") {
+            formData.append("subeAd", subeAd);
+            formData.append("subeId", subeId);
+            formData.append("subeAdres", subeAdres);
+            formData.append("ilkKurulumYapildiMi", ilkKurulumYapildiMi);
+            formData.append("sirketId", sirketId);
+            formData.append("ilceId", ilceId);
+            formData.append("kasaYaziciAd", kasaYaziciAd);
+            formData.append("kasaYaziciIp", kasaYaziciIp);
+            formData.append("personelYaziciAd", personelYaziciAd);
+            formData.append("personelYaziciIp", personelYaziciIp);
+            formData.append("personelYazicisiOtomatikMi", personelYazicisiOtomatikMi);
+            formData.append("duyuruAlaniAktifMi", duyuruAlaniAktifMi);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/SirketYonetim/SubeGuncelle", true);
+            xhr.addEventListener("load",
+            function (data)
+            {
+                if (data.target.response == 0) {
+                    location.reload(true);
+                }
+                else if (data.target.response == 1) {
+                    alertHata();
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            },
+            false);
+            xhr.addEventListener("error", function (data) { alertHata(); }, false);
+            xhr.send(formData);
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+    
+    function subeEkle() {
+        var subeAd = $('#subeAd').val();
+        var subeAdres = $('#subeAdres').val();
+        var ilkKurulumYapildiMi = $('#ilkKurulumYapildiMi').is(":checked");
+        var ilceId = $('#ilceId').val();
+        var kasaYaziciAd = $('#kasaYaziciAd').val();
+        var kasaYaziciIp = $('#kasaYaziciIp').val();
+        var personelYaziciAd = $('#personelYaziciAd').val();
+        var personelYaziciIp = $('#personelYaziciIp').val();
+        var personelYazicisiOtomatikMi = $('#personelYazicisiOtomatikMi').is(":checked");
+        var duyuruAlaniAktifMi = $('#duyuruAlaniAktifMi').is(":checked");
+
+        if (subeAd != "" && subeAdres != "" && ilceId != "") {
+            var formData = new FormData();
+            formData.append("subeAd", subeAd);
+            formData.append("subeAdres", subeAdres);
+            formData.append("ilkKurulumYapildiMi", ilkKurulumYapildiMi);
+            formData.append("sirketId", sirketId);
+            formData.append("ilceId", ilceId);
+            formData.append("kasaYaziciAd", kasaYaziciAd);
+            formData.append("kasaYaziciIp", kasaYaziciIp);
+            formData.append("personelYaziciAd", personelYaziciAd);
+            formData.append("personelYaziciIp", personelYaziciIp);
+            formData.append("personelYazicisiOtomatikMi", personelYazicisiOtomatikMi);
+            formData.append("duyuruAlaniAktifMi", duyuruAlaniAktifMi);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/SirketYonetim/SubeEkle", true);
+            xhr.addEventListener("load",
+            function (data)
+            {
+                if (data.target.response == 0) {
+                    location.reload(true);
+                }
+                else if (data.target.response == 1) {
+                    alertHata();
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            },
+            false);
+            xhr.addEventListener("error", function (data) { alertHata(); }, false);
+            xhr.send(formData);
+        }
+        else {
+            alertAlanDoldur();
+        }
+    
+    }
+
+    function subeSil(subeId)
+    {
+        if (confirm('DİKKAT! Bu şubeye ait tüm personel/menü/ürün/sipariş/ödeme vb. verileri kaybedeceksiniz. Bu işlem geri alınamaz! İçeriği silmek istediğinize emin misiniz?'))
+        {
+            $("#SubeSilTamamla_" + subeId).modal('toggle');
+        }
+    }
+    function subeSildir(subeId)
+    {
+        var sirketEmail = "@Session["sirketEmail"]";
+        var sirketParola = $("#sirketParola").val();
+        $.ajax({
+            type: 'POST',
+            url: '/SirketYonetim/SubeSil/',
+            dataType: 'json',
+            data: { subeId: subeId, sirketId: sirketId, sirketParola: sirketParola, sirketEmail: sirketEmail },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else if (data == 1) {
+                    alertHata();
+                }
+                else if (data == 2) {
+                    alert("Giriş yapmış olduğunuz şirket hesabı ile girmekte olduğunuz şirket parolanız eşleşmiyor. Lütfen tekrar deneyin.");
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+</script>
+<script>
+    $(function () {
+        $('.table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    });
+</script>

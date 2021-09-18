@@ -1,0 +1,378 @@
+﻿@{ 
+    Layout = "~/Views/Shared/home_Layout.cshtml";
+    ViewBag.Title = "Sepet";
+    int paraBirimiId = 0;
+    if (Session["paraBirimiId"] == null)
+    {
+        paraBirimiId = 1;
+    }
+    else
+    {
+        if ((int)Session["paraBirimiId"] > 0 && (int)Session["paraBirimiId"] <= 4)
+        {
+            paraBirimiId = (int)Session["paraBirimiId"];
+        }
+        else
+        {
+            paraBirimiId = 1;
+        }
+    }
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+    <!-- Main Content -->
+<main class="main-content">
+    <!-- Header -->
+    <header class="header bg-gray" style="margin-bottom:55px !important; padding-bottom:45px !important;">
+        <div class="container">
+            <h1 class="display-4">Sepet Önizleme. Cart Overview</h1>
+            <p class="lead-2 mt-6">Sepetinize göz atın. İhtiyacınız olan her şeyi aldığınızdan emin olun. Make sure you have everything you needed.</p>
+        </div>
+    </header><!-- /.header -->
+    <section class="section" style="padding-top:unset !important;">
+        <div class="container">
+            <div class="row gap-y">
+                @if (Model.SepettekiHizmetler.Count > 0)
+                {
+            <div class="col-lg-8">
+                <table class="table table-cart">
+                    <tbody valign="middle">
+                    @foreach (var item in Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId != null).GroupBy(x=>x.hizmetKampanyaId))
+                    {
+                        <tr id="campaignRow_@item.Key">
+                            <td>
+                                <form action="/Home/RemoveCampaignFromCart" method="post" enctype="application/x-www-form-urlencoded">
+                                    <input hidden="hidden" type="text" name="yillik" value="@Model.SepettekiHizmetler.Where(x=>x.hizmetKampanyaId == item.Key).First().yillikMi.ToString()" />
+                                    <input hidden="hidden" type="text" name="hizmetKampanyaId" value="@item.Key" />
+                                    <button class="item-remove" type="submit"><i class="ti-close"></i></button>
+                                </form>
+                            </td>
+                            <td>
+                                <h5>@Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == item.Key).First().hizmetKampanyaAd</h5>
+                                <p>
+                                    @{
+                                        if (Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId == item.Key).First().yillikMi)
+                                        {
+                                            <text>Yıllık</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Aylık</text>
+                                        }
+                                    }
+                                    
+                                       Kampanya
+                                </p>
+                            </td>
+                            <td>
+                                <label>Adet</label>
+                                <input class="form-control form-control-sm" id="adetCampaign_@Model.SepettekiHizmetler.Where(x=>x.hizmetKampanyaId == item.Key).First().hizmetKampanyaId" type="text" placeholder="Adet" onchange="return sepetHizmetKampanyaAdetDegistir(@Model.SepettekiHizmetler.Where(x=>x.hizmetKampanyaId == item.Key).First().hizmetKampanyaId)" value="@Model.SepettekiHizmetler.Where(x=>x.hizmetKampanyaId == item.Key).First().adet" />
+                            </td>
+                            <td>
+                                 <h4 class="price" >
+                                    @{ 
+                                        HizmetKampanyalari hizmetKampanyasi = Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == item.Key).First();
+                                        if (hizmetKampanyasi != null)
+                                        {
+                                    
+                                                <span id="ucretCampaign_@Model.SepettekiHizmetler.Where(x=>x.hizmetKampanyaId == item.Key).First().hizmetKampanyaId">@(hizmetKampanyasi.hizmetKampanyaFiyat)</span>
+                                            
+                                        }
+                                        else
+                                        {
+                                            <meta http-equiv="refresh" content="0; url=/Home/Error404" />
+                                        }
+                                    }
+
+                                    @{
+                                        if (Model.HizmetKampanyalari.Where(y => y.hizmetKampanyaId == item.Key).First().ParaBirimleri != null)
+                                        {
+                                            <span>
+                                                @Model.HizmetKampanyalari.Where(y => y.hizmetKampanyaId == item.Key).First().ParaBirimleri.paraBirimiAd
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                        <span>
+                                            <meta http-equiv="refresh" content="0; url=/Home/Error404" />
+                                        </span>
+                                        }
+                                    }
+                                 </h4>
+                            </td>
+                        </tr>
+                    }
+                    @foreach (var item in Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId == null))
+                    {
+                        <tr>
+                            <td>
+                                <form action="/Home/RemoveItemFromCart" method="post" enctype="application/x-www-form-urlencoded">
+                                    <input hidden="hidden" type="number" name="hizmetId" value="@item.hizmetId" />
+                                    <input hidden="hidden" type="text" name="yillik" value="@item.yillikMi.ToString()" />
+                                    <button class="item-remove" type="submit"><i class="ti-close"></i></button>
+                                </form>
+                            </td>
+                            <td>
+                                <h5>@item.hizmetAd</h5>
+                                <p>
+                                    @{
+                                        if (item.yillikMi)
+                                        {
+                                            <text>Yıllık</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Aylık</text>
+                                        }
+                                    }
+                                    
+                                </p>
+                            </td>
+                            <td>
+                                <label>Adet</label>
+
+                                <input hidden="hidden" type="text" id="yillikItem_@item.hizmetId" value="@item.yillikMi.ToString()" />
+                                <input class="form-control form-control-sm" id="adetItem_@item.hizmetId" type="text" placeholder="Adet" onchange="return sepetHizmetAdetDegistir(@item.hizmetId)" value="@item.adet" />
+                            </td>
+                            <td>
+                                 <h4 class="price" id="ucretItem_@item.hizmetId">
+                                    
+                                        @if (item.yillikMi)
+                                        {
+                                            <span>@(item.hizmetAylikUcret * 12)</span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                @item.hizmetAylikUcret
+                                            </span>
+                                        }
+                                    
+                                    @{
+                                        if (Model.ParaBirimleri.Where(x => x.paraBirimiId == item.paraBirimiId).Count() > 0)
+                                        {
+                                            <span>
+                                                @Model.ParaBirimleri.Where(x => x.paraBirimiId == item.paraBirimiId).First().paraBirimiAd
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                        <span>
+                                            0
+                                        </span>
+                                        }
+                                    }
+                                 </h4>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart-price">
+                    <div class="flexbox">
+                        <div>
+                            <p><strong>Ara Toplam:</strong></p>
+                            <p><strong>KDV (%18):</strong></p>
+                        </div>
+                        <div>
+                            <p id="aratoplam">
+                                @{
+                                    double aratop = (Model.SepettekiHizmetler.Where(x => x.yillikMi == true && x.hizmetKampanyaId == null).Sum(x => x.hizmetAylikUcret * x.adet) * 12)+
+                                      Model.SepettekiHizmetler.Where(x => x.yillikMi == false && x.hizmetKampanyaId == null).Sum(x => x.hizmetAylikUcret * x.adet);
+
+                                    double aratop2 = 0;
+                                    foreach(var hizmetKampanya in Model.SepettekiHizmetler.Where(x =>x.hizmetKampanyaId != null).GroupBy(x => x.hizmetKampanyaId))
+                                    {
+                                        aratop2+= Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == hizmetKampanya.Key.Value).First().hizmetKampanyaFiyat* Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId == hizmetKampanya.Key.Value).First().adet;
+                                    }
+                                    }
+                                @(aratop+aratop2)
+                                @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd
+                            </p>
+                            <p id="kdvmiktar">
+                                @((aratop+aratop2) * 0.18) 
+                                @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="flexbox">
+                        <div>
+                            <p><strong>Toplam:</strong></p>
+                        </div>
+                        <div>
+                            <p class="fw-600" id="toplam">@((aratop+aratop2) * 1.18) @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <a class="btn btn-block btn-secondary" href="/Home/Pricing">Alışverişe Dön</a>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-block btn-primary" href="/Home/Checkout">Ödeme <i class="ti-angle-right fs-9"></i></a>
+                    </div>
+                </div>
+            </div>
+}
+else
+{
+            <div class="col-md-3">
+                
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-lg btn-light btn-round btn-outline-success" href="/Home/Pricing">Sepetiniz boş. Buraya tıklayarak kampanyalarımızı görebilirsiniz.</a>
+            </div>
+            <div class="col-md-3">
+                
+            </div>
+}
+
+            </div>
+        </div>
+    </section>
+</main><!-- /.main-content -->
+    <!-- Footer -->
+<script>
+    function cartYenidenHesapla() {
+        var toplam = 0;
+        var aratoplam = 0;
+        var kdvmiktar = 0;
+        function ShowResultsItem(value, index, ar) {//EXPERIMENTAL
+            
+            var ucret = parseFloat(document.getElementById('ucretItem_' + value.value).innerHTML);
+            var adet = parseFloat($("#adetItem_" + value.value).val());
+            var yillikMi = parseFloat($("#yillikItem_" + value.value).val());
+            if (yillikMi == "True") {
+                aratoplam += ucret * 12 * adet;
+                kdvmiktar = aratoplam * 0.18;
+                toplam = aratoplam + kdvmiktar;
+            }
+            else {
+                aratoplam += ucret * adet;
+                kdvmiktar = aratoplam * 0.18;
+                toplam = aratoplam + kdvmiktar;
+            }
+            
+        }
+        function ShowResultsCampaign(value, index, ar) {
+
+            var ucret = parseFloat(document.getElementById('ucretCampaign_' + value.value).innerHTML);
+            var adet = parseFloat($("#adetCampaign_" + value.value).val());
+            aratoplam += ucret * adet;
+            kdvmiktar = aratoplam * 0.18;
+            toplam = aratoplam + kdvmiktar;
+
+        }
+
+        var input = document.getElementsByName("hizmetId");//EXPERIMENTAL
+        var inputList = Array.prototype.slice.call(input);//EXPERIMENTAL
+        var input2 = document.getElementsByName("hizmetKampanyaId");
+        var inputList2 = Array.prototype.slice.call(input2);
+        //alert(inputList.length);//EXPERIMENTAL
+        inputList.forEach(ShowResultsItem);//EXPERIMENTAL
+        //alert(inputList2.length);
+        inputList2.forEach(ShowResultsCampaign);
+
+        document.getElementById("kdvmiktar").innerHTML = kdvmiktar.toFixed(2) + " @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd";
+        document.getElementById("aratoplam").innerHTML = aratoplam.toFixed(2) + " @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd";
+        document.getElementById("toplam").innerHTML = toplam.toFixed(2) + " @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd";
+    }
+    function sepetHizmetAdetDegistir(hizmetId) {//EXPERIMENTAL
+        var adet = document.getElementById('adet_' + hizmetId).value;
+        var yillik = document.getElementById('yillik_' + hizmetId).value;
+        if (hizmetId != "" && adet != null && yillik != null) {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/ChangeItemQuantityFromCart/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ hizmetId: hizmetId, yillik: yillik, adet: adet }),
+                success: function (data) {
+                    if (data == 0) {
+
+                        cartYenidenHesapla();
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                        location.reload(true);
+                    }
+                    else if (data == 2) {
+                        alert('Bu ürün sepetinizde bulunmamaktadır');
+                        location.reload(true);
+                    }
+                    else if (data == -1){
+                        alertLoginHatasi();
+                        location.reload(true);
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+    function sepetHizmetKampanyaAdetDegistir(hizmetKampanyaId) {
+        var adet = document.getElementById('adetCampaign_' + hizmetKampanyaId).value;
+        if (hizmetKampanyaId != "" && adet != null) {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/ChangeCampaignQuantityFromCart/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ hizmetKampanyaId: hizmetKampanyaId, adet: adet }),
+                success: function (data) {
+                    if (data == 0) {
+                        if (adet==0)
+                        $("#campaignRow_" + hizmetKampanyaId).remove();
+                        cartYenidenHesapla();
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                        location.reload(true);
+                    }
+                    else if (data == 2) {
+                        alert('Bu ürün sepetinizde bulunmamaktadır');
+                        location.reload(true);
+                    }
+                    else if (data == 3) {
+                        alert('Sepetinizde hiç ürün bulunmamaktadır');
+                        location.reload(true);
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+
+
+    function addItemToSession(hizmetId) {
+
+        if (hizmetId != "" && adet != "" && yillik != "", hizmetKampanyaId !="") {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/ItemQuantityChange/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ hizmetId: hizmetId, adet: adet, yillik: yillik, hizmetKampanyaId: hizmetKampanyaId }),
+                success: function (data) {
+                    if (data == 0) {
+                        //location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else if (data == -1) {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+</script>

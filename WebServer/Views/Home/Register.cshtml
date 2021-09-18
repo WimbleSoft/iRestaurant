@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Register";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>@ViewBag.Title</title>
+    <!-- Styles -->
+    <link href="../Content/Home/assets/css/page.min.css" rel="stylesheet">
+    <link href="../Content/Home/assets/css/style.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+    <link rel="icon" href="../assets/img/favicon.png">
+</head>
+<body class="layout-centered bg-img" style="background-image: url(../Content/Home/assets/img/bg/4.jpg);">
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="bg-white rounded shadow-7 w-400 mw-100 p-6">
+            <h5 class="mb-7">Şirketinizi Kaydettirin</h5>
+            <form action="/Home/Register" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="form-group">
+                    @ViewBag.message
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="sirketAd" placeholder="Şirketinizin Adı">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="sirketEmail" placeholder="Şirketinizin Email Adresi">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="sirketParola" placeholder="Şirketinizin Parolası">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="sirketParolaTekrar" placeholder="Şirketinizin Parolası (tekrar)">
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" name="sirketTelefon" placeholder="Şirketinizin Telefon Numarası">
+                </div>
+                <div class="form-group">
+                    <label>Şube Ülke</label>
+                    <select id="ulkeId" name="ulkeId" onchange="illerGetir(this.value)" class="form-control select2" style="width: 100%;">
+                        <option>Ülke Seç</option>
+                        @foreach (var ulke in Model.Ulkeler)
+                {
+                    <option value="@ulke.ulkeId">@ulke.ulkeAd</option>
+        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Şube İl</label>
+                    <select id="ilId" name="ilId" onchange="ilcelerGetir(this.value)" class="form-control select2" style="width: 100%;"></select>
+                </div>
+                <div class="form-group">
+                    <label>Şube İlçe</label>
+                    <select id="ilceId" name="ilceId" class="form-control select2" style="width: 100%;"></select>
+                </div>
+                <script>
+                    $(function () {
+                        var ulkeSecici = $("#ulkeId");
+                        illerGetir(ulkeSecici[0].value);
+                    });
+                    function illerGetir(ulkeId) {
+                        $.ajax({
+                            url: '/SirketYonetim/IllerGetir',
+                            type: 'POST',
+                            dataType: 'json',
+                            contentType: "application/json",
+                            data: JSON.stringify({ ulkeId: ulkeId }),
+                            traditional: true,
+                            success: function (gelenIller) {
+                                var ilId = $("#ilId");
+                                ilId.empty();
+                                //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                $.each(gelenIller, function () {
+                                    ilId.append($("<option />").val(this.ilId).text(this.ilAd));
+                                });
+                                ilcelerGetir(ilId.val());
+                            }
+                        });
+                    }
+                    function ilcelerGetir(ilId) {
+                        $.ajax({
+                            url: '/SirketYonetim/IlcelerGetir',
+                            type: 'POST',
+                            dataType: 'json',
+                            contentType: "application/json",
+                            data: JSON.stringify({ ilId: ilId }),
+                            traditional: true,
+                            success: function (gelenIlceler) {
+                                var ilceId = $("#ilceId");
+                                ilceId.empty();
+                                //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                $.each(gelenIlceler, function () {
+                                    ilceId.append($("<option />").val(this.ilceId).text(this.ilceAd));
+                                });
+                            }
+                        });
+                    }
+                </script>
+                <div class="form-group py-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="terms" id="terms" class="">
+                        <a class="ml-1" target="_blank" data-toggle="modal" href="/Home/Terms">Kullanım Şartları'nı</a> kabul ediyorum.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-block btn-primary" type="submit">Kayıt Ol</button>
+                </div>
+            </form>
+            <p class="text-center text-muted small-2">Zaten Üye Misiniz? <a href="/Home/Login">Buradan Giriş Yapın</a></p>
+            <div class="divider">Sosya Medya Hesaplarımız</div>
+            <div class="text-center">
+                <a class="btn btn-circle btn-sm btn-facebook mr-2" href="http://www.facebook.com/SirusYazilim"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-circle btn-sm btn-google mr-2" href="http://www.instagram.com/SirusYazilim"><i class="fa fa-instagram"></i></a>
+                <a class="btn btn-circle btn-sm btn-twitter" href="http://www.twitter.com/SirusYazilim"><i class="fa fa-twitter"></i></a>
+            </div>
+            <hr class="w-30">
+
+        </div>
+    </main><!-- /.main-content -->
+    <!-- Scripts -->
+    <script src="../../Content/Home/assets/js/page.min.js"></script>
+    <script src="../../Content/Home/assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+﻿@{
+    ViewBag.Title = "Personeller";
+    Layout = "~/Views/Shared/sirketYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+<div id="content">
+    <script>
+        document.getElementById("personeller").className = "active";
+    </script>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Personeller
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+                <li><a href="#">Personeller</a></li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="box box-default collapsed-box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                                <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Personel Ekle
+                                            </button>
+                                        </h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Şube Yönetici Adı</label>
+                                                    <input name="personelAd"        required type="text" id="personelAd" class="form-control" placeholder="Personel Adını Girin">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Şube Yönetici Parolası</label>
+                                                    <input name="personelParola"    required type="password" id="personelParola" class="form-control" placeholder="Personel Parolasını Girin">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Şube Yönetici Emaili</label>
+                                                    <input name="personelEmail"     required type="email" id="personelEmail" class="form-control" placeholder="Personel Emailini Girin">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Şube Yönetici Telefonu</label>
+                                                    <input name="personelTelefon"   required type="tel" id="personelTelefon" class="form-control" placeholder="Personel Telefonu Girin">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Şube</label>
+                                                    <select id="subeId" name="subeId" class="select2 form-control" style="width:100% !important;">
+                                                        @foreach (var sube in Model.Subeler.ToList())
+                                                        {
+                                                            <option value="@sube.subeId">@sube.subeAd</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>İşlemler</label>
+                                                    <button type="button" onclick="personelEkle()" class="btn btn-primary form-control">Şube Yönetici Ekle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Ad Soyad</th>
+                                        <th>Email</th>
+                                        <th>Telefon</th>
+                                        <th>Şube</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var a in Model.Personeller.Where(x=>x.yetki==true))
+                                    {
+                                        <tr>
+                                            <td>@a.personelId</td>
+                                            <td>@a.personelAd</td>
+                                            <td>@a.personelEmail</td>
+                                            <td>@a.personelTelefon</td>
+                                            <td>@a.Subeler.subeAd - @a.Subeler.Ilceler.ilceAd / @a.Subeler.Ilceler.Iller.ilAd</td>
+                                            <td>
+                                                <span class="button-group">
+                                                    <button type="button" class="btn btn-warning fa fa-pencil" data-toggle="modal" data-target="#myModalId_@a.personelId"></button>
+                                                    <a href="#" name="@a.personelId" onclick="personelSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @foreach (var personel in Model.Personeller)
+                        {
+                        <!-- PERSONEL DÜZENLEME -->
+                            <div class="modal fade bs-example-modal-lg" id="myModalId_@personel.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Şube Yönetici Düzenle</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Şube Yönetici Adı Soyadı</label>
+                                                        <input name="personelAd_@personel.personelId" required type="text" id="personelAd_@personel.personelId" class="form-control" placeholder="Şube Yönetici Adını Girin" value="@personel.personelAd">
+                                                        <input name="personelId_@personel.personelId" type="text" id="personelId_@personel.personelId" hidden="hidden" value="@personel.personelId">
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Şube Yönetici Epostası</label>
+                                                        <input name="personelEmail_@personel.personelId" required type="email" id="personelEmail_@personel.personelId" class="form-control" placeholder="Şube Yönetici Epostasını Girin" value="@personel.personelEmail">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Şube Yönetici Parolası</label>
+                                                        <input name="personelParola_@personel.personelId" required type="password" id="personelParola_@personel.personelId" class="form-control" placeholder="Şube Yönetici Parolasını Girin">
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Şube Yönetici Telefonu</label>
+                                                        <input name="personelTelefon_@personel.personelId" required type="tel" id="personelTelefon_@personel.personelId" class="form-control" placeholder="Şube Yönetici Telefonu Girin" value="@personel.personelTelefon">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                        <label>Şube</label>
+                                                        <select id="subeId_@personel.personelId" name="subeId_@personel.personelId" class="select2 form-control" style="width:100% !important;">
+                                                            <option selected="selected" value="@personel.subeId">@personel.Subeler.subeAd - @personel.Subeler.Ilceler.ilceAd / @personel.Subeler.Ilceler.Iller.ilAd</option>
+                                                            @foreach (var sube in Model.Subeler.Where(x=>x.subeId != personel.subeId).ToList())
+                                                            {
+                                                                <option value="@sube.subeId">@sube.subeAd - @sube.Ilceler.ilceAd / @sube.Ilceler.Iller.ilAd</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>İşlemler</label>
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                <button type="button" class="btn btn-default btn-md btn-grad form-control " data-dismiss="modal">İptal</button>
+                                                            </div>
+                                                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                <button type="button" name="@personel.personelId" onclick="personelDuzenle(this.name)" class="btn btn-warning btn-md btn-grad form-control">Kaydet</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    function personelEkle() {
+        var personelAd = $('#personelAd').val();
+        var personelEmail = $('#personelEmail').val();
+        var personelParola = $('#personelParola').val();
+        var personelTelefon = $('#personelTelefon').val();
+        var subeId = $('#subeId').val();
+        if (personelAd != "" && personelEmail != "" && personelParola != "" && personelTelefon != "" && subeId != "") {
+            if (personelParola.length >= 6 && personelParola.length <= 12) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/SirketYonetim/PersonelEkle/',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify({ personelAd: personelAd, personelEmail: personelEmail, personelParola: personelParola, personelTelefon: personelTelefon, yetki: true, subeId: subeId, sirketId: sirketId }),
+                    success: function (data) {
+                        if (data == 0) {
+                            location.reload(true);
+                        }
+                        else if (data == 1) {
+                            alertHata();
+                        }
+                        else if (data == 2) {
+                            alert("Seçtiğiniz şifre 6 ile 12 karakter arasında olmalıdır.");
+                        }
+                        else {
+                            alertLoginHatasi();
+                        }
+                    }
+                });
+            }
+            else {
+                alert("Seçtiğiniz şifre 6 ile 12 karakter arasında olmalıdır.");
+            }
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+    function personelDuzenle(personelId) {
+        var personelAd = $('#personelAd_' + personelId).val();
+        var personelEmail = $('#personelEmail_' + personelId).val();
+        var personelParola = $('#personelParola_' + personelId).val();
+        var personelTelefon = $('#personelTelefon_' + personelId).val();
+        var subeId = $('#subeId_' + personelId).val();
+        if (personelAd != "" && personelEmail != "" && personelTelefon != "" && subeId != "") {
+            if (personelParola != null) {
+                if (personelParola.length >= 6 && personelParola.length <= 12) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/SirketYonetim/PersonelGuncelle/',
+                        dataType: 'json',
+                        data: { personelAd: personelAd, personelEmail: personelEmail, personelId: personelId, personelParola: personelParola, personelTelefon: personelTelefon, yetki: true, subeId: subeId, sirketId: sirketId },
+                        success: function (data) {
+                            if (data == 0) {
+                                location.reload(true);
+                            }
+                            else if (data == 1) {
+                                alertHata();
+                            }
+                            else if (data == 2) {
+                                alert("Seçtiğiniz şifre 6 ile 12 karakter arasında olmalıdır.");
+                            }
+                            else {
+                                alertLoginHatasi();
+                            }
+                        }
+                    });
+                }
+                else {
+                    alert("Seçtiğiniz şifre 6 ile 12 karakter arasında olmalıdır.");
+                }
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/SirketYonetim/PersonelGuncelle/',
+                    dataType: 'json',
+                    data: { personelAd: personelAd, personelEmail: personelEmail, personelId: personelId, personelParola: personelParola, personelTelefon: personelTelefon, yetki: true, subeId: subeId, sirketId: sirketId },
+                    success: function (data) {
+                        if (data == 0) {
+                            location.reload(true);
+                        }
+                        else if (data == 1) {
+                            alertHata();
+                        }
+                        else if (data == 2) {
+                            alert("Seçtiğiniz şifre 6 ile 12 karakter arasında olmalıdır.");
+                        }
+                        else {
+                            alertLoginHatasi();
+                        }
+                    }
+                });
+            }
+            
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+    function personelSil(personelId) {
+        if (confirm('Bu şube yöneticisini kaldırmak istediğinize emin misiniz?')) {
+            $.ajax({
+                type: 'POST',
+                url: '/SirketYonetim/PersonelSil/',
+                dataType: 'json',
+                data: { personelId: personelId, sirketId: sirketId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertIslemIptal();
+        }
+    }
+</script>
+

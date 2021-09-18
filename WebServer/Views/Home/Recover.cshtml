@@ -1,0 +1,67 @@
+﻿@{
+                Layout = null;
+}
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Recover Password</title>
+    <!-- Styles -->
+    <link href="../Content/Home/assets/css/page.min.css" rel="stylesheet">
+    <link href="../Content/Home/assets/css/style.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="../Content/Home/assets/img/apple-touch-icon.png">
+    <link rel="icon" href="../Content/Home/assets/img/favicon.png">
+</head>
+<body class="layout-centered bg-img" style="background-image: url(../assets/img/bg/4.jpg);">
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="bg-white rounded shadow-7 w-400 mw-100 p-6">
+            <h5 class="mb-6">Şifrenizi Kurtarın</h5>
+            <form class="input-line1" action="/Home/Recover" method="post" enctype="application/x-www-form-urlencoded">
+                @if (ViewBag.sifrelerGirilecekMi == null)
+    {
+
+            <div class="form-group">
+                @ViewBag.message
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" name="sirketEmail" placeholder="Email Adresiniz">
+            </div>
+            <button class="btn btn-lg btn-block btn-primary" type="submit">Şifremi Sıfırla</button>
+}
+else
+{
+if (ViewBag.sifrelerGirilecekMi == true)
+{
+            <div class="form-group">
+                @ViewBag.message
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="sirketParola" placeholder="Yeni Şifreniz">
+                <input type="password" class="form-control" name="sirketParolaTekrar" placeholder="Yeni Şifreniz (Tekrar)">
+                <input type="text" class="" hidden="hidden" name="sirketEmail" value="@ViewBag.sirketEmail">
+                <input type="text" class="" hidden="hidden" name="aktiflestirmeKodu" value="@ViewBag.aktiflestirmeKodu">
+            </div>
+            <button class="btn btn-lg btn-block btn-primary" type="submit">Şifremi Değiştir</button>
+}
+else
+{
+            @ViewBag.message
+
+}
+}
+
+            </form>
+        </div>
+    </main><!-- /.main-content -->
+    <!-- Scripts -->
+    <script src="../Content/Home/assets/js/page.min.js"></script>
+    <script src="../Content/Home/assets/js/script.js"></script>
+</body>
+</html>

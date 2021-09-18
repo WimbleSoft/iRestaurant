@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b17965a5137940d582fafddd1c1d2e80" Name="Diagram1">
+        <EntityTypeShape EntityType="iRestaurantModel.Departmanlar" Width="1.5" PointX="12" PointY="46.125" />
+        <EntityTypeShape EntityType="iRestaurantModel.Duyurular" Width="1.5" PointX="12" PointY="50.125" />
+        <EntityTypeShape EntityType="iRestaurantModel.FaturadakiHizmetler" Width="1.5" PointX="12" PointY="42.125" />
+        <EntityTypeShape EntityType="iRestaurantModel.Faturalar" Width="1.5" PointX="9.75" PointY="42.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.FaturaOdemeleri" Width="1.5" PointX="15" PointY="42.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.HizmetKampanyaHizmetleri" Width="1.5" PointX="17.25" PointY="28" />
+        <EntityTypeShape EntityType="iRestaurantModel.HizmetKampanyalari" Width="1.5" PointX="15" PointY="20.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.Hizmetler" Width="1.5" PointX="9.75" PointY="34.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.HizmetLisanslari" Width="1.5" PointX="12" PointY="34.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.Ilceler" Width="1.5" PointX="5.25" PointY="29" />
+        <EntityTypeShape EntityType="iRestaurantModel.Iller" Width="1.5" PointX="3" PointY="29" />
+        <EntityTypeShape EntityType="iRestaurantModel.Kampanyalar" Width="1.5" PointX="15" PointY="28.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.KampanyaUrunleri" Width="1.5" PointX="19.75" PointY="35.625" />
+        <EntityTypeShape EntityType="iRestaurantModel.Katlar" Width="1.5" PointX="12" PointY="39" />
+        <EntityTypeShape EntityType="iRestaurantModel.Masalar" Width="1.5" PointX="14.25" PointY="39" />
+        <EntityTypeShape EntityType="iRestaurantModel.Menuler" Width="1.5" PointX="15" PointY="32.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.Odemeler" Width="1.5" PointX="19.75" PointY="27.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.OdemeTurleri" Width="1.5" PointX="15" PointY="24.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.OturumKampanyalari" Width="1.5" PointX="19.75" PointY="31.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.Oturumlar" Width="1.5" PointX="17.5" PointY="33.125" />
+        <EntityTypeShape EntityType="iRestaurantModel.ParaBirimleri" Width="1.5" PointX="12.75" PointY="23.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.Personeller" Width="1.5" PointX="12" PointY="28" />
+        <EntityTypeShape EntityType="iRestaurantModel.Siparisler" Width="1.5" PointX="22.75" PointY="30.125" />
+        <EntityTypeShape EntityType="iRestaurantModel.SiparisUrunleri" Width="1.5" PointX="25" PointY="40.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.SiparisUrunleriEkstralari" Width="1.5" PointX="27.25" PointY="44.625" />
+        <EntityTypeShape EntityType="iRestaurantModel.Sirketler" Width="1.5" PointX="7.5" PointY="28.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.Subeler" Width="1.5" PointX="9.75" PointY="26.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.Ulkeler" Width="1.5" PointX="0.75" PointY="29.25" />
+        <EntityTypeShape EntityType="iRestaurantModel.UrunEkstralar" Width="1.5" PointX="19.75" PointY="48.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.UrunKategoriler" Width="1.5" PointX="14.25" PointY="46" />
+        <EntityTypeShape EntityType="iRestaurantModel.Urunler" Width="1.5" PointX="17.5" PointY="38.625" />
+        <EntityTypeShape EntityType="iRestaurantModel.UrunOzellikler" Width="1.5" PointX="19.75" PointY="51.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.UrunStokGirdiler" Width="1.5" PointX="25" PointY="34.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.UrunStoklar" Width="1.5" PointX="22.75" PointY="34.625" />
+        <EntityTypeShape EntityType="iRestaurantModel.YazdirmaListesi" Width="1.5" PointX="25" PointY="29.125" />
+        <AssociationConnector Association="iRestaurantModel.FK_Departmanlar_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_UrunKategoriler_Departmanlar" />
+        <AssociationConnector Association="iRestaurantModel.FK_Duyurular_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_FaturadakiHizmetler_Faturalar" />
+        <AssociationConnector Association="iRestaurantModel.FK_FaturadakiHizmetler_Hizmetler" />
+        <AssociationConnector Association="iRestaurantModel.FK_FaturadakiHizmetler_ParaBirimleri" />
+        <AssociationConnector Association="iRestaurantModel.FK_Faturalar_Sirketler" />
+        <AssociationConnector Association="iRestaurantModel.FK_FaturaOdemeleri_Faturalar" />
+        <AssociationConnector Association="iRestaurantModel.FK_HizmetLisanslari_Faturalar" />
+        <AssociationConnector Association="iRestaurantModel.FK_FaturaOdemeleri_ParaBirimleri" />
+        <AssociationConnector Association="iRestaurantModel.FK_HizmetKampanyaHizmetleri_HizmetKampanyalari" />
+        <AssociationConnector Association="iRestaurantModel.FK_HizmetKampanyaHizmetleri_Hizmetler" />
+        <AssociationConnector Association="iRestaurantModel.FK_HizmetKampanyalari_ParaBirimleri" />
+        <AssociationConnector Association="iRestaurantModel.FK_Hizmetler_ParaBirimleri" />
+        <AssociationConnector Association="iRestaurantModel.FK_HizmetLisanslari_Hizmetler" />
+        <AssociationConnector Association="iRestaurantModel.FK_HizmetLisanslari_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Ilceler_Iller" />
+        <AssociationConnector Association="iRestaurantModel.FK_Sirketler_Ilceler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Subeler_Ilceler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Iller_Ulkeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Kampanyalar_Menuler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Kampanyalar_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_KampanyaUrunleri_Kampanyalar" />
+        <AssociationConnector Association="iRestaurantModel.FK_OturumKampanyalari_Kampanyalar" />
+        <AssociationConnector Association="iRestaurantModel.FK_KampanyaUrunleri_Urunler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Katlar_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Masalar_Katlar" />
+        <AssociationConnector Association="iRestaurantModel.FK_Oturumlar_Masalar" />
+        <AssociationConnector Association="iRestaurantModel.FK_Menuler_ParaBirimleri" />
+        <AssociationConnector Association="iRestaurantModel.FK_Menuler_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_UrunKategoriler_Menuler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Odemeler_OdemeTurleri1" />
+        <AssociationConnector Association="iRestaurantModel.FK_Odemeler_Oturumlar" />
+        <AssociationConnector Association="iRestaurantModel.FK_Odemeler_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_OdemeTurleri_ParaBirimleri" />
+        <AssociationConnector Association="iRestaurantModel.FK_OdemeTurleri_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_OturumKampanyalari_Oturumlar" />
+        <AssociationConnector Association="iRestaurantModel.FK_SiparisUrunleri_OturumKampanyalari" />
+        <AssociationConnector Association="iRestaurantModel.FK_Oturumlar_Subeler1" />
+        <AssociationConnector Association="iRestaurantModel.FK_Siparisler_Oturumlar" />
+        <AssociationConnector Association="iRestaurantModel.FK_Personeller_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Siparisler_Personeller1" />
+        <AssociationConnector Association="iRestaurantModel.FK_Siparisler_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_SiparisUrunleri_Siparisler" />
+        <AssociationConnector Association="iRestaurantModel.FK_YazdirmaListesi_Siparisler" />
+        <AssociationConnector Association="iRestaurantModel.FK_SiparisUrunleri_Urunler" />
+        <AssociationConnector Association="iRestaurantModel.FK_SiparisUrunleri_UrunOzellikler" />
+        <AssociationConnector Association="iRestaurantModel.FK_SiparisUrunleriEkstralari_SiparisUrunleri" />
+        <AssociationConnector Association="iRestaurantModel.FK_SiparisUrunleriEkstralari_UrunEkstralar" />
+        <AssociationConnector Association="iRestaurantModel.FK_Subeler_Sirketler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Urunler_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_UrunStoklar_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_YazdirmaListesi_Subeler" />
+        <AssociationConnector Association="iRestaurantModel.FK_UrunEkstralar_Urunler" />
+        <AssociationConnector Association="iRestaurantModel.FK_Urunler_UrunKategoriler" />
+        <AssociationConnector Association="iRestaurantModel.FK_UrunOzellikler_Urunler" />
+        <AssociationConnector Association="iRestaurantModel.FK_UrunStoklar_Urunler" />
+        <AssociationConnector Association="iRestaurantModel.FK_UrunStokGirdiler_UrunStoklar" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

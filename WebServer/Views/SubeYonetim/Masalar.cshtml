@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "Masalar";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="content">
+    <script>
+        document.getElementById("masalar").className = "active";
+    </script>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Masalar
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+                <li><a href="#">Masalar</a></li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="col-md-12">
+                                <div class="box box-default collapsed-box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                                <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Masa Ekle
+                                            </button>
+                                        </h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <div class="col-md-2 col-lg-3 col-xs-12 col-sm-12">
+                                                    <label>Masa Adı</label>
+                                                    <input name="masaAd" required type="text" id="masaAd" class="form-control" placeholder="Masa Adını Girin">
+                                                </div>
+                                                <div class="col-md-2 col-lg-3 col-xs-12 col-sm-12">
+                                                    <label>Bulunduğu Kat</label>
+                                                    <select id="katId" required name="katId" class="form-control Select2 ">
+                                                        @foreach(var c in Model.Katlar)
+                                                        {
+                                                            <option value="@c.katId">@c.katAd</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 col-lg-3 col-xs-12 col-sm-12">
+                                                    <label>İşlemler</label>
+                                                    <button type="button" onclick="masaEkle()" class="btn btn-primary btn-md btn-grad form-control">Masa Ekle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Masa İd</th>
+                                        <th>Masa Adı</th>
+                                        <th>Kat Adı</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var a in Model.Masalar)
+                                    {
+                                        <tr>
+                                            <td>@a.masaId</td>
+                                            <td>@a.masaAd</td>
+                                            <td>@a.Katlar.katAd</td>
+                                            <td>
+                                                <span class="button-group">
+                                                    <button type="button" class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#myModalId_@a.masaId"></button>
+                                                    <a href="#"name="@a.masaId" onclick="masaSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- MASA DÜZENLEME -->
+                        @foreach (var a in Model.Masalar)
+                        {
+                        
+                            <div class="modal fade bs-example-modal-lg" id="myModalId_@a.masaId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Masa Düzenle</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Masa Adı</label>
+                                                        <input name="masaAd_@a.masaId" required type="text" id="masaAd_@a.masaId" class="form-control" placeholder="Masa Adını Girin" value="@a.masaAd">
+                                                        <input name="masaId_@a.masaId" type="text" id="masaId_@a.masaId" hidden="hidden" value="@a.masaId">
+                                                    </div>
+                                                    <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Kat</label>
+                                                        <select id="katId_@a.masaId" required name="katId_@a.masaId" class="form-control Select2 ">
+                                                            <option selected="selected" value="@a.katId">Kategori Seçiniz</option>
+                                                            @foreach (var b in Model.Katlar)
+                                                            {
+                                                                <option value="@b.katId">@b.katAd</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 col-lg-12 col-xs-12 col-sm-12">
+                                                        <label>İşlemler</label>
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                <button type="button" class="btn btn-default btn-md btn-grad form-control " data-dismiss="modal">İptal</button>
+                                                            </div>
+                                                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                <button type="button" name="@a.masaId" onclick="masaDuzenle(this.name)" class="btn btn-warning btn-md btn-grad form-control ">Kaydet</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <!-- MASA DÜZENLEME -->
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+function masaEkle() {
+    var masaAd  =   $('#masaAd').val();
+    var katId = $('#katId').val();
+    if (masaAd != "" && katId != "") {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/MasaEkle/',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({ katId: katId, masaAd: masaAd, subeId: subeId }),
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+    else {
+        alertAlanDoldur();
+    }
+   
+}
+function masaDuzenle(masaId) {
+    var masaAd   =  $('#masaAd_' +   masaId).val();
+    var katId = $('#katId_' + masaId).val();
+    if (masaAd != "" && katId != "") {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/MasaGuncelle/',
+            dataType: 'json',
+            data: { masaAd: masaAd, katId: katId, masaId: masaId, subeId: subeId },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+    else {
+        alertAlanDoldur();
+    }
+    
+}
+function masaSil(masaId) {
+    if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/MasaSil/',
+            dataType: 'json',
+            data: { masaId: masaId, subeId: subeId },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+    else {
+        alertIslemIptal();
+    }
+}
+</script>

@@ -1,0 +1,192 @@
+﻿@{ 
+    Layout = "~/Views/Shared/home_Layout.cshtml";
+}
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" data-navbar="fixed">
+        <div class="container">
+            <div class="navbar-left mr-4">
+                <button class="navbar-toggler" type="button">&#9776;</button>
+                <a class="navbar-brand" href="#">
+                    <img class="logo-light" src="../Content/Home/assets/img/logo-light.png" alt="logo">
+                    <img class="logo-dark" src="../Content/Home/assets/img/logo-dark.png" alt="logo">
+                </a>
+            </div>
+            <section class="navbar-mobile">
+                <nav class="nav nav-navbar mr-auto">
+                    <a class="btn btn-round btn-outline-secondary" href="#home">Home</a>
+                    <a class="btn btn-round btn-outline-secondary" href="#features">Features</a>
+                    <a class="btn btn-round btn-outline-secondary" href="#pricing">Pricing</a>
+                    <a class="btn btn-round btn-outline-secondary" href="#contact">Contact</a>
+                </nav>
+                <div>
+                    <a class="btn btn-sm btn-light btn-round btn-outline-primary ml-lg-5 mr-2" href="#">Login</a>
+                    <a class="btn btn-sm btn-round btn-outline-success" href="#">Sign up</a>
+                </div>
+            </section>
+        </div>
+    </nav><!-- /.navbar -->
+    <!-- Header -->
+    <header class="header text-white h-fullscreen bg-dark pb-0 overflow-hidden" style="background-image: url(../Content/Home/assets/img/vector/16.png); background-color: #262a37;">
+        <div class="overlay opacity-95" style="background-color: #262a37;"></div>
+        <canvas class="constellation" data-color="rgba(255,255,255,0.3)"></canvas>
+        <div class="container text-center">
+            <div class="row align-items-center h-100">
+                <div class="col-md-8 mx-auto">
+                    <h1>iRestaurant ile işletmenizin verimini arttırın</h1>
+                    <p class="lead mt-4 mb-7">Çoklu platform kullanımı ile Restoran Kafe Otel sipariş takip ve optimizasyon sistemi.</p>
+                </div>
+                <div class="col-12 align-self-end text-center">
+                    <a class="scroll-down-1 scroll-down-white" href="#info"><span></span></a>
+                </div>
+                <div class="col-md-8 mx-auto align-self-end">
+                    <img src="../Content/Home/assets/img/preview/laptop-2.png" alt="img" data-aos="fade-up">
+                </div>
+            </div>
+        </div>
+    </header><!-- /.header -->
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- INFO -->
+        <section class="section" id="info" style="background-image: linear-gradient(135deg, #f9f7ff 0%, #fff 50%, #f6f3ff 100%);">
+            <div class="container">
+                <div class="row align-items-center h-100">
+                    <div class="col-md-5">
+                        <h1><span class="text-warning">Restoran</span>, <span class="text-info">Otel</span> ve <span class="text-danger">Kafe</span> <br> işletmelerinizin verimliliğini arttırın.</h1>
+                        <p class="lead mt-5 mb-8">Size belirliği zaman aralıklarında, şirketinizin-şubenizin garson veya masa tabletlerinden alınan siparişlere göre, çalışan performansını, ürün satış performansını, ürün stok takibini, bilgisayar ve mobil cihazınızdan anlık izleme olanağı sunuyoruz. <br>Şimdi kaydolun ve 30 günlük deneme sürümünden faydalanın.</p>
+                        <a class="btn btn-round btn-primary" href="#howitworks">Daha fazla bilgi alın</a>
+                        <a class="btn btn-round btn-outline-secondary ml-3" href="#pricing">Şimdi deneyin</a>
+                    </div>
+                    <div class="col-md-6 ml-auto">
+                        <img src="../Content/Home/assets/img/vector/17.png" alt="img">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.INFO -->
+        <!--
+          |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+          | How it work steps
+          |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+          !-->
+
+        <section class="section" id="howitworks">
+
+            <div class="container">
+                <h1>Nasıl Çalışır?</h1>
+                <div class="row gap-y align-items-center py-7">
+                    <div class="col-md-6 text-center">
+                        <img src="../Content/Home/assets/img/vector/1.png" alt="...">
+                    </div>
+                    <div class="col-md-5 ml-auto text-center text-md-left">
+                        <p class="lead-9 fw-900 lh-1 opacity-10">01</p>
+                        <h3>İşletmenizin bilgileriyle kaydolun.</h3>
+                        <p>Öncelikle işletmenize bağlı şirketi kaydettirin. Email doğrulama işleminden sonra panelinize giriş yapın. 30 günlük deneme sürümünü kullanmaya başlayın.</p>
+                    </div>
+                </div>
+
+                <div class="row gap-y align-items-center py-7">
+                    <div class="col-md-5 mr-auto text-center text-md-left">
+                        <p class="lead-9 fw-900 lh-1 opacity-10">02</p>
+                        <h3>Şubelerinizi Oluşturun</h3>
+                        <p>İşletmenize bağlı şubelerinizi oluşturun. Yönetici personellerinizi atayın. Menülerinizi, menülerinize bağlı ürün kategorilerini, ürünleri, ürün ekstraları ve ürün özelliklerini ekleyin. </p>
+                    </div>
+                    <div class="col-md-6 text-center order-first order-md-last">
+                        <img src="../Content/Home/assets/img/vector/2.png" alt="...">
+                    </div>
+                </div>
+
+                <div class="row gap-y align-items-center py-7">
+                    <div class="col-md-6 text-center">
+                        <img src="../Content/Home/assets/img/vector/3.png" alt="...">
+                    </div>
+                    <div class="col-md-5 ml-auto text-center text-md-left">
+                        <p class="lead-9 fw-900 lh-1 opacity-10">03</p>
+                        <h3>We start developing</h3>
+                        <p>Think the or organization same proposal to affected heard reclined in be it reassuring are attained opinion, by he neighbours even again. Is and by value and that like can could from world takes of great copy and delicacy compared he such that the in and with himself a the man.</p>
+                    </div>
+                </div>
+
+                <div class="row gap-y align-items-center py-7">
+                    <div class="col-md-5 text-center text-md-left">
+                        <p class="lead-9 fw-900 lh-1 opacity-10">04</p>
+                        <h3>Customer support begins</h3>
+                        <p>Think the or organization same proposal to affected heard reclined in be it reassuring are attained opinion, by he neighbours even again. Is and by value and that like can could from world takes of great copy and delicacy compared he such that the in and with himself a the man.</p>
+                    </div>
+                    <div class="col-md-6 ml-auto text-center order-first order-md-last">
+                        <img src="../Content/Home/assets/img/vector/4.png" alt="...">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!--
+          /‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+          / How it work steps
+          /‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+          !-->
+        <!-- CONTACT -->
+        <section class="section py-0" id="contact">
+            <div class="row no-gutters">
+                <div class="col-md-6 align-self-center py-8">
+                    <h4 class="text-center">Bize yazın</h4>
+                    <br>
+                    <div class="row">
+                        <div class="col-11 col-md-10 mx-auto">
+                            <form class="bg-gray p-6" action="" method="POST" data-form="mailer">
+                                <div class="alert alert-success d-on-success">We received your message and will contact you back soon.</div>
+                                <div class="form-group">
+                                    <input class="form-control form-control-lg" type="text" name="name" placeholder="Adınız Soyadınız">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control form-control-lg" type="email" name="email" placeholder="Email Adresiniz">
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control form-control-lg" rows="4" placeholder="Mesajınız" name="message"></textarea>
+                                </div>
+                                <button class="btn btn-lg btn-block btn-primary" type="submit">Mesajı Gönder</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="h-100" style="min-height: 300px" data-provide="map" data-lat="44.540" data-lng="-78.556" data-marker-lat="44.540" data-marker-lng="-78.556" data-info="&lt;strong&gt;Our office&lt;/strong&gt;&lt;br&gt;3652 Seventh Avenue, Los Angeles, CA" data-style="light"></div>
+                </div>
+            </div>
+        </section>
+        <!-- /.CONTACT -->
+        <!-- MOBILE -->
+        <section class="section py-10" id="mobile" style="background-image: url(../Content/Home/assets/img/bg/1.jpg)" data-overlay="3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-xl-6 mx-auto">
+                        <div class="section-dialog bg-dark text-white text-center" data-aos="fade-in" data-aos-duration="700">
+                            <p><img src="../Content/Home/assets/img/logo-light.png" alt="logo"></p>
+                            <br>
+                            <h2 class="mb-5">Şimdi İndirin</h2>
+                            <p>İşletmeniz ve şube(ler)inizi iRestaurant-Patron ile anlık olarak izleyin.</p>
+                            <hr class="w-10">
+                            <div class="rating">
+                                <label class="fa fa-star active"></label>
+                                <label class="fa fa-star active"></label>
+                                <label class="fa fa-star active"></label>
+                                <label class="fa fa-star active"></label>
+                                <label class="fa fa-star active"></label>
+                            </div>
+                            <p><small>Based on 3,000+ reviews</small></p>
+                            <div class="text-center gap-xy-2">
+                                <a href="#"><img class="img-fadein" src="../Content/Home/assets/img/app/badge-apple.png" alt="download on app store"></a>
+                                <a href="#"><img class="img-fadein" src="../Content/Home/assets/img/app/badge-google.png" alt="download on google play"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.MOBILE -->
+
+
+    </main><!-- /.main-content -->
+    <!-- Footer -->
+    

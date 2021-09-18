@@ -1,0 +1,282 @@
+﻿@model iRestaurant.Controllers.ViewModelDemoVM
+@{
+    //if (Session["login"] == null /*HttpContext.Current.Session["login"] == null*/)
+    /*{
+        Response.Redirect("/Kasa/YoneticiGiris");
+    }*/
+    int counter = 0;
+    int counter3 = 0;
+}
+@foreach (var oturum in Model.Oturumlar.Where(x => x.odendi == false).OrderBy(x => x.Masalar.masaAd))
+{
+        <div class="modal-header" style="padding:0px !important;">
+            <div class="col-lg-12 col-xs-12 col-md-12 col-sm-12" style="padding:0px !important;">
+                <div class="col-lg-5 col-md-12 col-xs-12 col-lg-12" style="text-align:center !important;">
+                    <div class="btn-group">
+                        <span class="btn btn-transparent btn-md">MASA DEĞİŞİM</span>
+                        <select class="form-control select2" style="display:unset !important; width:unset !important; float: left;" id="donusecekMasa_@oturum.oturumId">
+                            @foreach (var kat in Model.Katlar.ToList())
+                            {
+                                <optgroup label="@kat.katAd">
+
+                                    @foreach (var masa in Model.Masalar.Where(x => x.katId == kat.katId && x.durum == false).ToList())
+                                    {
+                                        <option value="@masa.masaId">@masa.masaAd</option>
+                                    }
+                                </optgroup>
+                            }
+                        </select>
+                        <a class="btn btn-info btn-md btn-grad" onclick="masaDegistir(@oturum.oturumId)">MASA DEĞİŞTİR</a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-12 col-xs-12 col-lg-12" style="text-align:center !important;">
+                    <div class="btn-group">
+                        <a class="btn btn-transparent btn-md btn-grad">YAZAR KASA</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-xs-12 col-lg-12" style="text-align:center !important;">
+                    <div class="btn-group">
+                        @if (Session["webView"].ToString() != "True")
+                        {
+                            <a class="btn btn-warning     btn-md btn-grad" onclick="adisyonFisiYazdir(@oturum.oturumId)">ADİSYON FİŞİ</a>
+                        }
+                        <a class="btn btn-success     btn-md btn-grad" onclick="tumunuSec(@oturum.oturumId)">TÜMÜNÜ SEÇTİR</a>
+                        <a class="btn btn-primary     btn-md btn-grad" onclick="oturumuKapat(@oturum.oturumId)">OTURUMU KAPAT</a>
+                        <a class="btn btn-danger      btn-md btn-grad" style="float:right !important;" id="iptal" name="@oturum.oturumId" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#helpModal"><i style="font-size: 20px !important;" class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body" style="padding:0px !important; background-color:#222222 !important;">
+            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                <div class="col-lg-12" style="background-color:#222222;">
+                    <table style="background-color:#222222;">
+                        <tbody>
+                            <tr>
+                                <td style="color:white"><i>Aşağıdaki Ürünlerin Fişi Kesilecektir:</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                <div class="col-lg-6" style="background-color:#222222;">
+                    <!--EKSTRASIZLAR - BAŞLANGIÇ-->
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">Ekstrasızlar</div>
+                    @foreach (var siparis2 in Model.SiparisUrunleri.Where(x => x.Siparisler.oturumId == oturum.oturumId && x.odendi == false && x.oturumKampanyaId == null && x.SiparisUrunleriEkstralari.Where(y => y.siparisUrunlerId == x.siparisUrunlerId && y.odendi == false).Count() == 0).GroupBy(x => x.urunOzellikId))
+                    {
+                        if (siparis2.Count() > 0)
+                        {
+                            counter3++;
+                            <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                    <!--siparisUrunlerId Değeri-->
+                                    <input hidden="hidden" name="Ekstrasiz_@(oturum.oturumId)_siparisUrunleriId" value="@(Model.SiparisUrunleri.Where(x=>x.urunOzellikId==siparis2.Key && x.odendi==false).First().siparisUrunlerId)">
+                                    <input hidden="hidden" name="Ekstrasiz_@(oturum.oturumId)_urunOzellikId_" value="@(siparis2.Key)">
+                                    @Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis2.Key).FirstOrDefault().Urunler.urunAd - @Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis2.Key).Take(1).SingleOrDefault().urunOzellikAd
+                                </div>
+                                <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                    <!--Sabit Ürün Maksimum Sipariş Adedi-->
+                                    <input type="text" readonly="readonly" hidden="hidden" id="Ekstrasiz_@(oturum.oturumId)_urunOzellikId_@(siparis2.Key)_maksimumAdet" value="@siparis2.Count()">
+                                    <!--Sabit Ürün Fiyatı-->
+                                    <input type="text" disabled="disabled" readonly="readonly" style="width:50px; text-align:right;" id="Ekstrasiz_@(oturum.oturumId)_urunOzellikId_@(siparis2.Key)_urunFiyat" value="@(Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis2.Key).FirstOrDefault().Urunler.urunFiyat + Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis2.Key).FirstOrDefault().urunOzellikFiyat)"><i class="fa fa-try"></i>
+                                    <!--Script İle Butonlara Bağlı Olarak Değişecek Sipariş Adedi-->
+                                    X
+                                </div>
+                                <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                    <select style="color:black !important;" id="Ekstrasiz_@(oturum.oturumId)_urunOzellikId_@(siparis2.Key)_adet" maxadet="@siparis2.Count()" siparisUrunIdsi="@(Model.SiparisUrunleri.Where(x=>x.urunOzellikId==siparis2.Key && x.odendi==false && x.SiparisUrunleriEkstralari.Where(y=>y.siparisUrunlerId==x.siparisUrunlerId).Count() == 0).First().urunOzellikId)" name="Ekstrasiz_@(oturum.oturumId)_adet" onchange="arttirAzalt(this),hesapla(@oturum.oturumId)">
+                                        <option style="color:black !important;" value="0" selected="selected">0</option>
+                                        @for (int adet = 1; adet <= siparis2.Count(); adet++)
+                                        {
+                                            <option style="color:black !important;" value="@adet">@adet</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+                                    <a onclick="ekstrasizUrunIptal(this,@oturum.oturumId),hesapla(@oturum.oturumId)" name="Ekstrasiz_iptal_@(oturum.oturumId)_urunOzellikId_@siparis2.Key" class="btn btn-metis-1 btn-sm btn-circle btn-line"><i class="fa fa-times"></i></a>
+                                </div>
+                                <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                    <!--Script İle Butonlara Bağlı Olarak Değişecek Ara Toplam-->
+                                    <input type="text" disabled="disabled" readonly="readonly" style="width:80px; text-align:right;" id="Ekstrasiz_@(oturum.oturumId)_urunOzellikId_@(siparis2.Key)_araToplam" class="Ekstrasiz_@(oturum.oturumId)" name="Ekstrasiz_@(oturum.oturumId)_urunOzellikId_@(siparis2.Key)_araToplam" value="0" /><i class="fa fa-try"></i>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <!--EKSTRASIZLAR - BİTİŞ-->
+                    <!--EKSTRALILAR - BAŞLANGIÇ-->
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">Ekstralılar</div>
+                    @foreach (var siparis3 in Model.SiparisUrunleri.Where(x => x.Siparisler.oturumId == oturum.oturumId && x.odendi == false && x.oturumKampanyaId == null && x.SiparisUrunleriEkstralari.Count() != 0))
+                    {
+                        counter3++;
+                        <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                @Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis3.urunOzellikId).First().Urunler.urunAd - @Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis3.urunOzellikId).First().urunOzellikAd
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                <input readonly="readonly" disabled="disabled" type="text" style="text-align:right; width:50px;" value="@(Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis3.urunOzellikId).FirstOrDefault().Urunler.urunFiyat + Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis3.urunOzellikId).FirstOrDefault().urunOzellikFiyat)" /><i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <input name="Ekstralilar_check_@oturum.oturumId" class="ekstralilar_aratoplam_@oturum.oturumId" id="oturumId_@(oturum.oturumId)_siparisUrunlerId_@(siparis3.siparisUrunlerId)" onchange="hesapla(@oturum.oturumId)" type="checkbox" value="oturumId_@(siparis3.Siparisler.oturumId)_siparisUrunlerId_@(siparis3.siparisUrunlerId)" />
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <a onclick="ekstraliUrunIptal(this,@oturum.oturumId),hesapla(@oturum.oturumId)" name="oturumId_@(oturum.oturumId)_siparisUrunlerId_@(siparis3.siparisUrunlerId)" class="btn btn-metis-1 btn-sm btn-circle btn-line"><i class="fa fa-times"></i></a>
+                            </div>
+                            <!--Ekstraların Toplamı ve Göstertme Butonu-->
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px; text-align:right !important;">
+                                <a href="#div-1_@siparis3.siparisUrunlerId" data-toggle="collapse" class="btn btn-sm @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}">
+                                    <i class="fa fa-plus"></i>
+                                    Ek -
+                                    @Model.SiparisUrunleriEkstralari.Where(x => x.siparisUrunlerId == siparis3.siparisUrunlerId && x.odendi == false).Select(y => y.UrunEkstralar.urunEkstraFiyat).Sum()
+                                    <i class="fa fa-try"></i>
+                                </a>
+                            </div>
+                            <!--/Ekstraların Toplamı ve Göstertme Butonu-->
+                            <!--Urun+Ozelliğine CheckBox oluştur-->
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px; text-align:right !important;">
+                                <input readonly="readonly" disabled="disabled" type="text" style="width:80px;" id="Ekstralilar_value_oturumId_@(oturum.oturumId)_siparisUrunlerId_@(siparis3.siparisUrunlerId)" value="@((Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis3.urunOzellikId).FirstOrDefault().Urunler.urunFiyat + Model.UrunOzellikler.Where(x => x.urunOzellikId == siparis3.urunOzellikId).FirstOrDefault().urunOzellikFiyat) + Model.SiparisUrunleriEkstralari.Where(x => x.SiparisUrunleri.siparisUrunlerId == siparis3.siparisUrunlerId && x.odendi == false).Select(y => y.UrunEkstralar.urunEkstraFiyat).Sum())" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                            <!--/Urun+Ozelliğine CheckBox oluştur/ FİYATINI DA YAZ-->
+                        </div>
+							<!--Ekstraları Listele-->
+                                <div class="row @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-info</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div id="div-1_@siparis3.siparisUrunlerId" class="body collapse col-lg-12" aria-expanded="true" style="background-color:transparent !important;">
+                                        @foreach (var urunEkstra in Model.SiparisUrunleriEkstralari.Where(x => x.siparisUrunlerId == siparis3.siparisUrunlerId && x.odendi == false))
+                                        {
+                                            <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                                <div class="col-md-6 " style="padding-top:10px; padding-bottom:10px;">
+                                                    @urunEkstra.UrunEkstralar.urunEkstraAd
+                                                </div>
+                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px;">
+                                                    @urunEkstra.UrunEkstralar.urunEkstraFiyat <i class="fa fa-try"></i>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+							<!--/Ekstraları Listele-->
+                    }
+                    <!--EKSTRALILAR - BİTİŞ-->
+                    <!--KAMPANYALAR - BAŞLANGIÇ-->
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">Kampanyalar</div>
+                    @foreach (var siparis3 in Model.OturumKampanyalari.Where(x => x.oturumId == oturum.oturumId && x.odendi==false))
+                        {
+                        counter3++;
+                        <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                @siparis3.Kampanyalar.kampanyaAd
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                <input disabled="disabled" readonly="readonly" type="text" style="text-align:right; width:50px;" value="@(siparis3.Kampanyalar.kampanyaFiyat + Model.SiparisUrunleri.Where(x=>x.oturumKampanyaId==siparis3.oturumKampanyaId).Sum(x=>x.UrunOzellikler.urunOzellikFiyat))"/><i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <input name="Kampanyalilar_check_@oturum.oturumId" type="checkbox" class="kampanyalar_aratoplam_@oturum.oturumId" id="oturumId_@(oturum.oturumId)_oturumKampanyaId_@(siparis3.oturumKampanyaId)" onchange="hesapla(@oturum.oturumId)" value="oturumKampanyaId_@(siparis3.oturumKampanyaId)" />
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <a onclick="kampanyaIptal(this,@oturum.oturumId),hesapla(@oturum.oturumId)" name="oturumId_@(oturum.oturumId)_oturumKampanyaId_@(siparis3.oturumKampanyaId)" class="btn btn-metis-1 btn-sm btn-circle btn-line"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px; text-align:right !important;">
+                                <a href="#div-1_@siparis3.oturumKampanyaId" data-toggle="collapse" class="btn btn-sm @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}">
+                                    <i class="fa fa-plus"></i>
+                                    Ek -
+                                    @Model.SiparisUrunleriEkstralari.Where(x => x.SiparisUrunleri.oturumKampanyaId == siparis3.oturumKampanyaId && x.odendi == false).Select(y => y.UrunEkstralar.urunEkstraFiyat).Sum()
+                                    <i class="fa fa-try"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;text-align:right !important;">
+                                <input disabled="disabled" readonly="readonly" type="text" style="width:80px;" id="Kampanyalilar_value_oturumId_@(oturum.oturumId)_oturumKampanyaId_@(siparis3.oturumKampanyaId)" value="@(siparis3.Kampanyalar.kampanyaFiyat + Model.SiparisUrunleri.Where(x => x.oturumKampanyaId == siparis3.oturumKampanyaId).Sum(x => x.UrunOzellikler.urunOzellikFiyat)+ Model.SiparisUrunleriEkstralari.Where(x => x.SiparisUrunleri.oturumKampanyaId == siparis3.oturumKampanyaId && x.odendi == false).Select(y => y.UrunEkstralar.urunEkstraFiyat).Sum())" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                        </div>
+                        <div class="row @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-info</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div id="div-1_@siparis3.oturumKampanyaId" class="body collapse col-lg-12" aria-expanded="true" style="background-color:transparent !important;">
+                                @foreach (var urunEkstra in Model.SiparisUrunleriEkstralari.Where(x => x.SiparisUrunleri.oturumKampanyaId == siparis3.oturumKampanyaId && x.odendi == false))
+                            {
+                            <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-md-6 " style="padding-top:10px; padding-bottom:10px;">
+                                    @urunEkstra.UrunEkstralar.urunEkstraAd
+                                </div>
+                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px;">
+                                    @urunEkstra.UrunEkstralar.urunEkstraFiyat <i class="fa fa-try"></i>
+                                </div>
+                            </div>
+                            }
+                            </div>
+                        </div>
+                        }
+                    <!--KAMPANYALAR - BİTİŞ-->
+                </div>
+                <div class="col-lg-6" style="background-color:#222222;">
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">
+                    Ödemeler
+                    </div>
+                    <div class="row btn-grad" style="padding-top:5px !important; padding-bottom:5px !important; padding-left:5px !important; padding-right:5px !important; margin-left:0px !important; margin-right:0px !important;background-color:#222222 !important;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px !important; margin:0px !important;">
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:xx-large !important; padding-left:0px !important; padding-right:0px !important; color:white !important;">
+                                ÖDENEN:
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:xx-large !important; padding-left:0px !important; padding-right:0px !important; color:white !important;">
+                                SEÇİLEN:
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:xx-large !important; padding-left:0px !important; padding-right:0px !important; color:white !important;">
+                                OTURUM:
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btn-grad" style="padding-top:5px !important;  padding-bottom:5px !important;padding-left:5px !important; padding-right:5px !important; margin-left:0px !important; margin-right:0px !important;background-color:#222222 !important;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px !important; margin:0px !important;">
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:x-large !important; padding-left:0px !important; padding-right:0px !important; background-color:white;">
+                                <input disabled="disabled" id="odenenUcret_@oturum.oturumId" style="width:100px; text-align:right;" name="odenenUcret_@oturum.oturumId" type="text" readonly="readonly" value="@(Model.Odemeler.Where(x => x.oturumId == oturum.oturumId).Sum(x => x.odemeMiktar))" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:x-large !important; padding-left:0px !important; padding-right:0px !important; background-color:white;">
+                                <input disabled="disabled" id="araToplam_@oturum.oturumId" style="width:100px; text-align:right;" name="araToplam_@oturum.oturumId" type="text" readonly="readonly" value="0" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:x-large !important; padding-left:0px !important; padding-right:0px !important; background-color:white;">
+                                <input disabled="disabled" id="toplamUcret_@oturum.oturumId" style="width:100px; text-align:right;" type="text" readonly="readonly" value="@(
+                                Model.SiparisUrunleri.Where(x =>x.Siparisler.oturumId == oturum.oturumId && x.oturumKampanyaId==null ).Sum(x => x.Urunler.urunFiyat) + 
+                                Model.SiparisUrunleri.Where(x => x.Siparisler.oturumId == oturum.oturumId && x.oturumKampanyaId==null).Sum(y => y.UrunOzellikler.urunOzellikFiyat) + 
+                                Model.SiparisUrunleriEkstralari.Where(x => x.SiparisUrunleri.Siparisler.oturumId == oturum.oturumId && x.SiparisUrunleri.oturumKampanyaId ==null ).Sum(x => x.UrunEkstralar.urunEkstraFiyat) +
+                                Model.OturumKampanyalari.Where(x=>x.oturumId==oturum.oturumId).Sum(x=>x.Kampanyalar.kampanyaFiyat)
+                                )" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btn-grad btn-default" style="margin-left:0px !important; margin-right:0px !important; font-size-adjust:0.5;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ui-sortable" style="padding:0px !important;">
+                            @foreach(var odemeTuru in Model.OdemeTurleri.Where(x=>x.silindi==false))
+                            {
+                                <div class="col-md-2 col-xs-2 col-lg-2 col-sm-2" style="padding: 5px !important;">
+                                    <a style="font-weight: bolder; padding:10px 0px 10px 0px; min-width:100%; min-height:100px; display:grid; align-items:center;" id="@(odemeTuru.odemeTurAd)_OdemeEkle" onclick="yazdir(this,@odemeTuru.odemeTurId)" name="@oturum.oturumId" class="btn btn-success btn-grad "><span>@odemeTuru.odemeTurAd</span></a>
+                                </div>
+                            }
+                            
+                        </div>
+                    </div>
+                    @foreach (var odeme in Model.Odemeler.Where(x => x.oturumId == oturum.oturumId))
+                    {
+                        counter++;
+                        <div class="row btn-grad @if (counter % 2 == 0) {<text>btn-default</text>} else {<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                @odeme.odemeMiktar @odeme.OdemeTurleri.ParaBirimleri.paraBirimiAd
+                            </div>
+                            <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+                                @odeme.OdemeTurleri.odemeTurAd
+                            </div>
+                            <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                <!--<a id="odemeIptal_@odeme.odemeId" onclick="odemeSil(this.name,@odeme.oturumId)" name="@odeme.odemeId" class="btn btn-danger btn-grad "><i class="fa fa-trash"></i></a>-->
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding:0px !important; border-top: none !important;">
+            
+        </div>
+}

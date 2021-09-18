@@ -1,0 +1,3297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="iRestaurantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Departmanlar">
+          <Key>
+            <PropertyRef Name="departmanId" />
+          </Key>
+          <Property Name="departmanId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="departmanAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="departmanIp" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="aktifMi" Type="bit" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Duyurular">
+          <Key>
+            <PropertyRef Name="duyuruId" />
+          </Key>
+          <Property Name="duyuruId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="duyuruBaslik" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="duyuruAciklama" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="duyuruResim" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="yayinda" Type="bit" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FaturadakiHizmetler">
+          <Key>
+            <PropertyRef Name="faturadakiHizmetId" />
+          </Key>
+          <Property Name="faturadakiHizmetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hizmetId" Type="int" Nullable="false" />
+          <Property Name="faturaId" Type="int" Nullable="false" />
+          <Property Name="paraBirimiId" Type="int" Nullable="false" />
+          <Property Name="adet" Type="int" Nullable="false" />
+          <Property Name="yillikMi" Type="bit" Nullable="false" />
+          <Property Name="hizmetKampanyaId" Type="int" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Faturalar">
+          <Key>
+            <PropertyRef Name="faturaId" />
+          </Key>
+          <Property Name="faturaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="faturaTarih" Type="datetime" Nullable="false" />
+          <Property Name="odendiMi" Type="bit" Nullable="false" />
+          <Property Name="sirketId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FaturaOdemeleri">
+          <Key>
+            <PropertyRef Name="faturaOdemeId" />
+          </Key>
+          <Property Name="faturaOdemeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="faturaOdemeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="faturaOdemeMiktari" Type="float" Nullable="false" />
+          <Property Name="paraBirimiId" Type="int" Nullable="false" />
+          <Property Name="faturaId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HizmetKampanyaHizmetleri">
+          <Key>
+            <PropertyRef Name="hizmetKampanyaHizmetId" />
+          </Key>
+          <Property Name="hizmetKampanyaHizmetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hizmetId" Type="int" Nullable="false" />
+          <Property Name="hizmetKampanyaId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HizmetKampanyalari">
+          <Key>
+            <PropertyRef Name="hizmetKampanyaId" />
+          </Key>
+          <Property Name="hizmetKampanyaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hizmetKampanyaAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="hizmetKampanyaFiyat" Type="float" Nullable="false" />
+          <Property Name="paraBirimiId" Type="int" Nullable="false" />
+          <Property Name="yillikMi" Type="bit" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hizmetler">
+          <Key>
+            <PropertyRef Name="hizmetId" />
+          </Key>
+          <Property Name="hizmetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hizmetAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="hizmetAylikUcret" Type="float" Nullable="false" />
+          <Property Name="paraBirimiId" Type="int" Nullable="false" />
+          <Property Name="hizmetTuru" Type="smallint" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HizmetLisanslari">
+          <Key>
+            <PropertyRef Name="hizmetLisansId" />
+          </Key>
+          <Property Name="hizmetLisansId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hizmetLisansBaslangicTarihi" Type="datetime" Nullable="false" />
+          <Property Name="hizmetLisansBitisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="hizmetId" Type="int" Nullable="false" />
+          <Property Name="subeId" Type="int" />
+          <Property Name="faturaId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ilceler">
+          <Key>
+            <PropertyRef Name="ilceId" />
+          </Key>
+          <Property Name="ilceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ilceAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ilId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" />
+        </EntityType>
+        <EntityType Name="Iller">
+          <Key>
+            <PropertyRef Name="ilId" />
+          </Key>
+          <Property Name="ilId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ilAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ulkeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" />
+        </EntityType>
+        <EntityType Name="Kampanyalar">
+          <Key>
+            <PropertyRef Name="kampanyaId" />
+          </Key>
+          <Property Name="kampanyaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kampanyaAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="kampanyaFiyat" Type="float" Nullable="false" />
+          <Property Name="kampanyaResim" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="kampanyaAciklama" Type="varchar(max)" Nullable="false" />
+          <Property Name="yayindaMi" Type="bit" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="menuId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KampanyaUrunleri">
+          <Key>
+            <PropertyRef Name="kampanyaUrunleriId" />
+          </Key>
+          <Property Name="kampanyaUrunleriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kampanyaId" Type="int" Nullable="false" />
+          <Property Name="urunId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Katlar">
+          <Key>
+            <PropertyRef Name="katId" />
+          </Key>
+          <Property Name="katId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="katAd" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Masalar">
+          <Key>
+            <PropertyRef Name="masaId" />
+          </Key>
+          <Property Name="masaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="katId" Type="int" Nullable="false" />
+          <Property Name="masaAd" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="durum" Type="bit" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menuler">
+          <Key>
+            <PropertyRef Name="menuId" />
+          </Key>
+          <Property Name="menuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="menuAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="paraBirimiId" Type="int" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Odemeler">
+          <Key>
+            <PropertyRef Name="odemeId" />
+          </Key>
+          <Property Name="odemeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="oturumId" Type="int" Nullable="false" />
+          <Property Name="odemeTurId" Type="int" Nullable="false" />
+          <Property Name="odemeMiktar" Type="float" Nullable="false" />
+          <Property Name="odemeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OdemeTurleri">
+          <Key>
+            <PropertyRef Name="odemeTurId" />
+          </Key>
+          <Property Name="odemeTurId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="odemeTurAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="paraBirimiId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OturumKampanyalari">
+          <Key>
+            <PropertyRef Name="oturumKampanyaId" />
+          </Key>
+          <Property Name="oturumKampanyaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kampanyaId" Type="int" Nullable="false" />
+          <Property Name="oturumId" Type="int" Nullable="false" />
+          <Property Name="odendi" Type="bit" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Oturumlar">
+          <Key>
+            <PropertyRef Name="oturumId" />
+          </Key>
+          <Property Name="oturumId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="masaId" Type="int" Nullable="false" />
+          <Property Name="oturumAcilmaTarihi" Type="datetime" Nullable="false" />
+          <Property Name="oturumKapamaTarihi" Type="datetime" />
+          <Property Name="kilitlendi" Type="bit" />
+          <Property Name="odendi" Type="bit" />
+          <Property Name="garsonIstendi" Type="bit" Nullable="false" />
+          <Property Name="hesapIstendi" Type="bit" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ParaBirimleri">
+          <Key>
+            <PropertyRef Name="paraBirimiId" />
+          </Key>
+          <Property Name="paraBirimiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paraBirimiAd" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personeller">
+          <Key>
+            <PropertyRef Name="personelId" />
+          </Key>
+          <Property Name="personelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="personelAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="personelParola" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="personelEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="personelTelefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="yetki" Type="bit" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+          <Property Name="masaModuMu" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Siparisler">
+          <Key>
+            <PropertyRef Name="siparislerId" />
+          </Key>
+          <Property Name="siparislerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="siparisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="siparisDurumu" Type="bit" Nullable="false" />
+          <Property Name="note" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="oturumId" Type="int" Nullable="false" />
+          <Property Name="personelId" Type="int" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiparisUrunleri">
+          <Key>
+            <PropertyRef Name="siparisUrunlerId" />
+          </Key>
+          <Property Name="siparisUrunlerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="siparislerId" Type="int" Nullable="false" />
+          <Property Name="urunId" Type="int" Nullable="false" />
+          <Property Name="onaylandi" Type="bit" Nullable="false" />
+          <Property Name="odendi" Type="bit" Nullable="false" />
+          <Property Name="urunOzellikId" Type="int" Nullable="false" />
+          <Property Name="oturumKampanyaId" Type="int" />
+          <Property Name="odenmeTarihi" Type="datetime" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiparisUrunleriEkstralari">
+          <Key>
+            <PropertyRef Name="siparisUrunEkstraId" />
+          </Key>
+          <Property Name="siparisUrunEkstraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="urunEkstraId" Type="int" Nullable="false" />
+          <Property Name="siparisUrunlerId" Type="int" Nullable="false" />
+          <Property Name="odendi" Type="bit" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sirketler">
+          <Key>
+            <PropertyRef Name="sirketId" />
+          </Key>
+          <Property Name="sirketId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sirketAd" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="sirketEmail" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="sirketTelefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="sirketParola" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ilceId" Type="int" Nullable="false" />
+          <Property Name="aktiflestirildiMi" Type="bit" Nullable="false" />
+          <Property Name="aktiflestirmeKodu" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subeler">
+          <Key>
+            <PropertyRef Name="subeId" />
+          </Key>
+          <Property Name="subeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="subeAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="subeAdres" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ilkKurulumYapildiMi" Type="bit" Nullable="false" />
+          <Property Name="sirketId" Type="int" Nullable="false" />
+          <Property Name="ilceId" Type="int" Nullable="false" />
+          <Property Name="duyuruAlaniAktifMi" Type="bit" Nullable="false" />
+          <Property Name="personelYazicisiOtomatikMi" Type="bit" Nullable="false" />
+          <Property Name="kasaYaziciIp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="personelYaziciIp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="kasaYaziciAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="personelYaziciAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ulkeler">
+          <Key>
+            <PropertyRef Name="ulkeId" />
+          </Key>
+          <Property Name="ulkeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ulkeAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="silindi" Type="bit" />
+        </EntityType>
+        <EntityType Name="UrunEkstralar">
+          <Key>
+            <PropertyRef Name="urunEkstraId" />
+          </Key>
+          <Property Name="urunEkstraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="urunId" Type="int" Nullable="false" />
+          <Property Name="urunEkstraAd" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="urunEkstraFiyat" Type="float" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunKategoriler">
+          <Key>
+            <PropertyRef Name="urunKategoriId" />
+          </Key>
+          <Property Name="urunKategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="urunKategoriAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="departmanId" Type="int" Nullable="false" />
+          <Property Name="menuId" Type="int" Nullable="false" />
+          <Property Name="vergiYuzde" Type="float" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Urunler">
+          <Key>
+            <PropertyRef Name="urunId" />
+          </Key>
+          <Property Name="urunId" Type="int" Nullable="false" />
+          <Property Name="urunKategoriId" Type="int" Nullable="false" />
+          <Property Name="urunAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="urunFiyat" Type="float" Nullable="false" />
+          <Property Name="urunResim" Type="nvarchar" MaxLength="50" />
+          <Property Name="urunAciklama" Type="varchar(max)" />
+          <Property Name="urunYapimSuresi" Type="smallint" />
+          <Property Name="yayinda" Type="bit" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="urunStokAlarmAdet" Type="float" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunOzellikler">
+          <Key>
+            <PropertyRef Name="urunOzellikId" />
+          </Key>
+          <Property Name="urunOzellikId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="urunOzellikAd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="urunOzellikFiyat" Type="float" Nullable="false" />
+          <Property Name="urunId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunStokGirdiler">
+          <Key>
+            <PropertyRef Name="urunStokGirdiId" />
+          </Key>
+          <Property Name="urunStokGirdiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="urunStokId" Type="int" Nullable="false" />
+          <Property Name="urunStokGirdiTarih" Type="datetime" Nullable="false" />
+          <Property Name="urunStokGirdiAdet" Type="float" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunStoklar">
+          <Key>
+            <PropertyRef Name="urunStokId" />
+          </Key>
+          <Property Name="urunStokId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="urunId" Type="int" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="adet" Type="float" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="YazdirmaListesi">
+          <Key>
+            <PropertyRef Name="yazdirmaListeId" />
+          </Key>
+          <Property Name="yazdirmaListeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="subeId" Type="int" Nullable="false" />
+          <Property Name="siparislerId" Type="int" Nullable="false" />
+          <Property Name="silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Departmanlar_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Departmanlar" Type="Self.Departmanlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Departmanlar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Duyurular_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Duyurular" Type="Self.Duyurular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Duyurular">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturadakiHizmetler_Faturalar">
+          <End Role="Faturalar" Type="Self.Faturalar" Multiplicity="1" />
+          <End Role="FaturadakiHizmetler" Type="Self.FaturadakiHizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faturalar">
+              <PropertyRef Name="faturaId" />
+            </Principal>
+            <Dependent Role="FaturadakiHizmetler">
+              <PropertyRef Name="faturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturadakiHizmetler_Hizmetler">
+          <End Role="Hizmetler" Type="Self.Hizmetler" Multiplicity="1" />
+          <End Role="FaturadakiHizmetler" Type="Self.FaturadakiHizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Principal>
+            <Dependent Role="FaturadakiHizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturadakiHizmetler_ParaBirimleri">
+          <End Role="ParaBirimleri" Type="Self.ParaBirimleri" Multiplicity="1" />
+          <End Role="FaturadakiHizmetler" Type="Self.FaturadakiHizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="FaturadakiHizmetler">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Faturalar_Sirketler">
+          <End Role="Sirketler" Type="Self.Sirketler" Multiplicity="1" />
+          <End Role="Faturalar" Type="Self.Faturalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sirketler">
+              <PropertyRef Name="sirketId" />
+            </Principal>
+            <Dependent Role="Faturalar">
+              <PropertyRef Name="sirketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaOdemeleri_Faturalar">
+          <End Role="Faturalar" Type="Self.Faturalar" Multiplicity="1" />
+          <End Role="FaturaOdemeleri" Type="Self.FaturaOdemeleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faturalar">
+              <PropertyRef Name="faturaId" />
+            </Principal>
+            <Dependent Role="FaturaOdemeleri">
+              <PropertyRef Name="faturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaOdemeleri_ParaBirimleri">
+          <End Role="ParaBirimleri" Type="Self.ParaBirimleri" Multiplicity="1" />
+          <End Role="FaturaOdemeleri" Type="Self.FaturaOdemeleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="FaturaOdemeleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetKampanyaHizmetleri_HizmetKampanyalari">
+          <End Role="HizmetKampanyalari" Type="Self.HizmetKampanyalari" Multiplicity="1" />
+          <End Role="HizmetKampanyaHizmetleri" Type="Self.HizmetKampanyaHizmetleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HizmetKampanyalari">
+              <PropertyRef Name="hizmetKampanyaId" />
+            </Principal>
+            <Dependent Role="HizmetKampanyaHizmetleri">
+              <PropertyRef Name="hizmetKampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetKampanyaHizmetleri_Hizmetler">
+          <End Role="Hizmetler" Type="Self.Hizmetler" Multiplicity="1" />
+          <End Role="HizmetKampanyaHizmetleri" Type="Self.HizmetKampanyaHizmetleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Principal>
+            <Dependent Role="HizmetKampanyaHizmetleri">
+              <PropertyRef Name="hizmetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetKampanyalari_ParaBirimleri">
+          <End Role="ParaBirimleri" Type="Self.ParaBirimleri" Multiplicity="1" />
+          <End Role="HizmetKampanyalari" Type="Self.HizmetKampanyalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="HizmetKampanyalari">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hizmetler_ParaBirimleri">
+          <End Role="ParaBirimleri" Type="Self.ParaBirimleri" Multiplicity="1" />
+          <End Role="Hizmetler" Type="Self.Hizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="Hizmetler">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetLisanslari_Faturalar">
+          <End Role="Faturalar" Type="Self.Faturalar" Multiplicity="1" />
+          <End Role="HizmetLisanslari" Type="Self.HizmetLisanslari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faturalar">
+              <PropertyRef Name="faturaId" />
+            </Principal>
+            <Dependent Role="HizmetLisanslari">
+              <PropertyRef Name="faturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetLisanslari_Hizmetler">
+          <End Role="Hizmetler" Type="Self.Hizmetler" Multiplicity="1" />
+          <End Role="HizmetLisanslari" Type="Self.HizmetLisanslari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Principal>
+            <Dependent Role="HizmetLisanslari">
+              <PropertyRef Name="hizmetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetLisanslari_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="0..1" />
+          <End Role="HizmetLisanslari" Type="Self.HizmetLisanslari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="HizmetLisanslari">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ilceler_Iller">
+          <End Role="Iller" Type="Self.Iller" Multiplicity="1" />
+          <End Role="Ilceler" Type="Self.Ilceler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Iller">
+              <PropertyRef Name="ilId" />
+            </Principal>
+            <Dependent Role="Ilceler">
+              <PropertyRef Name="ilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Iller_Ulkeler">
+          <End Role="Ulkeler" Type="Self.Ulkeler" Multiplicity="1" />
+          <End Role="Iller" Type="Self.Iller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ulkeler">
+              <PropertyRef Name="ulkeId" />
+            </Principal>
+            <Dependent Role="Iller">
+              <PropertyRef Name="ulkeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kampanyalar_Menuler">
+          <End Role="Menuler" Type="Self.Menuler" Multiplicity="1" />
+          <End Role="Kampanyalar" Type="Self.Kampanyalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menuler">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="Kampanyalar">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kampanyalar_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Kampanyalar" Type="Self.Kampanyalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Kampanyalar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KampanyaUrunleri_Kampanyalar">
+          <End Role="Kampanyalar" Type="Self.Kampanyalar" Multiplicity="1" />
+          <End Role="KampanyaUrunleri" Type="Self.KampanyaUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kampanyalar">
+              <PropertyRef Name="kampanyaId" />
+            </Principal>
+            <Dependent Role="KampanyaUrunleri">
+              <PropertyRef Name="kampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KampanyaUrunleri_Urunler">
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
+          <End Role="KampanyaUrunleri" Type="Self.KampanyaUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="KampanyaUrunleri">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Katlar_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Katlar" Type="Self.Katlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Katlar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Masalar_Katlar">
+          <End Role="Katlar" Type="Self.Katlar" Multiplicity="1" />
+          <End Role="Masalar" Type="Self.Masalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Katlar">
+              <PropertyRef Name="katId" />
+            </Principal>
+            <Dependent Role="Masalar">
+              <PropertyRef Name="katId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menuler_ParaBirimleri">
+          <End Role="ParaBirimleri" Type="Self.ParaBirimleri" Multiplicity="1" />
+          <End Role="Menuler" Type="Self.Menuler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="Menuler">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menuler_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Menuler" Type="Self.Menuler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Menuler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odemeler_OdemeTurleri1">
+          <End Role="OdemeTurleri" Type="Self.OdemeTurleri" Multiplicity="1" />
+          <End Role="Odemeler" Type="Self.Odemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OdemeTurleri">
+              <PropertyRef Name="odemeTurId" />
+            </Principal>
+            <Dependent Role="Odemeler">
+              <PropertyRef Name="odemeTurId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odemeler_Oturumlar">
+          <End Role="Oturumlar" Type="Self.Oturumlar" Multiplicity="1" />
+          <End Role="Odemeler" Type="Self.Odemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oturumlar">
+              <PropertyRef Name="oturumId" />
+            </Principal>
+            <Dependent Role="Odemeler">
+              <PropertyRef Name="oturumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odemeler_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Odemeler" Type="Self.Odemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Odemeler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OdemeTurleri_ParaBirimleri">
+          <End Role="ParaBirimleri" Type="Self.ParaBirimleri" Multiplicity="1" />
+          <End Role="OdemeTurleri" Type="Self.OdemeTurleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="OdemeTurleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OdemeTurleri_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="OdemeTurleri" Type="Self.OdemeTurleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="OdemeTurleri">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OturumKampanyalari_Kampanyalar">
+          <End Role="Kampanyalar" Type="Self.Kampanyalar" Multiplicity="1" />
+          <End Role="OturumKampanyalari" Type="Self.OturumKampanyalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kampanyalar">
+              <PropertyRef Name="kampanyaId" />
+            </Principal>
+            <Dependent Role="OturumKampanyalari">
+              <PropertyRef Name="kampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OturumKampanyalari_Oturumlar">
+          <End Role="Oturumlar" Type="Self.Oturumlar" Multiplicity="1" />
+          <End Role="OturumKampanyalari" Type="Self.OturumKampanyalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oturumlar">
+              <PropertyRef Name="oturumId" />
+            </Principal>
+            <Dependent Role="OturumKampanyalari">
+              <PropertyRef Name="oturumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Oturumlar_Masalar">
+          <End Role="Masalar" Type="Self.Masalar" Multiplicity="1" />
+          <End Role="Oturumlar" Type="Self.Oturumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Masalar">
+              <PropertyRef Name="masaId" />
+            </Principal>
+            <Dependent Role="Oturumlar">
+              <PropertyRef Name="masaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Oturumlar_Subeler1">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Oturumlar" Type="Self.Oturumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Oturumlar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personeller_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Personeller" Type="Self.Personeller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Personeller">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparisler_Oturumlar">
+          <End Role="Oturumlar" Type="Self.Oturumlar" Multiplicity="1" />
+          <End Role="Siparisler" Type="Self.Siparisler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oturumlar">
+              <PropertyRef Name="oturumId" />
+            </Principal>
+            <Dependent Role="Siparisler">
+              <PropertyRef Name="oturumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparisler_Personeller1">
+          <End Role="Personeller" Type="Self.Personeller" Multiplicity="1" />
+          <End Role="Siparisler" Type="Self.Siparisler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personeller">
+              <PropertyRef Name="personelId" />
+            </Principal>
+            <Dependent Role="Siparisler">
+              <PropertyRef Name="personelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparisler_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Siparisler" Type="Self.Siparisler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Siparisler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_OturumKampanyalari">
+          <End Role="OturumKampanyalari" Type="Self.OturumKampanyalari" Multiplicity="0..1" />
+          <End Role="SiparisUrunleri" Type="Self.SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OturumKampanyalari">
+              <PropertyRef Name="oturumKampanyaId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="oturumKampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_Siparisler">
+          <End Role="Siparisler" Type="Self.Siparisler" Multiplicity="1" />
+          <End Role="SiparisUrunleri" Type="Self.SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparisler">
+              <PropertyRef Name="siparislerId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="siparislerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_Urunler">
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
+          <End Role="SiparisUrunleri" Type="Self.SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_UrunOzellikler">
+          <End Role="UrunOzellikler" Type="Self.UrunOzellikler" Multiplicity="1" />
+          <End Role="SiparisUrunleri" Type="Self.SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunOzellikler">
+              <PropertyRef Name="urunOzellikId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="urunOzellikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleriEkstralari_SiparisUrunleri">
+          <End Role="SiparisUrunleri" Type="Self.SiparisUrunleri" Multiplicity="1" />
+          <End Role="SiparisUrunleriEkstralari" Type="Self.SiparisUrunleriEkstralari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiparisUrunleri">
+              <PropertyRef Name="siparisUrunlerId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleriEkstralari">
+              <PropertyRef Name="siparisUrunlerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleriEkstralari_UrunEkstralar">
+          <End Role="UrunEkstralar" Type="Self.UrunEkstralar" Multiplicity="1" />
+          <End Role="SiparisUrunleriEkstralari" Type="Self.SiparisUrunleriEkstralari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunEkstralar">
+              <PropertyRef Name="urunEkstraId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleriEkstralari">
+              <PropertyRef Name="urunEkstraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sirketler_Ilceler">
+          <End Role="Ilceler" Type="Self.Ilceler" Multiplicity="1" />
+          <End Role="Sirketler" Type="Self.Sirketler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilceler">
+              <PropertyRef Name="ilceId" />
+            </Principal>
+            <Dependent Role="Sirketler">
+              <PropertyRef Name="ilceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subeler_Ilceler">
+          <End Role="Ilceler" Type="Self.Ilceler" Multiplicity="1" />
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilceler">
+              <PropertyRef Name="ilceId" />
+            </Principal>
+            <Dependent Role="Subeler">
+              <PropertyRef Name="ilceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subeler_Sirketler">
+          <End Role="Sirketler" Type="Self.Sirketler" Multiplicity="1" />
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sirketler">
+              <PropertyRef Name="sirketId" />
+            </Principal>
+            <Dependent Role="Subeler">
+              <PropertyRef Name="sirketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunEkstralar_Urunler">
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
+          <End Role="UrunEkstralar" Type="Self.UrunEkstralar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="UrunEkstralar">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunKategoriler_Departmanlar">
+          <End Role="Departmanlar" Type="Self.Departmanlar" Multiplicity="1" />
+          <End Role="UrunKategoriler" Type="Self.UrunKategoriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="departmanId" />
+            </Principal>
+            <Dependent Role="UrunKategoriler">
+              <PropertyRef Name="departmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunKategoriler_Menuler">
+          <End Role="Menuler" Type="Self.Menuler" Multiplicity="1" />
+          <End Role="UrunKategoriler" Type="Self.UrunKategoriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menuler">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="UrunKategoriler">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urunler_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urunler_UrunKategoriler">
+          <End Role="UrunKategoriler" Type="Self.UrunKategoriler" Multiplicity="1" />
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunKategoriler">
+              <PropertyRef Name="urunKategoriId" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="urunKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunOzellikler_Urunler">
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
+          <End Role="UrunOzellikler" Type="Self.UrunOzellikler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="UrunOzellikler">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunStokGirdiler_UrunStoklar">
+          <End Role="UrunStoklar" Type="Self.UrunStoklar" Multiplicity="1" />
+          <End Role="UrunStokGirdiler" Type="Self.UrunStokGirdiler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunStoklar">
+              <PropertyRef Name="urunStokId" />
+            </Principal>
+            <Dependent Role="UrunStokGirdiler">
+              <PropertyRef Name="urunStokId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunStoklar_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="UrunStoklar" Type="Self.UrunStoklar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="UrunStoklar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunStoklar_Urunler">
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
+          <End Role="UrunStoklar" Type="Self.UrunStoklar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="UrunStoklar">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YazdirmaListesi_Siparisler">
+          <End Role="Siparisler" Type="Self.Siparisler" Multiplicity="1" />
+          <End Role="YazdirmaListesi" Type="Self.YazdirmaListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparisler">
+              <PropertyRef Name="siparislerId" />
+            </Principal>
+            <Dependent Role="YazdirmaListesi">
+              <PropertyRef Name="siparislerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YazdirmaListesi_Subeler">
+          <End Role="Subeler" Type="Self.Subeler" Multiplicity="1" />
+          <End Role="YazdirmaListesi" Type="Self.YazdirmaListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="YazdirmaListesi">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="iRestaurantModelStoreContainer">
+          <EntitySet Name="Departmanlar" EntityType="Self.Departmanlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Duyurular" EntityType="Self.Duyurular" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FaturadakiHizmetler" EntityType="Self.FaturadakiHizmetler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Faturalar" EntityType="Self.Faturalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FaturaOdemeleri" EntityType="Self.FaturaOdemeleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HizmetKampanyaHizmetleri" EntityType="Self.HizmetKampanyaHizmetleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HizmetKampanyalari" EntityType="Self.HizmetKampanyalari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hizmetler" EntityType="Self.Hizmetler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HizmetLisanslari" EntityType="Self.HizmetLisanslari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ilceler" EntityType="Self.Ilceler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Iller" EntityType="Self.Iller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kampanyalar" EntityType="Self.Kampanyalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KampanyaUrunleri" EntityType="Self.KampanyaUrunleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Katlar" EntityType="Self.Katlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Masalar" EntityType="Self.Masalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menuler" EntityType="Self.Menuler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Odemeler" EntityType="Self.Odemeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OdemeTurleri" EntityType="Self.OdemeTurleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OturumKampanyalari" EntityType="Self.OturumKampanyalari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Oturumlar" EntityType="Self.Oturumlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParaBirimleri" EntityType="Self.ParaBirimleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personeller" EntityType="Self.Personeller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Siparisler" EntityType="Self.Siparisler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiparisUrunleri" EntityType="Self.SiparisUrunleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiparisUrunleriEkstralari" EntityType="Self.SiparisUrunleriEkstralari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sirketler" EntityType="Self.Sirketler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subeler" EntityType="Self.Subeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ulkeler" EntityType="Self.Ulkeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrunEkstralar" EntityType="Self.UrunEkstralar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrunKategoriler" EntityType="Self.UrunKategoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urunler" EntityType="Self.Urunler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrunOzellikler" EntityType="Self.UrunOzellikler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrunStokGirdiler" EntityType="Self.UrunStokGirdiler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrunStoklar" EntityType="Self.UrunStoklar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YazdirmaListesi" EntityType="Self.YazdirmaListesi" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Departmanlar_Subeler" Association="Self.FK_Departmanlar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Duyurular_Subeler" Association="Self.FK_Duyurular_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Duyurular" EntitySet="Duyurular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturadakiHizmetler_Faturalar" Association="Self.FK_FaturadakiHizmetler_Faturalar">
+            <End Role="Faturalar" EntitySet="Faturalar" />
+            <End Role="FaturadakiHizmetler" EntitySet="FaturadakiHizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturadakiHizmetler_Hizmetler" Association="Self.FK_FaturadakiHizmetler_Hizmetler">
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+            <End Role="FaturadakiHizmetler" EntitySet="FaturadakiHizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturadakiHizmetler_ParaBirimleri" Association="Self.FK_FaturadakiHizmetler_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="FaturadakiHizmetler" EntitySet="FaturadakiHizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Faturalar_Sirketler" Association="Self.FK_Faturalar_Sirketler">
+            <End Role="Sirketler" EntitySet="Sirketler" />
+            <End Role="Faturalar" EntitySet="Faturalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaOdemeleri_Faturalar" Association="Self.FK_FaturaOdemeleri_Faturalar">
+            <End Role="Faturalar" EntitySet="Faturalar" />
+            <End Role="FaturaOdemeleri" EntitySet="FaturaOdemeleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaOdemeleri_ParaBirimleri" Association="Self.FK_FaturaOdemeleri_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="FaturaOdemeleri" EntitySet="FaturaOdemeleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetKampanyaHizmetleri_HizmetKampanyalari" Association="Self.FK_HizmetKampanyaHizmetleri_HizmetKampanyalari">
+            <End Role="HizmetKampanyalari" EntitySet="HizmetKampanyalari" />
+            <End Role="HizmetKampanyaHizmetleri" EntitySet="HizmetKampanyaHizmetleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetKampanyaHizmetleri_Hizmetler" Association="Self.FK_HizmetKampanyaHizmetleri_Hizmetler">
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+            <End Role="HizmetKampanyaHizmetleri" EntitySet="HizmetKampanyaHizmetleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetKampanyalari_ParaBirimleri" Association="Self.FK_HizmetKampanyalari_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="HizmetKampanyalari" EntitySet="HizmetKampanyalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hizmetler_ParaBirimleri" Association="Self.FK_Hizmetler_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetLisanslari_Faturalar" Association="Self.FK_HizmetLisanslari_Faturalar">
+            <End Role="Faturalar" EntitySet="Faturalar" />
+            <End Role="HizmetLisanslari" EntitySet="HizmetLisanslari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetLisanslari_Hizmetler" Association="Self.FK_HizmetLisanslari_Hizmetler">
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+            <End Role="HizmetLisanslari" EntitySet="HizmetLisanslari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetLisanslari_Subeler" Association="Self.FK_HizmetLisanslari_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="HizmetLisanslari" EntitySet="HizmetLisanslari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ilceler_Iller" Association="Self.FK_Ilceler_Iller">
+            <End Role="Iller" EntitySet="Iller" />
+            <End Role="Ilceler" EntitySet="Ilceler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Iller_Ulkeler" Association="Self.FK_Iller_Ulkeler">
+            <End Role="Ulkeler" EntitySet="Ulkeler" />
+            <End Role="Iller" EntitySet="Iller" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kampanyalar_Menuler" Association="Self.FK_Kampanyalar_Menuler">
+            <End Role="Menuler" EntitySet="Menuler" />
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kampanyalar_Subeler" Association="Self.FK_Kampanyalar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KampanyaUrunleri_Kampanyalar" Association="Self.FK_KampanyaUrunleri_Kampanyalar">
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+            <End Role="KampanyaUrunleri" EntitySet="KampanyaUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KampanyaUrunleri_Urunler" Association="Self.FK_KampanyaUrunleri_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="KampanyaUrunleri" EntitySet="KampanyaUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Katlar_Subeler" Association="Self.FK_Katlar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Katlar" EntitySet="Katlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Masalar_Katlar" Association="Self.FK_Masalar_Katlar">
+            <End Role="Katlar" EntitySet="Katlar" />
+            <End Role="Masalar" EntitySet="Masalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menuler_ParaBirimleri" Association="Self.FK_Menuler_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="Menuler" EntitySet="Menuler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menuler_Subeler" Association="Self.FK_Menuler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Menuler" EntitySet="Menuler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odemeler_OdemeTurleri1" Association="Self.FK_Odemeler_OdemeTurleri1">
+            <End Role="OdemeTurleri" EntitySet="OdemeTurleri" />
+            <End Role="Odemeler" EntitySet="Odemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odemeler_Oturumlar" Association="Self.FK_Odemeler_Oturumlar">
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+            <End Role="Odemeler" EntitySet="Odemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odemeler_Subeler" Association="Self.FK_Odemeler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Odemeler" EntitySet="Odemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OdemeTurleri_ParaBirimleri" Association="Self.FK_OdemeTurleri_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="OdemeTurleri" EntitySet="OdemeTurleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OdemeTurleri_Subeler" Association="Self.FK_OdemeTurleri_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="OdemeTurleri" EntitySet="OdemeTurleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OturumKampanyalari_Kampanyalar" Association="Self.FK_OturumKampanyalari_Kampanyalar">
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+            <End Role="OturumKampanyalari" EntitySet="OturumKampanyalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OturumKampanyalari_Oturumlar" Association="Self.FK_OturumKampanyalari_Oturumlar">
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+            <End Role="OturumKampanyalari" EntitySet="OturumKampanyalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oturumlar_Masalar" Association="Self.FK_Oturumlar_Masalar">
+            <End Role="Masalar" EntitySet="Masalar" />
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oturumlar_Subeler1" Association="Self.FK_Oturumlar_Subeler1">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personeller_Subeler" Association="Self.FK_Personeller_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Personeller" EntitySet="Personeller" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparisler_Oturumlar" Association="Self.FK_Siparisler_Oturumlar">
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+            <End Role="Siparisler" EntitySet="Siparisler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparisler_Personeller1" Association="Self.FK_Siparisler_Personeller1">
+            <End Role="Personeller" EntitySet="Personeller" />
+            <End Role="Siparisler" EntitySet="Siparisler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparisler_Subeler" Association="Self.FK_Siparisler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Siparisler" EntitySet="Siparisler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_OturumKampanyalari" Association="Self.FK_SiparisUrunleri_OturumKampanyalari">
+            <End Role="OturumKampanyalari" EntitySet="OturumKampanyalari" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_Siparisler" Association="Self.FK_SiparisUrunleri_Siparisler">
+            <End Role="Siparisler" EntitySet="Siparisler" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_Urunler" Association="Self.FK_SiparisUrunleri_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_UrunOzellikler" Association="Self.FK_SiparisUrunleri_UrunOzellikler">
+            <End Role="UrunOzellikler" EntitySet="UrunOzellikler" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleriEkstralari_SiparisUrunleri" Association="Self.FK_SiparisUrunleriEkstralari_SiparisUrunleri">
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+            <End Role="SiparisUrunleriEkstralari" EntitySet="SiparisUrunleriEkstralari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleriEkstralari_UrunEkstralar" Association="Self.FK_SiparisUrunleriEkstralari_UrunEkstralar">
+            <End Role="UrunEkstralar" EntitySet="UrunEkstralar" />
+            <End Role="SiparisUrunleriEkstralari" EntitySet="SiparisUrunleriEkstralari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sirketler_Ilceler" Association="Self.FK_Sirketler_Ilceler">
+            <End Role="Ilceler" EntitySet="Ilceler" />
+            <End Role="Sirketler" EntitySet="Sirketler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subeler_Ilceler" Association="Self.FK_Subeler_Ilceler">
+            <End Role="Ilceler" EntitySet="Ilceler" />
+            <End Role="Subeler" EntitySet="Subeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subeler_Sirketler" Association="Self.FK_Subeler_Sirketler">
+            <End Role="Sirketler" EntitySet="Sirketler" />
+            <End Role="Subeler" EntitySet="Subeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunEkstralar_Urunler" Association="Self.FK_UrunEkstralar_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunEkstralar" EntitySet="UrunEkstralar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunKategoriler_Departmanlar" Association="Self.FK_UrunKategoriler_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="UrunKategoriler" EntitySet="UrunKategoriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunKategoriler_Menuler" Association="Self.FK_UrunKategoriler_Menuler">
+            <End Role="Menuler" EntitySet="Menuler" />
+            <End Role="UrunKategoriler" EntitySet="UrunKategoriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urunler_Subeler" Association="Self.FK_Urunler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urunler_UrunKategoriler" Association="Self.FK_Urunler_UrunKategoriler">
+            <End Role="UrunKategoriler" EntitySet="UrunKategoriler" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunOzellikler_Urunler" Association="Self.FK_UrunOzellikler_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunOzellikler" EntitySet="UrunOzellikler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunStokGirdiler_UrunStoklar" Association="Self.FK_UrunStokGirdiler_UrunStoklar">
+            <End Role="UrunStoklar" EntitySet="UrunStoklar" />
+            <End Role="UrunStokGirdiler" EntitySet="UrunStokGirdiler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunStoklar_Subeler" Association="Self.FK_UrunStoklar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="UrunStoklar" EntitySet="UrunStoklar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunStoklar_Urunler" Association="Self.FK_UrunStoklar_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunStoklar" EntitySet="UrunStoklar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YazdirmaListesi_Siparisler" Association="Self.FK_YazdirmaListesi_Siparisler">
+            <End Role="Siparisler" EntitySet="Siparisler" />
+            <End Role="YazdirmaListesi" EntitySet="YazdirmaListesi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YazdirmaListesi_Subeler" Association="Self.FK_YazdirmaListesi_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="YazdirmaListesi" EntitySet="YazdirmaListesi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="iRestaurantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="iRestaurantDataBaseClass" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departmanlar" EntityType="iRestaurantModel.Departmanlar" />
+          <EntitySet Name="Duyurular" EntityType="iRestaurantModel.Duyurular" />
+          <EntitySet Name="FaturadakiHizmetler" EntityType="iRestaurantModel.FaturadakiHizmetler" />
+          <EntitySet Name="Faturalar" EntityType="iRestaurantModel.Faturalar" />
+          <EntitySet Name="FaturaOdemeleri" EntityType="iRestaurantModel.FaturaOdemeleri" />
+          <EntitySet Name="HizmetKampanyaHizmetleri" EntityType="iRestaurantModel.HizmetKampanyaHizmetleri" />
+          <EntitySet Name="HizmetKampanyalari" EntityType="iRestaurantModel.HizmetKampanyalari" />
+          <EntitySet Name="Hizmetler" EntityType="iRestaurantModel.Hizmetler" />
+          <EntitySet Name="HizmetLisanslari" EntityType="iRestaurantModel.HizmetLisanslari" />
+          <EntitySet Name="Ilceler" EntityType="iRestaurantModel.Ilceler" />
+          <EntitySet Name="Iller" EntityType="iRestaurantModel.Iller" />
+          <EntitySet Name="Kampanyalar" EntityType="iRestaurantModel.Kampanyalar" />
+          <EntitySet Name="KampanyaUrunleri" EntityType="iRestaurantModel.KampanyaUrunleri" />
+          <EntitySet Name="Katlar" EntityType="iRestaurantModel.Katlar" />
+          <EntitySet Name="Masalar" EntityType="iRestaurantModel.Masalar" />
+          <EntitySet Name="Menuler" EntityType="iRestaurantModel.Menuler" />
+          <EntitySet Name="Odemeler" EntityType="iRestaurantModel.Odemeler" />
+          <EntitySet Name="OdemeTurleri" EntityType="iRestaurantModel.OdemeTurleri" />
+          <EntitySet Name="OturumKampanyalari" EntityType="iRestaurantModel.OturumKampanyalari" />
+          <EntitySet Name="Oturumlar" EntityType="iRestaurantModel.Oturumlar" />
+          <EntitySet Name="ParaBirimleri" EntityType="iRestaurantModel.ParaBirimleri" />
+          <EntitySet Name="Personeller" EntityType="iRestaurantModel.Personeller" />
+          <EntitySet Name="Siparisler" EntityType="iRestaurantModel.Siparisler" />
+          <EntitySet Name="SiparisUrunleri" EntityType="iRestaurantModel.SiparisUrunleri" />
+          <EntitySet Name="SiparisUrunleriEkstralari" EntityType="iRestaurantModel.SiparisUrunleriEkstralari" />
+          <EntitySet Name="Sirketler" EntityType="iRestaurantModel.Sirketler" />
+          <EntitySet Name="Subeler" EntityType="iRestaurantModel.Subeler" />
+          <EntitySet Name="Ulkeler" EntityType="iRestaurantModel.Ulkeler" />
+          <EntitySet Name="UrunEkstralar" EntityType="iRestaurantModel.UrunEkstralar" />
+          <EntitySet Name="UrunKategoriler" EntityType="iRestaurantModel.UrunKategoriler" />
+          <EntitySet Name="Urunler" EntityType="iRestaurantModel.Urunler" />
+          <EntitySet Name="UrunOzellikler" EntityType="iRestaurantModel.UrunOzellikler" />
+          <EntitySet Name="UrunStokGirdiler" EntityType="iRestaurantModel.UrunStokGirdiler" />
+          <EntitySet Name="UrunStoklar" EntityType="iRestaurantModel.UrunStoklar" />
+          <EntitySet Name="YazdirmaListesi" EntityType="iRestaurantModel.YazdirmaListesi" />
+          <AssociationSet Name="FK_Departmanlar_Subeler" Association="iRestaurantModel.FK_Departmanlar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunKategoriler_Departmanlar" Association="iRestaurantModel.FK_UrunKategoriler_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="UrunKategoriler" EntitySet="UrunKategoriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Duyurular_Subeler" Association="iRestaurantModel.FK_Duyurular_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Duyurular" EntitySet="Duyurular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturadakiHizmetler_Faturalar" Association="iRestaurantModel.FK_FaturadakiHizmetler_Faturalar">
+            <End Role="Faturalar" EntitySet="Faturalar" />
+            <End Role="FaturadakiHizmetler" EntitySet="FaturadakiHizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturadakiHizmetler_Hizmetler" Association="iRestaurantModel.FK_FaturadakiHizmetler_Hizmetler">
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+            <End Role="FaturadakiHizmetler" EntitySet="FaturadakiHizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturadakiHizmetler_ParaBirimleri" Association="iRestaurantModel.FK_FaturadakiHizmetler_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="FaturadakiHizmetler" EntitySet="FaturadakiHizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Faturalar_Sirketler" Association="iRestaurantModel.FK_Faturalar_Sirketler">
+            <End Role="Sirketler" EntitySet="Sirketler" />
+            <End Role="Faturalar" EntitySet="Faturalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaOdemeleri_Faturalar" Association="iRestaurantModel.FK_FaturaOdemeleri_Faturalar">
+            <End Role="Faturalar" EntitySet="Faturalar" />
+            <End Role="FaturaOdemeleri" EntitySet="FaturaOdemeleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetLisanslari_Faturalar" Association="iRestaurantModel.FK_HizmetLisanslari_Faturalar">
+            <End Role="Faturalar" EntitySet="Faturalar" />
+            <End Role="HizmetLisanslari" EntitySet="HizmetLisanslari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaOdemeleri_ParaBirimleri" Association="iRestaurantModel.FK_FaturaOdemeleri_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="FaturaOdemeleri" EntitySet="FaturaOdemeleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetKampanyaHizmetleri_HizmetKampanyalari" Association="iRestaurantModel.FK_HizmetKampanyaHizmetleri_HizmetKampanyalari">
+            <End Role="HizmetKampanyalari" EntitySet="HizmetKampanyalari" />
+            <End Role="HizmetKampanyaHizmetleri" EntitySet="HizmetKampanyaHizmetleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetKampanyaHizmetleri_Hizmetler" Association="iRestaurantModel.FK_HizmetKampanyaHizmetleri_Hizmetler">
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+            <End Role="HizmetKampanyaHizmetleri" EntitySet="HizmetKampanyaHizmetleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetKampanyalari_ParaBirimleri" Association="iRestaurantModel.FK_HizmetKampanyalari_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="HizmetKampanyalari" EntitySet="HizmetKampanyalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hizmetler_ParaBirimleri" Association="iRestaurantModel.FK_Hizmetler_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetLisanslari_Hizmetler" Association="iRestaurantModel.FK_HizmetLisanslari_Hizmetler">
+            <End Role="Hizmetler" EntitySet="Hizmetler" />
+            <End Role="HizmetLisanslari" EntitySet="HizmetLisanslari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HizmetLisanslari_Subeler" Association="iRestaurantModel.FK_HizmetLisanslari_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="HizmetLisanslari" EntitySet="HizmetLisanslari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ilceler_Iller" Association="iRestaurantModel.FK_Ilceler_Iller">
+            <End Role="Iller" EntitySet="Iller" />
+            <End Role="Ilceler" EntitySet="Ilceler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sirketler_Ilceler" Association="iRestaurantModel.FK_Sirketler_Ilceler">
+            <End Role="Ilceler" EntitySet="Ilceler" />
+            <End Role="Sirketler" EntitySet="Sirketler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subeler_Ilceler" Association="iRestaurantModel.FK_Subeler_Ilceler">
+            <End Role="Ilceler" EntitySet="Ilceler" />
+            <End Role="Subeler" EntitySet="Subeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Iller_Ulkeler" Association="iRestaurantModel.FK_Iller_Ulkeler">
+            <End Role="Ulkeler" EntitySet="Ulkeler" />
+            <End Role="Iller" EntitySet="Iller" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kampanyalar_Menuler" Association="iRestaurantModel.FK_Kampanyalar_Menuler">
+            <End Role="Menuler" EntitySet="Menuler" />
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kampanyalar_Subeler" Association="iRestaurantModel.FK_Kampanyalar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KampanyaUrunleri_Kampanyalar" Association="iRestaurantModel.FK_KampanyaUrunleri_Kampanyalar">
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+            <End Role="KampanyaUrunleri" EntitySet="KampanyaUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OturumKampanyalari_Kampanyalar" Association="iRestaurantModel.FK_OturumKampanyalari_Kampanyalar">
+            <End Role="Kampanyalar" EntitySet="Kampanyalar" />
+            <End Role="OturumKampanyalari" EntitySet="OturumKampanyalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KampanyaUrunleri_Urunler" Association="iRestaurantModel.FK_KampanyaUrunleri_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="KampanyaUrunleri" EntitySet="KampanyaUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Katlar_Subeler" Association="iRestaurantModel.FK_Katlar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Katlar" EntitySet="Katlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Masalar_Katlar" Association="iRestaurantModel.FK_Masalar_Katlar">
+            <End Role="Katlar" EntitySet="Katlar" />
+            <End Role="Masalar" EntitySet="Masalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oturumlar_Masalar" Association="iRestaurantModel.FK_Oturumlar_Masalar">
+            <End Role="Masalar" EntitySet="Masalar" />
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menuler_ParaBirimleri" Association="iRestaurantModel.FK_Menuler_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="Menuler" EntitySet="Menuler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menuler_Subeler" Association="iRestaurantModel.FK_Menuler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Menuler" EntitySet="Menuler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunKategoriler_Menuler" Association="iRestaurantModel.FK_UrunKategoriler_Menuler">
+            <End Role="Menuler" EntitySet="Menuler" />
+            <End Role="UrunKategoriler" EntitySet="UrunKategoriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odemeler_OdemeTurleri1" Association="iRestaurantModel.FK_Odemeler_OdemeTurleri1">
+            <End Role="OdemeTurleri" EntitySet="OdemeTurleri" />
+            <End Role="Odemeler" EntitySet="Odemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odemeler_Oturumlar" Association="iRestaurantModel.FK_Odemeler_Oturumlar">
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+            <End Role="Odemeler" EntitySet="Odemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odemeler_Subeler" Association="iRestaurantModel.FK_Odemeler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Odemeler" EntitySet="Odemeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OdemeTurleri_ParaBirimleri" Association="iRestaurantModel.FK_OdemeTurleri_ParaBirimleri">
+            <End Role="ParaBirimleri" EntitySet="ParaBirimleri" />
+            <End Role="OdemeTurleri" EntitySet="OdemeTurleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OdemeTurleri_Subeler" Association="iRestaurantModel.FK_OdemeTurleri_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="OdemeTurleri" EntitySet="OdemeTurleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OturumKampanyalari_Oturumlar" Association="iRestaurantModel.FK_OturumKampanyalari_Oturumlar">
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+            <End Role="OturumKampanyalari" EntitySet="OturumKampanyalari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_OturumKampanyalari" Association="iRestaurantModel.FK_SiparisUrunleri_OturumKampanyalari">
+            <End Role="OturumKampanyalari" EntitySet="OturumKampanyalari" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oturumlar_Subeler1" Association="iRestaurantModel.FK_Oturumlar_Subeler1">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparisler_Oturumlar" Association="iRestaurantModel.FK_Siparisler_Oturumlar">
+            <End Role="Oturumlar" EntitySet="Oturumlar" />
+            <End Role="Siparisler" EntitySet="Siparisler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personeller_Subeler" Association="iRestaurantModel.FK_Personeller_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Personeller" EntitySet="Personeller" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparisler_Personeller1" Association="iRestaurantModel.FK_Siparisler_Personeller1">
+            <End Role="Personeller" EntitySet="Personeller" />
+            <End Role="Siparisler" EntitySet="Siparisler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparisler_Subeler" Association="iRestaurantModel.FK_Siparisler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Siparisler" EntitySet="Siparisler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_Siparisler" Association="iRestaurantModel.FK_SiparisUrunleri_Siparisler">
+            <End Role="Siparisler" EntitySet="Siparisler" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YazdirmaListesi_Siparisler" Association="iRestaurantModel.FK_YazdirmaListesi_Siparisler">
+            <End Role="Siparisler" EntitySet="Siparisler" />
+            <End Role="YazdirmaListesi" EntitySet="YazdirmaListesi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_Urunler" Association="iRestaurantModel.FK_SiparisUrunleri_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleri_UrunOzellikler" Association="iRestaurantModel.FK_SiparisUrunleri_UrunOzellikler">
+            <End Role="UrunOzellikler" EntitySet="UrunOzellikler" />
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleriEkstralari_SiparisUrunleri" Association="iRestaurantModel.FK_SiparisUrunleriEkstralari_SiparisUrunleri">
+            <End Role="SiparisUrunleri" EntitySet="SiparisUrunleri" />
+            <End Role="SiparisUrunleriEkstralari" EntitySet="SiparisUrunleriEkstralari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisUrunleriEkstralari_UrunEkstralar" Association="iRestaurantModel.FK_SiparisUrunleriEkstralari_UrunEkstralar">
+            <End Role="UrunEkstralar" EntitySet="UrunEkstralar" />
+            <End Role="SiparisUrunleriEkstralari" EntitySet="SiparisUrunleriEkstralari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subeler_Sirketler" Association="iRestaurantModel.FK_Subeler_Sirketler">
+            <End Role="Sirketler" EntitySet="Sirketler" />
+            <End Role="Subeler" EntitySet="Subeler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urunler_Subeler" Association="iRestaurantModel.FK_Urunler_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunStoklar_Subeler" Association="iRestaurantModel.FK_UrunStoklar_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="UrunStoklar" EntitySet="UrunStoklar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YazdirmaListesi_Subeler" Association="iRestaurantModel.FK_YazdirmaListesi_Subeler">
+            <End Role="Subeler" EntitySet="Subeler" />
+            <End Role="YazdirmaListesi" EntitySet="YazdirmaListesi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunEkstralar_Urunler" Association="iRestaurantModel.FK_UrunEkstralar_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunEkstralar" EntitySet="UrunEkstralar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urunler_UrunKategoriler" Association="iRestaurantModel.FK_Urunler_UrunKategoriler">
+            <End Role="UrunKategoriler" EntitySet="UrunKategoriler" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunOzellikler_Urunler" Association="iRestaurantModel.FK_UrunOzellikler_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunOzellikler" EntitySet="UrunOzellikler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunStoklar_Urunler" Association="iRestaurantModel.FK_UrunStoklar_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunStoklar" EntitySet="UrunStoklar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunStokGirdiler_UrunStoklar" Association="iRestaurantModel.FK_UrunStokGirdiler_UrunStoklar">
+            <End Role="UrunStoklar" EntitySet="UrunStoklar" />
+            <End Role="UrunStokGirdiler" EntitySet="UrunStokGirdiler" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Departmanlar">
+          <Key>
+            <PropertyRef Name="departmanId" />
+          </Key>
+          <Property Name="departmanId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="departmanAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="departmanIp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="aktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Departmanlar_Subeler" FromRole="Departmanlar" ToRole="Subeler" />
+          <NavigationProperty Name="UrunKategoriler" Relationship="iRestaurantModel.FK_UrunKategoriler_Departmanlar" FromRole="Departmanlar" ToRole="UrunKategoriler" />
+        </EntityType>
+        <EntityType Name="Duyurular">
+          <Key>
+            <PropertyRef Name="duyuruId" />
+          </Key>
+          <Property Name="duyuruId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="duyuruBaslik" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="duyuruAciklama" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="duyuruResim" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="yayinda" Type="Boolean" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Duyurular_Subeler" FromRole="Duyurular" ToRole="Subeler" />
+        </EntityType>
+        <EntityType Name="FaturadakiHizmetler">
+          <Key>
+            <PropertyRef Name="faturadakiHizmetId" />
+          </Key>
+          <Property Name="faturadakiHizmetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hizmetId" Type="Int32" Nullable="false" />
+          <Property Name="faturaId" Type="Int32" Nullable="false" />
+          <Property Name="paraBirimiId" Type="Int32" Nullable="false" />
+          <Property Name="adet" Type="Int32" Nullable="false" />
+          <Property Name="yillikMi" Type="Boolean" Nullable="false" />
+          <Property Name="hizmetKampanyaId" Type="Int32" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Faturalar" Relationship="iRestaurantModel.FK_FaturadakiHizmetler_Faturalar" FromRole="FaturadakiHizmetler" ToRole="Faturalar" />
+          <NavigationProperty Name="Hizmetler" Relationship="iRestaurantModel.FK_FaturadakiHizmetler_Hizmetler" FromRole="FaturadakiHizmetler" ToRole="Hizmetler" />
+          <NavigationProperty Name="ParaBirimleri" Relationship="iRestaurantModel.FK_FaturadakiHizmetler_ParaBirimleri" FromRole="FaturadakiHizmetler" ToRole="ParaBirimleri" />
+        </EntityType>
+        <EntityType Name="Faturalar">
+          <Key>
+            <PropertyRef Name="faturaId" />
+          </Key>
+          <Property Name="faturaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="faturaTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="odendiMi" Type="Boolean" Nullable="false" />
+          <Property Name="sirketId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FaturadakiHizmetler" Relationship="iRestaurantModel.FK_FaturadakiHizmetler_Faturalar" FromRole="Faturalar" ToRole="FaturadakiHizmetler" />
+          <NavigationProperty Name="Sirketler" Relationship="iRestaurantModel.FK_Faturalar_Sirketler" FromRole="Faturalar" ToRole="Sirketler" />
+          <NavigationProperty Name="FaturaOdemeleri" Relationship="iRestaurantModel.FK_FaturaOdemeleri_Faturalar" FromRole="Faturalar" ToRole="FaturaOdemeleri" />
+          <NavigationProperty Name="HizmetLisanslari" Relationship="iRestaurantModel.FK_HizmetLisanslari_Faturalar" FromRole="Faturalar" ToRole="HizmetLisanslari" />
+        </EntityType>
+        <EntityType Name="FaturaOdemeleri">
+          <Key>
+            <PropertyRef Name="faturaOdemeId" />
+          </Key>
+          <Property Name="faturaOdemeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="faturaOdemeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="faturaOdemeMiktari" Type="Double" Nullable="false" />
+          <Property Name="paraBirimiId" Type="Int32" Nullable="false" />
+          <Property Name="faturaId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Faturalar" Relationship="iRestaurantModel.FK_FaturaOdemeleri_Faturalar" FromRole="FaturaOdemeleri" ToRole="Faturalar" />
+          <NavigationProperty Name="ParaBirimleri" Relationship="iRestaurantModel.FK_FaturaOdemeleri_ParaBirimleri" FromRole="FaturaOdemeleri" ToRole="ParaBirimleri" />
+        </EntityType>
+        <EntityType Name="HizmetKampanyaHizmetleri">
+          <Key>
+            <PropertyRef Name="hizmetKampanyaHizmetId" />
+          </Key>
+          <Property Name="hizmetKampanyaHizmetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hizmetId" Type="Int32" Nullable="false" />
+          <Property Name="hizmetKampanyaId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="HizmetKampanyalari" Relationship="iRestaurantModel.FK_HizmetKampanyaHizmetleri_HizmetKampanyalari" FromRole="HizmetKampanyaHizmetleri" ToRole="HizmetKampanyalari" />
+          <NavigationProperty Name="Hizmetler" Relationship="iRestaurantModel.FK_HizmetKampanyaHizmetleri_Hizmetler" FromRole="HizmetKampanyaHizmetleri" ToRole="Hizmetler" />
+        </EntityType>
+        <EntityType Name="HizmetKampanyalari">
+          <Key>
+            <PropertyRef Name="hizmetKampanyaId" />
+          </Key>
+          <Property Name="hizmetKampanyaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hizmetKampanyaAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hizmetKampanyaFiyat" Type="Double" Nullable="false" />
+          <Property Name="paraBirimiId" Type="Int32" Nullable="false" />
+          <Property Name="yillikMi" Type="Boolean" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="HizmetKampanyaHizmetleri" Relationship="iRestaurantModel.FK_HizmetKampanyaHizmetleri_HizmetKampanyalari" FromRole="HizmetKampanyalari" ToRole="HizmetKampanyaHizmetleri" />
+          <NavigationProperty Name="ParaBirimleri" Relationship="iRestaurantModel.FK_HizmetKampanyalari_ParaBirimleri" FromRole="HizmetKampanyalari" ToRole="ParaBirimleri" />
+        </EntityType>
+        <EntityType Name="Hizmetler">
+          <Key>
+            <PropertyRef Name="hizmetId" />
+          </Key>
+          <Property Name="hizmetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hizmetAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hizmetAylikUcret" Type="Double" Nullable="false" />
+          <Property Name="paraBirimiId" Type="Int32" Nullable="false" />
+          <Property Name="hizmetTuru" Type="Int16" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FaturadakiHizmetler" Relationship="iRestaurantModel.FK_FaturadakiHizmetler_Hizmetler" FromRole="Hizmetler" ToRole="FaturadakiHizmetler" />
+          <NavigationProperty Name="HizmetKampanyaHizmetleri" Relationship="iRestaurantModel.FK_HizmetKampanyaHizmetleri_Hizmetler" FromRole="Hizmetler" ToRole="HizmetKampanyaHizmetleri" />
+          <NavigationProperty Name="ParaBirimleri" Relationship="iRestaurantModel.FK_Hizmetler_ParaBirimleri" FromRole="Hizmetler" ToRole="ParaBirimleri" />
+          <NavigationProperty Name="HizmetLisanslari" Relationship="iRestaurantModel.FK_HizmetLisanslari_Hizmetler" FromRole="Hizmetler" ToRole="HizmetLisanslari" />
+        </EntityType>
+        <EntityType Name="HizmetLisanslari">
+          <Key>
+            <PropertyRef Name="hizmetLisansId" />
+          </Key>
+          <Property Name="hizmetLisansId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hizmetLisansBaslangicTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="hizmetLisansBitisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="hizmetId" Type="Int32" Nullable="false" />
+          <Property Name="subeId" Type="Int32" />
+          <Property Name="faturaId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Faturalar" Relationship="iRestaurantModel.FK_HizmetLisanslari_Faturalar" FromRole="HizmetLisanslari" ToRole="Faturalar" />
+          <NavigationProperty Name="Hizmetler" Relationship="iRestaurantModel.FK_HizmetLisanslari_Hizmetler" FromRole="HizmetLisanslari" ToRole="Hizmetler" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_HizmetLisanslari_Subeler" FromRole="HizmetLisanslari" ToRole="Subeler" />
+        </EntityType>
+        <EntityType Name="Ilceler">
+          <Key>
+            <PropertyRef Name="ilceId" />
+          </Key>
+          <Property Name="ilceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ilceAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ilId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" />
+          <NavigationProperty Name="Iller" Relationship="iRestaurantModel.FK_Ilceler_Iller" FromRole="Ilceler" ToRole="Iller" />
+          <NavigationProperty Name="Sirketler" Relationship="iRestaurantModel.FK_Sirketler_Ilceler" FromRole="Ilceler" ToRole="Sirketler" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Subeler_Ilceler" FromRole="Ilceler" ToRole="Subeler" />
+        </EntityType>
+        <EntityType Name="Iller">
+          <Key>
+            <PropertyRef Name="ilId" />
+          </Key>
+          <Property Name="ilId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ilAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ulkeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" />
+          <NavigationProperty Name="Ilceler" Relationship="iRestaurantModel.FK_Ilceler_Iller" FromRole="Iller" ToRole="Ilceler" />
+          <NavigationProperty Name="Ulkeler" Relationship="iRestaurantModel.FK_Iller_Ulkeler" FromRole="Iller" ToRole="Ulkeler" />
+        </EntityType>
+        <EntityType Name="Kampanyalar">
+          <Key>
+            <PropertyRef Name="kampanyaId" />
+          </Key>
+          <Property Name="kampanyaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kampanyaAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kampanyaFiyat" Type="Double" Nullable="false" />
+          <Property Name="kampanyaResim" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kampanyaAciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="yayindaMi" Type="Boolean" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="menuId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Menuler" Relationship="iRestaurantModel.FK_Kampanyalar_Menuler" FromRole="Kampanyalar" ToRole="Menuler" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Kampanyalar_Subeler" FromRole="Kampanyalar" ToRole="Subeler" />
+          <NavigationProperty Name="KampanyaUrunleri" Relationship="iRestaurantModel.FK_KampanyaUrunleri_Kampanyalar" FromRole="Kampanyalar" ToRole="KampanyaUrunleri" />
+          <NavigationProperty Name="OturumKampanyalari" Relationship="iRestaurantModel.FK_OturumKampanyalari_Kampanyalar" FromRole="Kampanyalar" ToRole="OturumKampanyalari" />
+        </EntityType>
+        <EntityType Name="KampanyaUrunleri">
+          <Key>
+            <PropertyRef Name="kampanyaUrunleriId" />
+          </Key>
+          <Property Name="kampanyaUrunleriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kampanyaId" Type="Int32" Nullable="false" />
+          <Property Name="urunId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kampanyalar" Relationship="iRestaurantModel.FK_KampanyaUrunleri_Kampanyalar" FromRole="KampanyaUrunleri" ToRole="Kampanyalar" />
+          <NavigationProperty Name="Urunler" Relationship="iRestaurantModel.FK_KampanyaUrunleri_Urunler" FromRole="KampanyaUrunleri" ToRole="Urunler" />
+        </EntityType>
+        <EntityType Name="Katlar">
+          <Key>
+            <PropertyRef Name="katId" />
+          </Key>
+          <Property Name="katId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="katAd" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Katlar_Subeler" FromRole="Katlar" ToRole="Subeler" />
+          <NavigationProperty Name="Masalar" Relationship="iRestaurantModel.FK_Masalar_Katlar" FromRole="Katlar" ToRole="Masalar" />
+        </EntityType>
+        <EntityType Name="Masalar">
+          <Key>
+            <PropertyRef Name="masaId" />
+          </Key>
+          <Property Name="masaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="katId" Type="Int32" Nullable="false" />
+          <Property Name="masaAd" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="durum" Type="Boolean" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Katlar" Relationship="iRestaurantModel.FK_Masalar_Katlar" FromRole="Masalar" ToRole="Katlar" />
+          <NavigationProperty Name="Oturumlar" Relationship="iRestaurantModel.FK_Oturumlar_Masalar" FromRole="Masalar" ToRole="Oturumlar" />
+        </EntityType>
+        <EntityType Name="Menuler">
+          <Key>
+            <PropertyRef Name="menuId" />
+          </Key>
+          <Property Name="menuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="menuAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="paraBirimiId" Type="Int32" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kampanyalar" Relationship="iRestaurantModel.FK_Kampanyalar_Menuler" FromRole="Menuler" ToRole="Kampanyalar" />
+          <NavigationProperty Name="ParaBirimleri" Relationship="iRestaurantModel.FK_Menuler_ParaBirimleri" FromRole="Menuler" ToRole="ParaBirimleri" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Menuler_Subeler" FromRole="Menuler" ToRole="Subeler" />
+          <NavigationProperty Name="UrunKategoriler" Relationship="iRestaurantModel.FK_UrunKategoriler_Menuler" FromRole="Menuler" ToRole="UrunKategoriler" />
+        </EntityType>
+        <EntityType Name="Odemeler">
+          <Key>
+            <PropertyRef Name="odemeId" />
+          </Key>
+          <Property Name="odemeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="oturumId" Type="Int32" Nullable="false" />
+          <Property Name="odemeTurId" Type="Int32" Nullable="false" />
+          <Property Name="odemeMiktar" Type="Double" Nullable="false" />
+          <Property Name="odemeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OdemeTurleri" Relationship="iRestaurantModel.FK_Odemeler_OdemeTurleri1" FromRole="Odemeler" ToRole="OdemeTurleri" />
+          <NavigationProperty Name="Oturumlar" Relationship="iRestaurantModel.FK_Odemeler_Oturumlar" FromRole="Odemeler" ToRole="Oturumlar" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Odemeler_Subeler" FromRole="Odemeler" ToRole="Subeler" />
+        </EntityType>
+        <EntityType Name="OdemeTurleri">
+          <Key>
+            <PropertyRef Name="odemeTurId" />
+          </Key>
+          <Property Name="odemeTurId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="odemeTurAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="paraBirimiId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Odemeler" Relationship="iRestaurantModel.FK_Odemeler_OdemeTurleri1" FromRole="OdemeTurleri" ToRole="Odemeler" />
+          <NavigationProperty Name="ParaBirimleri" Relationship="iRestaurantModel.FK_OdemeTurleri_ParaBirimleri" FromRole="OdemeTurleri" ToRole="ParaBirimleri" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_OdemeTurleri_Subeler" FromRole="OdemeTurleri" ToRole="Subeler" />
+        </EntityType>
+        <EntityType Name="OturumKampanyalari">
+          <Key>
+            <PropertyRef Name="oturumKampanyaId" />
+          </Key>
+          <Property Name="oturumKampanyaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kampanyaId" Type="Int32" Nullable="false" />
+          <Property Name="oturumId" Type="Int32" Nullable="false" />
+          <Property Name="odendi" Type="Boolean" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kampanyalar" Relationship="iRestaurantModel.FK_OturumKampanyalari_Kampanyalar" FromRole="OturumKampanyalari" ToRole="Kampanyalar" />
+          <NavigationProperty Name="Oturumlar" Relationship="iRestaurantModel.FK_OturumKampanyalari_Oturumlar" FromRole="OturumKampanyalari" ToRole="Oturumlar" />
+          <NavigationProperty Name="SiparisUrunleri" Relationship="iRestaurantModel.FK_SiparisUrunleri_OturumKampanyalari" FromRole="OturumKampanyalari" ToRole="SiparisUrunleri" />
+        </EntityType>
+        <EntityType Name="Oturumlar">
+          <Key>
+            <PropertyRef Name="oturumId" />
+          </Key>
+          <Property Name="oturumId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="masaId" Type="Int32" Nullable="false" />
+          <Property Name="oturumAcilmaTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="oturumKapamaTarihi" Type="DateTime" Precision="3" />
+          <Property Name="kilitlendi" Type="Boolean" />
+          <Property Name="odendi" Type="Boolean" />
+          <Property Name="garsonIstendi" Type="Boolean" Nullable="false" />
+          <Property Name="hesapIstendi" Type="Boolean" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Masalar" Relationship="iRestaurantModel.FK_Oturumlar_Masalar" FromRole="Oturumlar" ToRole="Masalar" />
+          <NavigationProperty Name="Odemeler" Relationship="iRestaurantModel.FK_Odemeler_Oturumlar" FromRole="Oturumlar" ToRole="Odemeler" />
+          <NavigationProperty Name="OturumKampanyalari" Relationship="iRestaurantModel.FK_OturumKampanyalari_Oturumlar" FromRole="Oturumlar" ToRole="OturumKampanyalari" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Oturumlar_Subeler1" FromRole="Oturumlar" ToRole="Subeler" />
+          <NavigationProperty Name="Siparisler" Relationship="iRestaurantModel.FK_Siparisler_Oturumlar" FromRole="Oturumlar" ToRole="Siparisler" />
+        </EntityType>
+        <EntityType Name="ParaBirimleri">
+          <Key>
+            <PropertyRef Name="paraBirimiId" />
+          </Key>
+          <Property Name="paraBirimiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paraBirimiAd" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FaturadakiHizmetler" Relationship="iRestaurantModel.FK_FaturadakiHizmetler_ParaBirimleri" FromRole="ParaBirimleri" ToRole="FaturadakiHizmetler" />
+          <NavigationProperty Name="FaturaOdemeleri" Relationship="iRestaurantModel.FK_FaturaOdemeleri_ParaBirimleri" FromRole="ParaBirimleri" ToRole="FaturaOdemeleri" />
+          <NavigationProperty Name="HizmetKampanyalari" Relationship="iRestaurantModel.FK_HizmetKampanyalari_ParaBirimleri" FromRole="ParaBirimleri" ToRole="HizmetKampanyalari" />
+          <NavigationProperty Name="Hizmetler" Relationship="iRestaurantModel.FK_Hizmetler_ParaBirimleri" FromRole="ParaBirimleri" ToRole="Hizmetler" />
+          <NavigationProperty Name="Menuler" Relationship="iRestaurantModel.FK_Menuler_ParaBirimleri" FromRole="ParaBirimleri" ToRole="Menuler" />
+          <NavigationProperty Name="OdemeTurleri" Relationship="iRestaurantModel.FK_OdemeTurleri_ParaBirimleri" FromRole="ParaBirimleri" ToRole="OdemeTurleri" />
+        </EntityType>
+        <EntityType Name="Personeller">
+          <Key>
+            <PropertyRef Name="personelId" />
+          </Key>
+          <Property Name="personelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="personelAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="personelParola" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="personelEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="personelTelefon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="yetki" Type="Boolean" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <Property Name="masaModuMu" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Personeller_Subeler" FromRole="Personeller" ToRole="Subeler" />
+          <NavigationProperty Name="Siparisler" Relationship="iRestaurantModel.FK_Siparisler_Personeller1" FromRole="Personeller" ToRole="Siparisler" />
+        </EntityType>
+        <EntityType Name="Siparisler">
+          <Key>
+            <PropertyRef Name="siparislerId" />
+          </Key>
+          <Property Name="siparislerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="siparisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="siparisDurumu" Type="Boolean" Nullable="false" />
+          <Property Name="note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="oturumId" Type="Int32" Nullable="false" />
+          <Property Name="personelId" Type="Int32" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Oturumlar" Relationship="iRestaurantModel.FK_Siparisler_Oturumlar" FromRole="Siparisler" ToRole="Oturumlar" />
+          <NavigationProperty Name="Personeller" Relationship="iRestaurantModel.FK_Siparisler_Personeller1" FromRole="Siparisler" ToRole="Personeller" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Siparisler_Subeler" FromRole="Siparisler" ToRole="Subeler" />
+          <NavigationProperty Name="SiparisUrunleri" Relationship="iRestaurantModel.FK_SiparisUrunleri_Siparisler" FromRole="Siparisler" ToRole="SiparisUrunleri" />
+          <NavigationProperty Name="YazdirmaListesi" Relationship="iRestaurantModel.FK_YazdirmaListesi_Siparisler" FromRole="Siparisler" ToRole="YazdirmaListesi" />
+        </EntityType>
+        <EntityType Name="SiparisUrunleri">
+          <Key>
+            <PropertyRef Name="siparisUrunlerId" />
+          </Key>
+          <Property Name="siparisUrunlerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="siparislerId" Type="Int32" Nullable="false" />
+          <Property Name="urunId" Type="Int32" Nullable="false" />
+          <Property Name="onaylandi" Type="Boolean" Nullable="false" />
+          <Property Name="odendi" Type="Boolean" Nullable="false" />
+          <Property Name="urunOzellikId" Type="Int32" Nullable="false" />
+          <Property Name="oturumKampanyaId" Type="Int32" />
+          <Property Name="odenmeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OturumKampanyalari" Relationship="iRestaurantModel.FK_SiparisUrunleri_OturumKampanyalari" FromRole="SiparisUrunleri" ToRole="OturumKampanyalari" />
+          <NavigationProperty Name="Siparisler" Relationship="iRestaurantModel.FK_SiparisUrunleri_Siparisler" FromRole="SiparisUrunleri" ToRole="Siparisler" />
+          <NavigationProperty Name="Urunler" Relationship="iRestaurantModel.FK_SiparisUrunleri_Urunler" FromRole="SiparisUrunleri" ToRole="Urunler" />
+          <NavigationProperty Name="UrunOzellikler" Relationship="iRestaurantModel.FK_SiparisUrunleri_UrunOzellikler" FromRole="SiparisUrunleri" ToRole="UrunOzellikler" />
+          <NavigationProperty Name="SiparisUrunleriEkstralari" Relationship="iRestaurantModel.FK_SiparisUrunleriEkstralari_SiparisUrunleri" FromRole="SiparisUrunleri" ToRole="SiparisUrunleriEkstralari" />
+        </EntityType>
+        <EntityType Name="SiparisUrunleriEkstralari">
+          <Key>
+            <PropertyRef Name="siparisUrunEkstraId" />
+          </Key>
+          <Property Name="siparisUrunEkstraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="urunEkstraId" Type="Int32" Nullable="false" />
+          <Property Name="siparisUrunlerId" Type="Int32" Nullable="false" />
+          <Property Name="odendi" Type="Boolean" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SiparisUrunleri" Relationship="iRestaurantModel.FK_SiparisUrunleriEkstralari_SiparisUrunleri" FromRole="SiparisUrunleriEkstralari" ToRole="SiparisUrunleri" />
+          <NavigationProperty Name="UrunEkstralar" Relationship="iRestaurantModel.FK_SiparisUrunleriEkstralari_UrunEkstralar" FromRole="SiparisUrunleriEkstralari" ToRole="UrunEkstralar" />
+        </EntityType>
+        <EntityType Name="Sirketler">
+          <Key>
+            <PropertyRef Name="sirketId" />
+          </Key>
+          <Property Name="sirketId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sirketAd" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="sirketEmail" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="sirketTelefon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sirketParola" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ilceId" Type="Int32" Nullable="false" />
+          <Property Name="aktiflestirildiMi" Type="Boolean" Nullable="false" />
+          <Property Name="aktiflestirmeKodu" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Faturalar" Relationship="iRestaurantModel.FK_Faturalar_Sirketler" FromRole="Sirketler" ToRole="Faturalar" />
+          <NavigationProperty Name="Ilceler" Relationship="iRestaurantModel.FK_Sirketler_Ilceler" FromRole="Sirketler" ToRole="Ilceler" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Subeler_Sirketler" FromRole="Sirketler" ToRole="Subeler" />
+        </EntityType>
+        <EntityType Name="Subeler">
+          <Key>
+            <PropertyRef Name="subeId" />
+          </Key>
+          <Property Name="subeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subeAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subeAdres" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ilkKurulumYapildiMi" Type="Boolean" Nullable="false" />
+          <Property Name="sirketId" Type="Int32" Nullable="false" />
+          <Property Name="ilceId" Type="Int32" Nullable="false" />
+          <Property Name="duyuruAlaniAktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="personelYazicisiOtomatikMi" Type="Boolean" Nullable="false" />
+          <Property Name="kasaYaziciIp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="personelYaziciIp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kasaYaziciAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="personelYaziciAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Departmanlar" Relationship="iRestaurantModel.FK_Departmanlar_Subeler" FromRole="Subeler" ToRole="Departmanlar" />
+          <NavigationProperty Name="Duyurular" Relationship="iRestaurantModel.FK_Duyurular_Subeler" FromRole="Subeler" ToRole="Duyurular" />
+          <NavigationProperty Name="HizmetLisanslari" Relationship="iRestaurantModel.FK_HizmetLisanslari_Subeler" FromRole="Subeler" ToRole="HizmetLisanslari" />
+          <NavigationProperty Name="Ilceler" Relationship="iRestaurantModel.FK_Subeler_Ilceler" FromRole="Subeler" ToRole="Ilceler" />
+          <NavigationProperty Name="Kampanyalar" Relationship="iRestaurantModel.FK_Kampanyalar_Subeler" FromRole="Subeler" ToRole="Kampanyalar" />
+          <NavigationProperty Name="Katlar" Relationship="iRestaurantModel.FK_Katlar_Subeler" FromRole="Subeler" ToRole="Katlar" />
+          <NavigationProperty Name="Menuler" Relationship="iRestaurantModel.FK_Menuler_Subeler" FromRole="Subeler" ToRole="Menuler" />
+          <NavigationProperty Name="Odemeler" Relationship="iRestaurantModel.FK_Odemeler_Subeler" FromRole="Subeler" ToRole="Odemeler" />
+          <NavigationProperty Name="OdemeTurleri" Relationship="iRestaurantModel.FK_OdemeTurleri_Subeler" FromRole="Subeler" ToRole="OdemeTurleri" />
+          <NavigationProperty Name="Oturumlar" Relationship="iRestaurantModel.FK_Oturumlar_Subeler1" FromRole="Subeler" ToRole="Oturumlar" />
+          <NavigationProperty Name="Personeller" Relationship="iRestaurantModel.FK_Personeller_Subeler" FromRole="Subeler" ToRole="Personeller" />
+          <NavigationProperty Name="Siparisler" Relationship="iRestaurantModel.FK_Siparisler_Subeler" FromRole="Subeler" ToRole="Siparisler" />
+          <NavigationProperty Name="Sirketler" Relationship="iRestaurantModel.FK_Subeler_Sirketler" FromRole="Subeler" ToRole="Sirketler" />
+          <NavigationProperty Name="Urunler" Relationship="iRestaurantModel.FK_Urunler_Subeler" FromRole="Subeler" ToRole="Urunler" />
+          <NavigationProperty Name="UrunStoklar" Relationship="iRestaurantModel.FK_UrunStoklar_Subeler" FromRole="Subeler" ToRole="UrunStoklar" />
+          <NavigationProperty Name="YazdirmaListesi" Relationship="iRestaurantModel.FK_YazdirmaListesi_Subeler" FromRole="Subeler" ToRole="YazdirmaListesi" />
+        </EntityType>
+        <EntityType Name="Ulkeler">
+          <Key>
+            <PropertyRef Name="ulkeId" />
+          </Key>
+          <Property Name="ulkeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ulkeAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="silindi" Type="Boolean" />
+          <NavigationProperty Name="Iller" Relationship="iRestaurantModel.FK_Iller_Ulkeler" FromRole="Ulkeler" ToRole="Iller" />
+        </EntityType>
+        <EntityType Name="UrunEkstralar">
+          <Key>
+            <PropertyRef Name="urunEkstraId" />
+          </Key>
+          <Property Name="urunEkstraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="urunId" Type="Int32" Nullable="false" />
+          <Property Name="urunEkstraAd" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="urunEkstraFiyat" Type="Double" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SiparisUrunleriEkstralari" Relationship="iRestaurantModel.FK_SiparisUrunleriEkstralari_UrunEkstralar" FromRole="UrunEkstralar" ToRole="SiparisUrunleriEkstralari" />
+          <NavigationProperty Name="Urunler" Relationship="iRestaurantModel.FK_UrunEkstralar_Urunler" FromRole="UrunEkstralar" ToRole="Urunler" />
+        </EntityType>
+        <EntityType Name="UrunKategoriler">
+          <Key>
+            <PropertyRef Name="urunKategoriId" />
+          </Key>
+          <Property Name="urunKategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="urunKategoriAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="departmanId" Type="Int32" Nullable="false" />
+          <Property Name="menuId" Type="Int32" Nullable="false" />
+          <Property Name="vergiYuzde" Type="Double" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Departmanlar" Relationship="iRestaurantModel.FK_UrunKategoriler_Departmanlar" FromRole="UrunKategoriler" ToRole="Departmanlar" />
+          <NavigationProperty Name="Menuler" Relationship="iRestaurantModel.FK_UrunKategoriler_Menuler" FromRole="UrunKategoriler" ToRole="Menuler" />
+          <NavigationProperty Name="Urunler" Relationship="iRestaurantModel.FK_Urunler_UrunKategoriler" FromRole="UrunKategoriler" ToRole="Urunler" />
+        </EntityType>
+        <EntityType Name="Urunler">
+          <Key>
+            <PropertyRef Name="urunId" />
+          </Key>
+          <Property Name="urunId" Type="Int32" Nullable="false" />
+          <Property Name="urunKategoriId" Type="Int32" Nullable="false" />
+          <Property Name="urunAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="urunFiyat" Type="Double" Nullable="false" />
+          <Property Name="urunResim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="urunAciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="urunYapimSuresi" Type="Int16" />
+          <Property Name="yayinda" Type="Boolean" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="urunStokAlarmAdet" Type="Double" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="KampanyaUrunleri" Relationship="iRestaurantModel.FK_KampanyaUrunleri_Urunler" FromRole="Urunler" ToRole="KampanyaUrunleri" />
+          <NavigationProperty Name="SiparisUrunleri" Relationship="iRestaurantModel.FK_SiparisUrunleri_Urunler" FromRole="Urunler" ToRole="SiparisUrunleri" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_Urunler_Subeler" FromRole="Urunler" ToRole="Subeler" />
+          <NavigationProperty Name="UrunEkstralar" Relationship="iRestaurantModel.FK_UrunEkstralar_Urunler" FromRole="Urunler" ToRole="UrunEkstralar" />
+          <NavigationProperty Name="UrunKategoriler" Relationship="iRestaurantModel.FK_Urunler_UrunKategoriler" FromRole="Urunler" ToRole="UrunKategoriler" />
+          <NavigationProperty Name="UrunOzellikler" Relationship="iRestaurantModel.FK_UrunOzellikler_Urunler" FromRole="Urunler" ToRole="UrunOzellikler" />
+          <NavigationProperty Name="UrunStoklar" Relationship="iRestaurantModel.FK_UrunStoklar_Urunler" FromRole="Urunler" ToRole="UrunStoklar" />
+        </EntityType>
+        <EntityType Name="UrunOzellikler">
+          <Key>
+            <PropertyRef Name="urunOzellikId" />
+          </Key>
+          <Property Name="urunOzellikId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="urunOzellikAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="urunOzellikFiyat" Type="Double" Nullable="false" />
+          <Property Name="urunId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SiparisUrunleri" Relationship="iRestaurantModel.FK_SiparisUrunleri_UrunOzellikler" FromRole="UrunOzellikler" ToRole="SiparisUrunleri" />
+          <NavigationProperty Name="Urunler" Relationship="iRestaurantModel.FK_UrunOzellikler_Urunler" FromRole="UrunOzellikler" ToRole="Urunler" />
+        </EntityType>
+        <EntityType Name="UrunStokGirdiler">
+          <Key>
+            <PropertyRef Name="urunStokGirdiId" />
+          </Key>
+          <Property Name="urunStokGirdiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="urunStokId" Type="Int32" Nullable="false" />
+          <Property Name="urunStokGirdiTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="urunStokGirdiAdet" Type="Double" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UrunStoklar" Relationship="iRestaurantModel.FK_UrunStokGirdiler_UrunStoklar" FromRole="UrunStokGirdiler" ToRole="UrunStoklar" />
+        </EntityType>
+        <EntityType Name="UrunStoklar">
+          <Key>
+            <PropertyRef Name="urunStokId" />
+          </Key>
+          <Property Name="urunStokId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="urunId" Type="Int32" Nullable="false" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="adet" Type="Double" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_UrunStoklar_Subeler" FromRole="UrunStoklar" ToRole="Subeler" />
+          <NavigationProperty Name="Urunler" Relationship="iRestaurantModel.FK_UrunStoklar_Urunler" FromRole="UrunStoklar" ToRole="Urunler" />
+          <NavigationProperty Name="UrunStokGirdiler" Relationship="iRestaurantModel.FK_UrunStokGirdiler_UrunStoklar" FromRole="UrunStoklar" ToRole="UrunStokGirdiler" />
+        </EntityType>
+        <EntityType Name="YazdirmaListesi">
+          <Key>
+            <PropertyRef Name="yazdirmaListeId" />
+          </Key>
+          <Property Name="yazdirmaListeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subeId" Type="Int32" Nullable="false" />
+          <Property Name="siparislerId" Type="Int32" Nullable="false" />
+          <Property Name="silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Siparisler" Relationship="iRestaurantModel.FK_YazdirmaListesi_Siparisler" FromRole="YazdirmaListesi" ToRole="Siparisler" />
+          <NavigationProperty Name="Subeler" Relationship="iRestaurantModel.FK_YazdirmaListesi_Subeler" FromRole="YazdirmaListesi" ToRole="Subeler" />
+        </EntityType>
+        <Association Name="FK_Departmanlar_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Departmanlar" Role="Departmanlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Departmanlar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunKategoriler_Departmanlar">
+          <End Type="iRestaurantModel.Departmanlar" Role="Departmanlar" Multiplicity="1" />
+          <End Type="iRestaurantModel.UrunKategoriler" Role="UrunKategoriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="departmanId" />
+            </Principal>
+            <Dependent Role="UrunKategoriler">
+              <PropertyRef Name="departmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Duyurular_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Duyurular" Role="Duyurular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Duyurular">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturadakiHizmetler_Faturalar">
+          <End Type="iRestaurantModel.Faturalar" Role="Faturalar" Multiplicity="1" />
+          <End Type="iRestaurantModel.FaturadakiHizmetler" Role="FaturadakiHizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faturalar">
+              <PropertyRef Name="faturaId" />
+            </Principal>
+            <Dependent Role="FaturadakiHizmetler">
+              <PropertyRef Name="faturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturadakiHizmetler_Hizmetler">
+          <End Type="iRestaurantModel.Hizmetler" Role="Hizmetler" Multiplicity="1" />
+          <End Type="iRestaurantModel.FaturadakiHizmetler" Role="FaturadakiHizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Principal>
+            <Dependent Role="FaturadakiHizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturadakiHizmetler_ParaBirimleri">
+          <End Type="iRestaurantModel.ParaBirimleri" Role="ParaBirimleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.FaturadakiHizmetler" Role="FaturadakiHizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="FaturadakiHizmetler">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Faturalar_Sirketler">
+          <End Type="iRestaurantModel.Sirketler" Role="Sirketler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Faturalar" Role="Faturalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sirketler">
+              <PropertyRef Name="sirketId" />
+            </Principal>
+            <Dependent Role="Faturalar">
+              <PropertyRef Name="sirketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaOdemeleri_Faturalar">
+          <End Type="iRestaurantModel.Faturalar" Role="Faturalar" Multiplicity="1" />
+          <End Type="iRestaurantModel.FaturaOdemeleri" Role="FaturaOdemeleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faturalar">
+              <PropertyRef Name="faturaId" />
+            </Principal>
+            <Dependent Role="FaturaOdemeleri">
+              <PropertyRef Name="faturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetLisanslari_Faturalar">
+          <End Type="iRestaurantModel.Faturalar" Role="Faturalar" Multiplicity="1" />
+          <End Type="iRestaurantModel.HizmetLisanslari" Role="HizmetLisanslari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faturalar">
+              <PropertyRef Name="faturaId" />
+            </Principal>
+            <Dependent Role="HizmetLisanslari">
+              <PropertyRef Name="faturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaOdemeleri_ParaBirimleri">
+          <End Type="iRestaurantModel.ParaBirimleri" Role="ParaBirimleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.FaturaOdemeleri" Role="FaturaOdemeleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="FaturaOdemeleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetKampanyaHizmetleri_HizmetKampanyalari">
+          <End Type="iRestaurantModel.HizmetKampanyalari" Role="HizmetKampanyalari" Multiplicity="1" />
+          <End Type="iRestaurantModel.HizmetKampanyaHizmetleri" Role="HizmetKampanyaHizmetleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HizmetKampanyalari">
+              <PropertyRef Name="hizmetKampanyaId" />
+            </Principal>
+            <Dependent Role="HizmetKampanyaHizmetleri">
+              <PropertyRef Name="hizmetKampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetKampanyaHizmetleri_Hizmetler">
+          <End Type="iRestaurantModel.Hizmetler" Role="Hizmetler" Multiplicity="1" />
+          <End Type="iRestaurantModel.HizmetKampanyaHizmetleri" Role="HizmetKampanyaHizmetleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Principal>
+            <Dependent Role="HizmetKampanyaHizmetleri">
+              <PropertyRef Name="hizmetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetKampanyalari_ParaBirimleri">
+          <End Type="iRestaurantModel.ParaBirimleri" Role="ParaBirimleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.HizmetKampanyalari" Role="HizmetKampanyalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="HizmetKampanyalari">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hizmetler_ParaBirimleri">
+          <End Type="iRestaurantModel.ParaBirimleri" Role="ParaBirimleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.Hizmetler" Role="Hizmetler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="Hizmetler">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetLisanslari_Hizmetler">
+          <End Type="iRestaurantModel.Hizmetler" Role="Hizmetler" Multiplicity="1" />
+          <End Type="iRestaurantModel.HizmetLisanslari" Role="HizmetLisanslari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmetler">
+              <PropertyRef Name="hizmetId" />
+            </Principal>
+            <Dependent Role="HizmetLisanslari">
+              <PropertyRef Name="hizmetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HizmetLisanslari_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="0..1" />
+          <End Type="iRestaurantModel.HizmetLisanslari" Role="HizmetLisanslari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="HizmetLisanslari">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ilceler_Iller">
+          <End Type="iRestaurantModel.Iller" Role="Iller" Multiplicity="1" />
+          <End Type="iRestaurantModel.Ilceler" Role="Ilceler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Iller">
+              <PropertyRef Name="ilId" />
+            </Principal>
+            <Dependent Role="Ilceler">
+              <PropertyRef Name="ilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sirketler_Ilceler">
+          <End Type="iRestaurantModel.Ilceler" Role="Ilceler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Sirketler" Role="Sirketler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilceler">
+              <PropertyRef Name="ilceId" />
+            </Principal>
+            <Dependent Role="Sirketler">
+              <PropertyRef Name="ilceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subeler_Ilceler">
+          <End Type="iRestaurantModel.Ilceler" Role="Ilceler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilceler">
+              <PropertyRef Name="ilceId" />
+            </Principal>
+            <Dependent Role="Subeler">
+              <PropertyRef Name="ilceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Iller_Ulkeler">
+          <End Type="iRestaurantModel.Ulkeler" Role="Ulkeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Iller" Role="Iller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ulkeler">
+              <PropertyRef Name="ulkeId" />
+            </Principal>
+            <Dependent Role="Iller">
+              <PropertyRef Name="ulkeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kampanyalar_Menuler">
+          <End Type="iRestaurantModel.Menuler" Role="Menuler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Kampanyalar" Role="Kampanyalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menuler">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="Kampanyalar">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kampanyalar_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Kampanyalar" Role="Kampanyalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Kampanyalar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KampanyaUrunleri_Kampanyalar">
+          <End Type="iRestaurantModel.Kampanyalar" Role="Kampanyalar" Multiplicity="1" />
+          <End Type="iRestaurantModel.KampanyaUrunleri" Role="KampanyaUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kampanyalar">
+              <PropertyRef Name="kampanyaId" />
+            </Principal>
+            <Dependent Role="KampanyaUrunleri">
+              <PropertyRef Name="kampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OturumKampanyalari_Kampanyalar">
+          <End Type="iRestaurantModel.Kampanyalar" Role="Kampanyalar" Multiplicity="1" />
+          <End Type="iRestaurantModel.OturumKampanyalari" Role="OturumKampanyalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kampanyalar">
+              <PropertyRef Name="kampanyaId" />
+            </Principal>
+            <Dependent Role="OturumKampanyalari">
+              <PropertyRef Name="kampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KampanyaUrunleri_Urunler">
+          <End Type="iRestaurantModel.Urunler" Role="Urunler" Multiplicity="1" />
+          <End Type="iRestaurantModel.KampanyaUrunleri" Role="KampanyaUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="KampanyaUrunleri">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Katlar_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Katlar" Role="Katlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Katlar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Masalar_Katlar">
+          <End Type="iRestaurantModel.Katlar" Role="Katlar" Multiplicity="1" />
+          <End Type="iRestaurantModel.Masalar" Role="Masalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Katlar">
+              <PropertyRef Name="katId" />
+            </Principal>
+            <Dependent Role="Masalar">
+              <PropertyRef Name="katId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Oturumlar_Masalar">
+          <End Type="iRestaurantModel.Masalar" Role="Masalar" Multiplicity="1" />
+          <End Type="iRestaurantModel.Oturumlar" Role="Oturumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Masalar">
+              <PropertyRef Name="masaId" />
+            </Principal>
+            <Dependent Role="Oturumlar">
+              <PropertyRef Name="masaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menuler_ParaBirimleri">
+          <End Type="iRestaurantModel.ParaBirimleri" Role="ParaBirimleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.Menuler" Role="Menuler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="Menuler">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menuler_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Menuler" Role="Menuler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Menuler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunKategoriler_Menuler">
+          <End Type="iRestaurantModel.Menuler" Role="Menuler" Multiplicity="1" />
+          <End Type="iRestaurantModel.UrunKategoriler" Role="UrunKategoriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menuler">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="UrunKategoriler">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odemeler_OdemeTurleri1">
+          <End Type="iRestaurantModel.OdemeTurleri" Role="OdemeTurleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.Odemeler" Role="Odemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OdemeTurleri">
+              <PropertyRef Name="odemeTurId" />
+            </Principal>
+            <Dependent Role="Odemeler">
+              <PropertyRef Name="odemeTurId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odemeler_Oturumlar">
+          <End Type="iRestaurantModel.Oturumlar" Role="Oturumlar" Multiplicity="1" />
+          <End Type="iRestaurantModel.Odemeler" Role="Odemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oturumlar">
+              <PropertyRef Name="oturumId" />
+            </Principal>
+            <Dependent Role="Odemeler">
+              <PropertyRef Name="oturumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odemeler_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Odemeler" Role="Odemeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Odemeler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OdemeTurleri_ParaBirimleri">
+          <End Type="iRestaurantModel.ParaBirimleri" Role="ParaBirimleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.OdemeTurleri" Role="OdemeTurleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParaBirimleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Principal>
+            <Dependent Role="OdemeTurleri">
+              <PropertyRef Name="paraBirimiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OdemeTurleri_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.OdemeTurleri" Role="OdemeTurleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="OdemeTurleri">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OturumKampanyalari_Oturumlar">
+          <End Type="iRestaurantModel.Oturumlar" Role="Oturumlar" Multiplicity="1" />
+          <End Type="iRestaurantModel.OturumKampanyalari" Role="OturumKampanyalari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oturumlar">
+              <PropertyRef Name="oturumId" />
+            </Principal>
+            <Dependent Role="OturumKampanyalari">
+              <PropertyRef Name="oturumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_OturumKampanyalari">
+          <End Type="iRestaurantModel.OturumKampanyalari" Role="OturumKampanyalari" Multiplicity="0..1" />
+          <End Type="iRestaurantModel.SiparisUrunleri" Role="SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OturumKampanyalari">
+              <PropertyRef Name="oturumKampanyaId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="oturumKampanyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Oturumlar_Subeler1">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Oturumlar" Role="Oturumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Oturumlar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparisler_Oturumlar">
+          <End Type="iRestaurantModel.Oturumlar" Role="Oturumlar" Multiplicity="1" />
+          <End Type="iRestaurantModel.Siparisler" Role="Siparisler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oturumlar">
+              <PropertyRef Name="oturumId" />
+            </Principal>
+            <Dependent Role="Siparisler">
+              <PropertyRef Name="oturumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personeller_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Personeller" Role="Personeller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Personeller">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparisler_Personeller1">
+          <End Type="iRestaurantModel.Personeller" Role="Personeller" Multiplicity="1" />
+          <End Type="iRestaurantModel.Siparisler" Role="Siparisler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personeller">
+              <PropertyRef Name="personelId" />
+            </Principal>
+            <Dependent Role="Siparisler">
+              <PropertyRef Name="personelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparisler_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Siparisler" Role="Siparisler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Siparisler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_Siparisler">
+          <End Type="iRestaurantModel.Siparisler" Role="Siparisler" Multiplicity="1" />
+          <End Type="iRestaurantModel.SiparisUrunleri" Role="SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparisler">
+              <PropertyRef Name="siparislerId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="siparislerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YazdirmaListesi_Siparisler">
+          <End Type="iRestaurantModel.Siparisler" Role="Siparisler" Multiplicity="1" />
+          <End Type="iRestaurantModel.YazdirmaListesi" Role="YazdirmaListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparisler">
+              <PropertyRef Name="siparislerId" />
+            </Principal>
+            <Dependent Role="YazdirmaListesi">
+              <PropertyRef Name="siparislerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_Urunler">
+          <End Type="iRestaurantModel.Urunler" Role="Urunler" Multiplicity="1" />
+          <End Type="iRestaurantModel.SiparisUrunleri" Role="SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleri_UrunOzellikler">
+          <End Type="iRestaurantModel.UrunOzellikler" Role="UrunOzellikler" Multiplicity="1" />
+          <End Type="iRestaurantModel.SiparisUrunleri" Role="SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunOzellikler">
+              <PropertyRef Name="urunOzellikId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleri">
+              <PropertyRef Name="urunOzellikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleriEkstralari_SiparisUrunleri">
+          <End Type="iRestaurantModel.SiparisUrunleri" Role="SiparisUrunleri" Multiplicity="1" />
+          <End Type="iRestaurantModel.SiparisUrunleriEkstralari" Role="SiparisUrunleriEkstralari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiparisUrunleri">
+              <PropertyRef Name="siparisUrunlerId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleriEkstralari">
+              <PropertyRef Name="siparisUrunlerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisUrunleriEkstralari_UrunEkstralar">
+          <End Type="iRestaurantModel.UrunEkstralar" Role="UrunEkstralar" Multiplicity="1" />
+          <End Type="iRestaurantModel.SiparisUrunleriEkstralari" Role="SiparisUrunleriEkstralari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunEkstralar">
+              <PropertyRef Name="urunEkstraId" />
+            </Principal>
+            <Dependent Role="SiparisUrunleriEkstralari">
+              <PropertyRef Name="urunEkstraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subeler_Sirketler">
+          <End Type="iRestaurantModel.Sirketler" Role="Sirketler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sirketler">
+              <PropertyRef Name="sirketId" />
+            </Principal>
+            <Dependent Role="Subeler">
+              <PropertyRef Name="sirketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urunler_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Urunler" Role="Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunStoklar_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.UrunStoklar" Role="UrunStoklar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="UrunStoklar">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YazdirmaListesi_Subeler">
+          <End Type="iRestaurantModel.Subeler" Role="Subeler" Multiplicity="1" />
+          <End Type="iRestaurantModel.YazdirmaListesi" Role="YazdirmaListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subeler">
+              <PropertyRef Name="subeId" />
+            </Principal>
+            <Dependent Role="YazdirmaListesi">
+              <PropertyRef Name="subeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunEkstralar_Urunler">
+          <End Type="iRestaurantModel.Urunler" Role="Urunler" Multiplicity="1" />
+          <End Type="iRestaurantModel.UrunEkstralar" Role="UrunEkstralar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="UrunEkstralar">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urunler_UrunKategoriler">
+          <End Type="iRestaurantModel.UrunKategoriler" Role="UrunKategoriler" Multiplicity="1" />
+          <End Type="iRestaurantModel.Urunler" Role="Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunKategoriler">
+              <PropertyRef Name="urunKategoriId" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="urunKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunOzellikler_Urunler">
+          <End Type="iRestaurantModel.Urunler" Role="Urunler" Multiplicity="1" />
+          <End Type="iRestaurantModel.UrunOzellikler" Role="UrunOzellikler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="UrunOzellikler">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunStoklar_Urunler">
+          <End Type="iRestaurantModel.Urunler" Role="Urunler" Multiplicity="1" />
+          <End Type="iRestaurantModel.UrunStoklar" Role="UrunStoklar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="urunId" />
+            </Principal>
+            <Dependent Role="UrunStoklar">
+              <PropertyRef Name="urunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunStokGirdiler_UrunStoklar">
+          <End Type="iRestaurantModel.UrunStoklar" Role="UrunStoklar" Multiplicity="1" />
+          <End Type="iRestaurantModel.UrunStokGirdiler" Role="UrunStokGirdiler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UrunStoklar">
+              <PropertyRef Name="urunStokId" />
+            </Principal>
+            <Dependent Role="UrunStokGirdiler">
+              <PropertyRef Name="urunStokId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="iRestaurantModelStoreContainer" CdmEntityContainer="iRestaurantDataBaseClass">
+          <EntitySetMapping Name="Departmanlar">
+            <EntityTypeMapping TypeName="iRestaurantModel.Departmanlar">
+              <MappingFragment StoreEntitySet="Departmanlar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="aktifMi" ColumnName="aktifMi" />
+                <ScalarProperty Name="departmanIp" ColumnName="departmanIp" />
+                <ScalarProperty Name="departmanAd" ColumnName="departmanAd" />
+                <ScalarProperty Name="departmanId" ColumnName="departmanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Duyurular">
+            <EntityTypeMapping TypeName="iRestaurantModel.Duyurular">
+              <MappingFragment StoreEntitySet="Duyurular">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="yayinda" ColumnName="yayinda" />
+                <ScalarProperty Name="duyuruResim" ColumnName="duyuruResim" />
+                <ScalarProperty Name="duyuruAciklama" ColumnName="duyuruAciklama" />
+                <ScalarProperty Name="duyuruBaslik" ColumnName="duyuruBaslik" />
+                <ScalarProperty Name="duyuruId" ColumnName="duyuruId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FaturadakiHizmetler">
+            <EntityTypeMapping TypeName="iRestaurantModel.FaturadakiHizmetler">
+              <MappingFragment StoreEntitySet="FaturadakiHizmetler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="hizmetKampanyaId" ColumnName="hizmetKampanyaId" />
+                <ScalarProperty Name="yillikMi" ColumnName="yillikMi" />
+                <ScalarProperty Name="adet" ColumnName="adet" />
+                <ScalarProperty Name="paraBirimiId" ColumnName="paraBirimiId" />
+                <ScalarProperty Name="faturaId" ColumnName="faturaId" />
+                <ScalarProperty Name="hizmetId" ColumnName="hizmetId" />
+                <ScalarProperty Name="faturadakiHizmetId" ColumnName="faturadakiHizmetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Faturalar">
+            <EntityTypeMapping TypeName="iRestaurantModel.Faturalar">
+              <MappingFragment StoreEntitySet="Faturalar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="sirketId" ColumnName="sirketId" />
+                <ScalarProperty Name="odendiMi" ColumnName="odendiMi" />
+                <ScalarProperty Name="faturaTarih" ColumnName="faturaTarih" />
+                <ScalarProperty Name="faturaId" ColumnName="faturaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FaturaOdemeleri">
+            <EntityTypeMapping TypeName="iRestaurantModel.FaturaOdemeleri">
+              <MappingFragment StoreEntitySet="FaturaOdemeleri">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="faturaId" ColumnName="faturaId" />
+                <ScalarProperty Name="paraBirimiId" ColumnName="paraBirimiId" />
+                <ScalarProperty Name="faturaOdemeMiktari" ColumnName="faturaOdemeMiktari" />
+                <ScalarProperty Name="faturaOdemeTarihi" ColumnName="faturaOdemeTarihi" />
+                <ScalarProperty Name="faturaOdemeId" ColumnName="faturaOdemeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HizmetKampanyaHizmetleri">
+            <EntityTypeMapping TypeName="iRestaurantModel.HizmetKampanyaHizmetleri">
+              <MappingFragment StoreEntitySet="HizmetKampanyaHizmetleri">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="hizmetKampanyaId" ColumnName="hizmetKampanyaId" />
+                <ScalarProperty Name="hizmetId" ColumnName="hizmetId" />
+                <ScalarProperty Name="hizmetKampanyaHizmetId" ColumnName="hizmetKampanyaHizmetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HizmetKampanyalari">
+            <EntityTypeMapping TypeName="iRestaurantModel.HizmetKampanyalari">
+              <MappingFragment StoreEntitySet="HizmetKampanyalari">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="yillikMi" ColumnName="yillikMi" />
+                <ScalarProperty Name="paraBirimiId" ColumnName="paraBirimiId" />
+                <ScalarProperty Name="hizmetKampanyaFiyat" ColumnName="hizmetKampanyaFiyat" />
+                <ScalarProperty Name="hizmetKampanyaAd" ColumnName="hizmetKampanyaAd" />
+                <ScalarProperty Name="hizmetKampanyaId" ColumnName="hizmetKampanyaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hizmetler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Hizmetler">
+              <MappingFragment StoreEntitySet="Hizmetler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="hizmetTuru" ColumnName="hizmetTuru" />
+                <ScalarProperty Name="paraBirimiId" ColumnName="paraBirimiId" />
+                <ScalarProperty Name="hizmetAylikUcret" ColumnName="hizmetAylikUcret" />
+                <ScalarProperty Name="hizmetAd" ColumnName="hizmetAd" />
+                <ScalarProperty Name="hizmetId" ColumnName="hizmetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HizmetLisanslari">
+            <EntityTypeMapping TypeName="iRestaurantModel.HizmetLisanslari">
+              <MappingFragment StoreEntitySet="HizmetLisanslari">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="faturaId" ColumnName="faturaId" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="hizmetId" ColumnName="hizmetId" />
+                <ScalarProperty Name="hizmetLisansBitisTarihi" ColumnName="hizmetLisansBitisTarihi" />
+                <ScalarProperty Name="hizmetLisansBaslangicTarihi" ColumnName="hizmetLisansBaslangicTarihi" />
+                <ScalarProperty Name="hizmetLisansId" ColumnName="hizmetLisansId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ilceler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Ilceler">
+              <MappingFragment StoreEntitySet="Ilceler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="ilId" ColumnName="ilId" />
+                <ScalarProperty Name="ilceAd" ColumnName="ilceAd" />
+                <ScalarProperty Name="ilceId" ColumnName="ilceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Iller">
+            <EntityTypeMapping TypeName="iRestaurantModel.Iller">
+              <MappingFragment StoreEntitySet="Iller">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="ulkeId" ColumnName="ulkeId" />
+                <ScalarProperty Name="ilAd" ColumnName="ilAd" />
+                <ScalarProperty Name="ilId" ColumnName="ilId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kampanyalar">
+            <EntityTypeMapping TypeName="iRestaurantModel.Kampanyalar">
+              <MappingFragment StoreEntitySet="Kampanyalar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="yayindaMi" ColumnName="yayindaMi" />
+                <ScalarProperty Name="kampanyaAciklama" ColumnName="kampanyaAciklama" />
+                <ScalarProperty Name="kampanyaResim" ColumnName="kampanyaResim" />
+                <ScalarProperty Name="kampanyaFiyat" ColumnName="kampanyaFiyat" />
+                <ScalarProperty Name="kampanyaAd" ColumnName="kampanyaAd" />
+                <ScalarProperty Name="kampanyaId" ColumnName="kampanyaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KampanyaUrunleri">
+            <EntityTypeMapping TypeName="iRestaurantModel.KampanyaUrunleri">
+              <MappingFragment StoreEntitySet="KampanyaUrunleri">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="urunId" ColumnName="urunId" />
+                <ScalarProperty Name="kampanyaId" ColumnName="kampanyaId" />
+                <ScalarProperty Name="kampanyaUrunleriId" ColumnName="kampanyaUrunleriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Katlar">
+            <EntityTypeMapping TypeName="iRestaurantModel.Katlar">
+              <MappingFragment StoreEntitySet="Katlar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="katAd" ColumnName="katAd" />
+                <ScalarProperty Name="katId" ColumnName="katId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Masalar">
+            <EntityTypeMapping TypeName="iRestaurantModel.Masalar">
+              <MappingFragment StoreEntitySet="Masalar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="masaAd" ColumnName="masaAd" />
+                <ScalarProperty Name="katId" ColumnName="katId" />
+                <ScalarProperty Name="masaId" ColumnName="masaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menuler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Menuler">
+              <MappingFragment StoreEntitySet="Menuler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="paraBirimiId" ColumnName="paraBirimiId" />
+                <ScalarProperty Name="menuAd" ColumnName="menuAd" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Odemeler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Odemeler">
+              <MappingFragment StoreEntitySet="Odemeler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="odemeTarihi" ColumnName="odemeTarihi" />
+                <ScalarProperty Name="odemeMiktar" ColumnName="odemeMiktar" />
+                <ScalarProperty Name="odemeTurId" ColumnName="odemeTurId" />
+                <ScalarProperty Name="oturumId" ColumnName="oturumId" />
+                <ScalarProperty Name="odemeId" ColumnName="odemeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OdemeTurleri">
+            <EntityTypeMapping TypeName="iRestaurantModel.OdemeTurleri">
+              <MappingFragment StoreEntitySet="OdemeTurleri">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="paraBirimiId" ColumnName="paraBirimiId" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="odemeTurAd" ColumnName="odemeTurAd" />
+                <ScalarProperty Name="odemeTurId" ColumnName="odemeTurId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OturumKampanyalari">
+            <EntityTypeMapping TypeName="iRestaurantModel.OturumKampanyalari">
+              <MappingFragment StoreEntitySet="OturumKampanyalari">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="odendi" ColumnName="odendi" />
+                <ScalarProperty Name="oturumId" ColumnName="oturumId" />
+                <ScalarProperty Name="kampanyaId" ColumnName="kampanyaId" />
+                <ScalarProperty Name="oturumKampanyaId" ColumnName="oturumKampanyaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Oturumlar">
+            <EntityTypeMapping TypeName="iRestaurantModel.Oturumlar">
+              <MappingFragment StoreEntitySet="Oturumlar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="hesapIstendi" ColumnName="hesapIstendi" />
+                <ScalarProperty Name="garsonIstendi" ColumnName="garsonIstendi" />
+                <ScalarProperty Name="odendi" ColumnName="odendi" />
+                <ScalarProperty Name="kilitlendi" ColumnName="kilitlendi" />
+                <ScalarProperty Name="oturumKapamaTarihi" ColumnName="oturumKapamaTarihi" />
+                <ScalarProperty Name="oturumAcilmaTarihi" ColumnName="oturumAcilmaTarihi" />
+                <ScalarProperty Name="masaId" ColumnName="masaId" />
+                <ScalarProperty Name="oturumId" ColumnName="oturumId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParaBirimleri">
+            <EntityTypeMapping TypeName="iRestaurantModel.ParaBirimleri">
+              <MappingFragment StoreEntitySet="ParaBirimleri">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="paraBirimiAd" ColumnName="paraBirimiAd" />
+                <ScalarProperty Name="paraBirimiId" ColumnName="paraBirimiId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personeller">
+            <EntityTypeMapping TypeName="iRestaurantModel.Personeller">
+              <MappingFragment StoreEntitySet="Personeller">
+                <ScalarProperty Name="masaModuMu" ColumnName="masaModuMu" />
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="yetki" ColumnName="yetki" />
+                <ScalarProperty Name="personelTelefon" ColumnName="personelTelefon" />
+                <ScalarProperty Name="personelEmail" ColumnName="personelEmail" />
+                <ScalarProperty Name="personelParola" ColumnName="personelParola" />
+                <ScalarProperty Name="personelAd" ColumnName="personelAd" />
+                <ScalarProperty Name="personelId" ColumnName="personelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Siparisler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Siparisler">
+              <MappingFragment StoreEntitySet="Siparisler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="personelId" ColumnName="personelId" />
+                <ScalarProperty Name="oturumId" ColumnName="oturumId" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="siparisDurumu" ColumnName="siparisDurumu" />
+                <ScalarProperty Name="siparisTarihi" ColumnName="siparisTarihi" />
+                <ScalarProperty Name="siparislerId" ColumnName="siparislerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiparisUrunleri">
+            <EntityTypeMapping TypeName="iRestaurantModel.SiparisUrunleri">
+              <MappingFragment StoreEntitySet="SiparisUrunleri">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="odenmeTarihi" ColumnName="odenmeTarihi" />
+                <ScalarProperty Name="oturumKampanyaId" ColumnName="oturumKampanyaId" />
+                <ScalarProperty Name="urunOzellikId" ColumnName="urunOzellikId" />
+                <ScalarProperty Name="odendi" ColumnName="odendi" />
+                <ScalarProperty Name="onaylandi" ColumnName="onaylandi" />
+                <ScalarProperty Name="urunId" ColumnName="urunId" />
+                <ScalarProperty Name="siparislerId" ColumnName="siparislerId" />
+                <ScalarProperty Name="siparisUrunlerId" ColumnName="siparisUrunlerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiparisUrunleriEkstralari">
+            <EntityTypeMapping TypeName="iRestaurantModel.SiparisUrunleriEkstralari">
+              <MappingFragment StoreEntitySet="SiparisUrunleriEkstralari">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="odendi" ColumnName="odendi" />
+                <ScalarProperty Name="siparisUrunlerId" ColumnName="siparisUrunlerId" />
+                <ScalarProperty Name="urunEkstraId" ColumnName="urunEkstraId" />
+                <ScalarProperty Name="siparisUrunEkstraId" ColumnName="siparisUrunEkstraId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sirketler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Sirketler">
+              <MappingFragment StoreEntitySet="Sirketler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="aktiflestirmeKodu" ColumnName="aktiflestirmeKodu" />
+                <ScalarProperty Name="aktiflestirildiMi" ColumnName="aktiflestirildiMi" />
+                <ScalarProperty Name="ilceId" ColumnName="ilceId" />
+                <ScalarProperty Name="sirketParola" ColumnName="sirketParola" />
+                <ScalarProperty Name="sirketTelefon" ColumnName="sirketTelefon" />
+                <ScalarProperty Name="sirketEmail" ColumnName="sirketEmail" />
+                <ScalarProperty Name="sirketAd" ColumnName="sirketAd" />
+                <ScalarProperty Name="sirketId" ColumnName="sirketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subeler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Subeler">
+              <MappingFragment StoreEntitySet="Subeler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="personelYaziciAd" ColumnName="personelYaziciAd" />
+                <ScalarProperty Name="kasaYaziciAd" ColumnName="kasaYaziciAd" />
+                <ScalarProperty Name="personelYaziciIp" ColumnName="personelYaziciIp" />
+                <ScalarProperty Name="kasaYaziciIp" ColumnName="kasaYaziciIp" />
+                <ScalarProperty Name="personelYazicisiOtomatikMi" ColumnName="personelYazicisiOtomatikMi" />
+                <ScalarProperty Name="duyuruAlaniAktifMi" ColumnName="duyuruAlaniAktifMi" />
+                <ScalarProperty Name="ilceId" ColumnName="ilceId" />
+                <ScalarProperty Name="sirketId" ColumnName="sirketId" />
+                <ScalarProperty Name="ilkKurulumYapildiMi" ColumnName="ilkKurulumYapildiMi" />
+                <ScalarProperty Name="subeAdres" ColumnName="subeAdres" />
+                <ScalarProperty Name="subeAd" ColumnName="subeAd" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ulkeler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Ulkeler">
+              <MappingFragment StoreEntitySet="Ulkeler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="ulkeAd" ColumnName="ulkeAd" />
+                <ScalarProperty Name="ulkeId" ColumnName="ulkeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunEkstralar">
+            <EntityTypeMapping TypeName="iRestaurantModel.UrunEkstralar">
+              <MappingFragment StoreEntitySet="UrunEkstralar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="urunEkstraFiyat" ColumnName="urunEkstraFiyat" />
+                <ScalarProperty Name="urunEkstraAd" ColumnName="urunEkstraAd" />
+                <ScalarProperty Name="urunId" ColumnName="urunId" />
+                <ScalarProperty Name="urunEkstraId" ColumnName="urunEkstraId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunKategoriler">
+            <EntityTypeMapping TypeName="iRestaurantModel.UrunKategoriler">
+              <MappingFragment StoreEntitySet="UrunKategoriler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="vergiYuzde" ColumnName="vergiYuzde" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+                <ScalarProperty Name="departmanId" ColumnName="departmanId" />
+                <ScalarProperty Name="urunKategoriAd" ColumnName="urunKategoriAd" />
+                <ScalarProperty Name="urunKategoriId" ColumnName="urunKategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urunler">
+            <EntityTypeMapping TypeName="iRestaurantModel.Urunler">
+              <MappingFragment StoreEntitySet="Urunler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="urunStokAlarmAdet" ColumnName="urunStokAlarmAdet" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="yayinda" ColumnName="yayinda" />
+                <ScalarProperty Name="urunYapimSuresi" ColumnName="urunYapimSuresi" />
+                <ScalarProperty Name="urunAciklama" ColumnName="urunAciklama" />
+                <ScalarProperty Name="urunResim" ColumnName="urunResim" />
+                <ScalarProperty Name="urunFiyat" ColumnName="urunFiyat" />
+                <ScalarProperty Name="urunAd" ColumnName="urunAd" />
+                <ScalarProperty Name="urunKategoriId" ColumnName="urunKategoriId" />
+                <ScalarProperty Name="urunId" ColumnName="urunId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunOzellikler">
+            <EntityTypeMapping TypeName="iRestaurantModel.UrunOzellikler">
+              <MappingFragment StoreEntitySet="UrunOzellikler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="urunId" ColumnName="urunId" />
+                <ScalarProperty Name="urunOzellikFiyat" ColumnName="urunOzellikFiyat" />
+                <ScalarProperty Name="urunOzellikAd" ColumnName="urunOzellikAd" />
+                <ScalarProperty Name="urunOzellikId" ColumnName="urunOzellikId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunStokGirdiler">
+            <EntityTypeMapping TypeName="iRestaurantModel.UrunStokGirdiler">
+              <MappingFragment StoreEntitySet="UrunStokGirdiler">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="urunStokGirdiAdet" ColumnName="urunStokGirdiAdet" />
+                <ScalarProperty Name="urunStokGirdiTarih" ColumnName="urunStokGirdiTarih" />
+                <ScalarProperty Name="urunStokId" ColumnName="urunStokId" />
+                <ScalarProperty Name="urunStokGirdiId" ColumnName="urunStokGirdiId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunStoklar">
+            <EntityTypeMapping TypeName="iRestaurantModel.UrunStoklar">
+              <MappingFragment StoreEntitySet="UrunStoklar">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="adet" ColumnName="adet" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="urunId" ColumnName="urunId" />
+                <ScalarProperty Name="urunStokId" ColumnName="urunStokId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YazdirmaListesi">
+            <EntityTypeMapping TypeName="iRestaurantModel.YazdirmaListesi">
+              <MappingFragment StoreEntitySet="YazdirmaListesi">
+                <ScalarProperty Name="silindi" ColumnName="silindi" />
+                <ScalarProperty Name="siparislerId" ColumnName="siparislerId" />
+                <ScalarProperty Name="subeId" ColumnName="subeId" />
+                <ScalarProperty Name="yazdirmaListeId" ColumnName="yazdirmaListeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

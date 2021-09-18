@@ -1,0 +1,256 @@
+﻿@{
+    ViewBag.Title = "Menüler";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+document.getElementById("menuler").className = "active";
+</script>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Menüler
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Menüler</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Menü Ekle
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-2 col-lg-4 col-xs-12 col-sm-6">
+                                                <label>Menü Adı</label>
+                                                <input name="menuAd" required type="text" id="menuAd" class="form-control" placeholder="Menü Adını Giriniz">
+                                            </div>
+                                            <div class="col-md-2 col-lg-4 col-xs-12 col-sm-6">
+                                                <label>Para Birimi</label>
+                                                <select id="paraBirimiId" required name="paraBirimiId" class="form-control Select2 ">
+                                                    <option selected="selected" value="">Para Birimi Seçiniz</option>
+                                                    @foreach (var paraBirimi in Model.ParaBirimleri)
+                                                    {
+                                                        <option value="@paraBirimi.paraBirimiId">@paraBirimi.paraBirimiAd</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 col-lg-4 col-xs-12 col-sm-6">
+                                                <label>İşlemler</label>
+                                                <button type="button" onclick="menuEkle()" class="btn btn-primary btn-md btn-grad form-control">Menü Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Menü Id</th>
+                                    <th>Menü Adı</th>
+                                    <th>Para Birimi</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var menu in Model.Menuler.ToList())
+                                {
+                                <tr>
+                                    <td>@menu.menuId</td>
+                                    <td>@menu.menuAd</td>
+                                    <td>@menu.ParaBirimleri.paraBirimiAd</td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button type="button" class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#myModalId_@menu.menuId"></button>
+                                            <a href="#" name="@menu.menuId" onclick="menuSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <!-- MENÜ DÜZENLEME -->
+                        @foreach (var menu in Model.Menuler.ToList())
+                        {
+                        <div class="modal fade bs-example-modal-lg" id="myModalId_@menu.menuId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Menü Düzenle</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>Menü Adı</label>
+                                                    <input name="menuAd_@menu.menuId" required type="text" id="menuAd_@menu.menuId" class="form-control" placeholder="Menü Adını Girin" value="@menu.menuAd">
+                                                    <input name="menuId_@menu.menuId" type="text" id="menuId_@menu.menuId" hidden="hidden" value="@menu.menuId">
+                                                </div>
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>İşlemler</label>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                            <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                            <button type="button" class="btn btn-warning btn-md btn-grad form-control" name="@menu.menuId" onclick="menuDuzenle(this.name)">Kaydet</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        <!-- MENÜ DÜZENLEME -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    function menuEkle() {
+        var menuAd = $('#menuAd').val();
+        var paraBirimiId = $('#paraBirimiId').val();
+        if (menuAd != "" && paraBirimiId!="") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/MenuEkle/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ menuAd: menuAd, paraBirimiId: paraBirimiId, subeId: subeId }),
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+        
+    }
+    function menuDuzenle(menuId) {
+        var menuAd = $('#menuAd_' + menuId).val();
+        var menuId = $('#menuId_' + menuId).val();
+        if (menuAd != "" && menuId != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/MenuGuncelle/',
+                dataType: 'json',
+                data: { menuAd: menuAd, menuId: menuId, paraBirimiId: 0, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+    function menuSil(menuId) {
+        if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/MenuSil/',
+                dataType: 'json',
+                data: { menuId: menuId, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertIslemIptal();
+        }
+            
+    }
+</script>

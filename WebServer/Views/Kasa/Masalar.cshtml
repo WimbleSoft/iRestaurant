@@ -1,0 +1,70 @@
+﻿@model iRestaurant.Controllers.ViewModelDemoVM
+@{
+    Layout = null;
+    int counter2 = 0;
+}
+<div class="row" style="margin:0px!important; padding:0px !important;">
+    <!--HER BİR MASA - BAŞLANGIÇ-->
+    @foreach (var masa2 in Model.Masalar.ToList())
+    {
+        <div class="col-xs-6 col-lg-2 col-sm-4 col-md-2 ui-sortable" style="padding:0px !important; min-height: 250px !important; max-width:152px !important">
+            <div class="box" style="position: relative; left: 0px; top: 0px; border:none !important;">
+                <div class="row" style="margin-left:5px !important; margin-right:5px !important;">
+                    <div class="row btn btn-app btn-lg @if (masa2.durum== true){<text>btn-success</text> }else{<text>btn-danger</text>}" style="min-height: 226px !important; min-width:100%; max-width:100% !important; padding-top:1px !important; padding-bottom:1px !important;padding-left:1px !important; padding-right:1px !important; margin-left:0px !important; margin-right:0px !important;">
+                        <div class="row" style="margin-left: 0px !important; margin-right: 0px !important; min-height:30px!important;">
+                            @if (Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault() != null)
+                                {
+                                <div id="DIVhesapIstendiMi_@Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault().oturumId" class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="">
+                                    @if (Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).FirstOrDefault().hesapIstendi == true)
+                                        {
+                                    <a style='font-size:12px' class='btn btn-info btn-sm btn-grad' name='hesapIstendiMi_@Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault().oturumId' id='hesapIstendiMi_@Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault().oturumId' onclick='hesapGonder(this)'>Hesap İstendi &times;</a>
+                                        }
+                                </div>
+                                }
+                                else
+                                {
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+
+                                </div>
+                                }
+                        </div>
+                        <div class="row" style="margin-left: 0px !important; margin-right: 0px !important; padding-top: 30px; margin-top: -30px !important; padding-bottom:30px !important; margin-bottom:-30px !important;">
+                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="padding-left:0px !important; padding-right:0px !important;">
+                                <a style="font-size:100px; text-decoration:none;" data-toggle="modal" data-original-title="Help" data-placement="bottom" @if (Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault() != null) { <text> id="hrefModalHref" onclick="oturumDetayGetir(@Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault().oturumId)" href="#helpModal" </text>      }>
+                                    <div class="row" style="padding-top:1px !important; padding-bottom:1px !important;padding-left:1px !important; padding-right:1px !important; margin-left:0px !important; margin-right:0px !important; color:white;  font-size:22px !important;">
+                                        @masa2.Katlar.katAd
+                                    </div>
+                                    <div class="row" style="padding-top:0px !important; padding-bottom:0px !important;padding-left:0px !important; padding-right:0px !important; margin-left:0px !important; margin-right:0px !important;">
+                                        <i class="fa fa-tablet"></i>
+                                    </div>
+                                    <div class="row" style="padding-top:1px !important; padding-bottom:1px !important;padding-left:1px !important; padding-right:1px !important; margin-left:0px !important; margin-right:0px !important; color:white;  font-size:22px !important;">
+                                        @masa2.masaAd
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left: 0px !important; margin-right: 0px !important; min-height:30px !important;">
+                            @if (Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault() != null)
+                                {
+                                <div id="DIVgarsonCagirildiMi_@Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId ).ToList().FirstOrDefault().oturumId" class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="">
+                                    @if (Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault().garsonIstendi == true)
+                                        {
+                                    <a style='font-size:12px' class='btn btn-metis-3 btn-sm btn-grad' name='garsonCagirildiMi_@Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault().oturumId' id='garsonCagirildiMi_@Model.Oturumlar.Where(x => x.odendi == false && x.masaId == masa2.masaId).ToList().FirstOrDefault().oturumId' onclick='garsonGonder(this)'>Garson İstendi &times;</a>
+                                        }
+                                </div>
+                                }
+                                else
+                                {
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+
+                                </div>
+                                }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        counter2++;
+    }
+    <!--HER BİR MASA - BAŞLANGIÇ-->
+</div>

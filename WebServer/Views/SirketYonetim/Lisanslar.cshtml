@@ -1,0 +1,379 @@
+﻿@{
+    ViewBag.Title = "Lisanslar";
+    Layout = "~/Views/Shared/sirketYonetim_Layout.cshtml";
+    int sirketId = (int)Session["sirketId"];
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+<div id="content">
+    <script>
+        document.getElementById("lisanslar").className = "active";
+    </script>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Lisanslar
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+                <li><a href="#">Lisanslar</a></li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#atanmamisaktif" data-toggle="tab" aria-expanded="true">Atanmamış Aktif Lisanslar</a></li>
+                            <li class=""><a href="#atanmisaktif" data-toggle="tab" aria-expanded="false">Atanmış Aktif Lisanslar</a></li>
+                            <li class=""><a href="#pasif" data-toggle="tab" aria-expanded="false">Süresi Geçmiş Lisanslar</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="atanmamisaktif">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Lisans Id</th>
+                                                    <th>Fatura</th>
+                                                    <th>Lisans Türü</th>
+                                                    <th>Lisans Başlama Tarihi</th>
+                                                    <th>Lisans Bitiş Tarihi</th>
+                                                    <th>Şube</th>
+                                                    <th>İşlemler</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var a in Model.HizmetLisanslari.Where(x => x.subeId == null && x.hizmetLisansBitisTarihi >= DateTime.Now))
+                                                {
+                                                    <tr>
+                                                        <td>@a.hizmetLisansId</td>
+                                                        <td><a class="btn @if (a.Faturalar.odendiMi) { <text>btn-success</text> } else { <text>btn-danger</text>}  fa fa-cart" data-toggle="modal" data-target="#FaturaDetay_@a.Faturalar.faturaId" href="">@a.Faturalar.faturaTarih - @if (a.Faturalar.odendiMi){<span>Ödendi</span> }else{ <span>Ödenmedi</span>}</a></td>
+                                                        <td>@a.Hizmetler.hizmetAd</td>
+                                                        <td>@a.hizmetLisansBaslangicTarihi</td>
+                                                        <td>@a.hizmetLisansBitisTarihi</td>
+                                                        @if (a.subeId != null)
+                                                        {
+                                                            <td>
+                                                                @a.Subeler.subeAd - @a.Subeler.Ilceler.ilceAd / @a.Subeler.Ilceler.Iller.ilAd
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                Şube Atanmamış
+                                                            </td>
+                                                        }
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-warning fa fa-pencil" data-toggle="modal" data-target="#atanmamisAktifModal_@a.hizmetLisansId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @foreach (var hizmetLisansi in Model.HizmetLisanslari.Where(x =>x.subeId==null && x.hizmetLisansBitisTarihi >= DateTime.Now))
+                                    {
+                                        <!-- LİSANS DÜZENLEME -->
+                                        <div class="modal fade bs-example-modal-lg" id="atanmamisAktifModal_@hizmetLisansi.hizmetLisansId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Şube Yönetici Düzenle</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>Lisans Adı</label>
+                                                                    <input type="text" value="@hizmetLisansi.Hizmetler.hizmetAd" class="form-control" readonly />
+                                                                    <input name="hizmetLisansId_@hizmetLisansi.hizmetLisansId" type="text" id="hizmetLisansId_@hizmetLisansi.hizmetLisansId" hidden="hidden" value="@hizmetLisansi.hizmetLisansId">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>Lisans Başlangıç Tarihi</label>
+                                                                    <input type="text" value="@hizmetLisansi.hizmetLisansBaslangicTarihi" class="form-control" readonly />
+                                                                </div>
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>Lisans Bitiş Tarihi</label>
+                                                                    <input type="text" value="@hizmetLisansi.hizmetLisansBitisTarihi" class="form-control" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>Şube</label>
+                                                                    <select id="subeId_@hizmetLisansi.hizmetLisansId" name="subeId_@hizmetLisansi.hizmetLisansId" class="select2 form-control" style="width:100% !important;">
+                                                                        @if (hizmetLisansi.subeId != null)
+                                                                        {
+                                                                            <option selected="selected" value="@hizmetLisansi.subeId">@hizmetLisansi.Subeler.subeAd - @hizmetLisansi.Subeler.Ilceler.ilceAd / @hizmetLisansi.Subeler.Ilceler.Iller.ilAd</option>
+                                                                            foreach (var sube in Model.Subeler.Where(x => x.sirketId == sirketId && x.HizmetLisanslari.Where(y => y.hizmetLisansId == hizmetLisansi.hizmetLisansId).Count() == 0).ToList())
+                                                                            {
+                                                                                <option value="@sube.subeId">@sube.subeAd - @sube.Ilceler.ilceAd / @sube.Ilceler.Iller.ilAd</option>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            foreach (var sube in Model.Subeler.Where(x => x.sirketId == sirketId).ToList())
+                                                                            {
+                                                                                <option value="@sube.subeId">@sube.subeAd - @sube.Ilceler.ilceAd / @sube.Ilceler.Iller.ilAd</option>
+                                                                            }
+                                                                        }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>İşlemler</label>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" class="btn btn-default btn-md btn-grad form-control " data-dismiss="modal">İptal</button>
+                                                                        </div>
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" name="@hizmetLisansi.hizmetLisansId" onclick="lisansDuzenle(this.name)" class="btn btn-warning btn-md btn-grad form-control">Lisans Ata</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="atanmisaktif">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Lisans Id</th>
+                                                    <th>Fatura</th>
+                                                    <th>Lisans Türü</th>
+                                                    <th>Lisans Başlama Tarihi</th>
+                                                    <th>Lisans Bitiş Tarihi</th>
+                                                    <th>Şube</th>
+                                                    <th>İşlemler</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var a in Model.HizmetLisanslari.Where(x => x.subeId != null && x.hizmetLisansBitisTarihi >= DateTime.Now))
+                                                {
+                                                    <tr>
+                                                        <td>@a.hizmetLisansId</td>
+                                                        <td><a class="btn @if (a.Faturalar.odendiMi) { <text>btn-success</text> } else { <text>btn-danger</text>}  fa fa-cart" data-toggle="modal" data-target="#FaturaDetay_@a.Faturalar.faturaId" href="">@a.Faturalar.faturaTarih - @if (a.Faturalar.odendiMi){<span>Ödendi</span> }else{ <span>Ödenmedi</span>}</a></td>
+                                                        <td>@a.Hizmetler.hizmetAd</td>
+                                                        <td>@a.hizmetLisansBaslangicTarihi</td>
+                                                        <td>@a.hizmetLisansBitisTarihi</td>
+                                                        @if (a.subeId != null)
+                                                        {
+                                                            <td>
+                                                                @a.Subeler.subeAd - @a.Subeler.Ilceler.ilceAd / @a.Subeler.Ilceler.Iller.ilAd
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                Şube Atanmamış
+                                                            </td>
+                                                        }
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-warning fa fa-pencil" data-toggle="modal" data-target="#atanmisAktifModal_@a.hizmetLisansId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @foreach (var hizmetLisansi in Model.HizmetLisanslari.Where(x => x.subeId != null && x.hizmetLisansBitisTarihi >= DateTime.Now))
+                                    {
+                                        <!-- LİSANS DÜZENLEME -->
+                                        <div class="modal fade bs-example-modal-lg" id="atanmisAktifModal_@hizmetLisansi.hizmetLisansId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Şube Yönetici Düzenle</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>Lisans Adı</label>
+                                                                    <input type="text" value="@hizmetLisansi.Hizmetler.hizmetAd" class="form-control" readonly />
+                                                                    <input name="hizmetLisansId_@hizmetLisansi.hizmetLisansId" type="text" id="hizmetLisansId_@hizmetLisansi.hizmetLisansId" hidden="hidden" value="@hizmetLisansi.hizmetLisansId">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>Lisans Başlangıç Tarihi</label>
+                                                                    <input type="text" value="@hizmetLisansi.hizmetLisansBaslangicTarihi" class="form-control" readonly />
+                                                                </div>
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>Lisans Bitiş Tarihi</label>
+                                                                    <input type="text" value="@hizmetLisansi.hizmetLisansBitisTarihi" class="form-control" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>Şube</label>
+                                                                    <select id="subeId_@hizmetLisansi.hizmetLisansId" name="subeId_@hizmetLisansi.hizmetLisansId" class="select2 form-control" style="width:100% !important;">
+                                                                        @if (hizmetLisansi.subeId != null)
+                                                                        {
+                                                                            <option value="">Şube Atamasını Kaldır</option>
+                                                                            <option selected="selected" value="@hizmetLisansi.subeId">@hizmetLisansi.Subeler.subeAd - @hizmetLisansi.Subeler.Ilceler.ilceAd / @hizmetLisansi.Subeler.Ilceler.Iller.ilAd</option>
+                                                                            foreach (var sube in Model.Subeler.Where(x => x.sirketId == sirketId && x.HizmetLisanslari.Where(y => y.hizmetLisansId == hizmetLisansi.hizmetLisansId).Count() == 0).ToList())
+                                                                            {
+                                                                                <option value="@sube.subeId">@sube.subeAd - @sube.Ilceler.ilceAd / @sube.Ilceler.Iller.ilAd</option>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            foreach (var sube in Model.Subeler.Where(x => x.sirketId == sirketId).ToList())
+                                                                            {
+                                                                                <option value="@sube.subeId">@sube.subeAd - @sube.Ilceler.ilceAd / @sube.Ilceler.Iller.ilAd</option>
+                                                                            }
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>İşlemler</label>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" class="btn btn-default btn-md btn-grad form-control " data-dismiss="modal">İptal</button>
+                                                                        </div>
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" name="@hizmetLisansi.hizmetLisansId" onclick="lisansDuzenle(this.name)" class="btn btn-warning btn-md btn-grad form-control">Lisans Ata</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="pasif">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Lisans Id</th>
+                                                    <th>Fatura</th>
+                                                    <th>Lisans Türü</th>
+                                                    <th>Lisans Başlama Tarihi</th>
+                                                    <th>Lisans Bitiş Tarihi</th>
+                                                    <th>Şube</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var a in Model.HizmetLisanslari.Where(x => x.hizmetLisansBitisTarihi <= DateTime.Now))
+                                                {
+                                                    <tr>
+                                                        <td>@a.hizmetLisansId</td>
+                                                        <td><a class="btn @if (a.Faturalar.odendiMi) { <text>btn-success</text> } else { <text>btn-danger</text>}  fa fa-cart" data-toggle="modal" data-target="#FaturaDetay_@a.Faturalar.faturaId" href="">@a.Faturalar.faturaTarih - @if (a.Faturalar.odendiMi)
+                                                                {<span>Ödendi</span> }
+                                                            else
+                                                            { <span>Ödenmedi</span>}</a>
+                                                        </td>
+                                                        <td>@a.Hizmetler.hizmetAd</td>
+                                                        <td>@a.hizmetLisansBaslangicTarihi</td>
+                                                        <td>@a.hizmetLisansBitisTarihi</td>
+                                                        @if (a.subeId != null)
+                                                        {
+                                                        <td>
+                                                            @a.Subeler.subeAd - @a.Subeler.Ilceler.ilceAd / @a.Subeler.Ilceler.Iller.ilAd
+                                                        </td>
+                                                        }
+                                                        else
+                                                        {
+                                                        <td>
+                                                            Şube Atanmamış
+                                                        </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.table').DataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+            "autoWidth": false
+        });
+    });
+    function lisansDuzenle(hizmetLisansId) {
+        var subeId = $('#subeId_' + hizmetLisansId).val();
+        var sirketId = "@sirketId";
+        if (sirketId != "" && hizmetLisansId!="") {
+            $.ajax({
+                type: 'POST',
+                url: '/SirketYonetim/HizmetLisansiGuncelle/',
+                dataType: 'json',
+                data: { sirketId: sirketId, subeId: subeId, hizmetLisansId: hizmetLisansId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else if (data == 2) {
+                        alert("Bu şubede bu lisans zaten atanmış durumdadır.");
+                    }
+                    else if (data == 3) {
+                        alert("Bu şubede seçtiğiniz lisans türünde henüz süresi dolmamış lisans bulunmaktadır. Lütfen öncelikle seçtiğiniz şubede aktif olan lisansı kaldırın.");
+                    }
+                    else if (data == 4) {
+                        alert("Gönderdiğiniz şube veya lisans bilgisi geçerli değil.");
+                    }
+                    else if (data == 5) {
+                        alert("Gönderdiğiniz lisans bilgisi geçerli değil.");
+                    }
+                    else if (data == 6) {
+                        alert("Seçtiğiniz şubede aktif bulut sunucu lisansı bulunmuyor. BU lisansı şubenize atamadan önce, lütfen şubenize Bulut Sunucu lisansı ataması yapınız.");
+                    }
+                    else if (data == 7) {
+                        alert("Bulut Sunucu lisansını serbest bıraktığınız için, o şubeye ait olan süresi geçmemiş tüm lisanslar da serbest bırakıldı.");
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+</script>
+

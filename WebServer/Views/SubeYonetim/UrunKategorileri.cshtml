@@ -1,0 +1,286 @@
+﻿
+@{
+    ViewBag.Title = "Ürün Kategorileri";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- PAGE CONTENT -->
+<script>
+document.getElementById("kategoriler").className = "active";
+</script>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Kategoriler
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Kategoriler</a></li>
+        </ol>
+    </section>
+     <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Kategori Ekle
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                                <label>Kategori Adı</label>
+                                                <input name="urunKategoriAd" required type="text" id="urunKategoriAd" class="form-control" placeholder="Kategori Adını Giriniz">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                                <label>Departman</label>
+                                                <select id="departmanId" required name="departmanId" class="form-control Select2 ">
+                                                    <option selected="selected" value="">Departman Seçiniz</option>
+                                                    @foreach (var departman in Model.Departmanlar)
+                                                    {
+                                                        <option value="@departman.departmanId">@departman.departmanAd</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xs-12 col-sm-12">
+                                                <label>Ait Olduğu Menü</label>
+                                                <select id="menuId" required name="menuId" class="form-control Select2 ">
+                                                    <option selected="selected" value="">Ait Olduğu Menüyü Seçiniz</option>
+                                                    @foreach (var menu in Model.Menuler)
+                                                    {
+                                                        <option value="@menu.menuId">@menu.menuAd / @menu.ParaBirimleri.paraBirimiAd</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1 col-xs-12 col-sm-12">
+                                                <label>Vergi %</label>
+                                                <input name="vergiYuzde" required type="number" id="vergiYuzde" class="form-control" placeholder="%">
+                                            </div>
+                                            <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                <label>İşlemler</label>
+                                                <button type="submit" onclick="urunKategoriEkle()" class="btn btn-primary btn-md btn-grad form-control">Kategori Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kategori Id</th>
+                                    <th>Kategori Ad</th>
+                                    <th>Vergi %</th>
+                                    <th>Ait Olduğu Menü</th>
+                                    <th>Departman</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var urunKategori in Model.UrunKategoriler) { 
+                                <tr>
+                                    <td>@urunKategori.urunKategoriId</td>
+                                    <td>@urunKategori.urunKategoriAd</td>
+                                    <td>@urunKategori.vergiYuzde</td>
+                                    <td>@urunKategori.Menuler.menuAd</td>
+                                    <td>@urunKategori.Departmanlar.departmanAd</td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button type="button" class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#myModalId_@urunKategori.urunKategoriId"></button>
+                                            <a href="#" name="@urunKategori.urunKategoriId" onclick="urunKategoriSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                } 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- URUN KATEGORİ DÜZENLEME -->
+@foreach (var urunKategori in Model.UrunKategoriler)
+{
+<div class="modal fade bs-example-modal-lg" id="myModalId_@urunKategori.urunKategoriId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@urunKategori.urunKategoriAd Kategorisini Düzenle</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-6 col-xs-12 col-sm-12">
+                            <label>Kategori Adı</label>
+                            <input name="urunKategoriAd_@urunKategori.urunKategoriId" required type="text" id="urunKategoriAd_@urunKategori.urunKategoriId" class="form-control" placeholder="Kategori Adını Giriniz" value="@urunKategori.urunKategoriAd">
+                            <input name="urunKategoriId_@urunKategori.urunKategoriId" required type="text" id="urunKategoriId_@urunKategori.urunKategoriId" hidden="hidden" value="@urunKategori.urunKategoriId">
+                        </div>
+                        <div class="col-md-3 col-lg-6 col-xs-12 col-sm-12">
+                            <label>Departman Adı</label>
+                            <select id="departmanId_@urunKategori.urunKategoriId"     required name="departmanId_@urunKategori.urunKategoriId" class="form-control Select2 ">
+                                <option selected="selected" value="@urunKategori.departmanId">Departman Seçiniz</option>
+                                @foreach (var departman in Model.Departmanlar)
+                                {
+                                    <option value="@departman.departmanId">@departman.departmanAd</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-lg-6 col-xs-12 col-sm-12">
+                            <label>Vergi %</label>
+                            <input name="vergiYuzde_@urunKategori.urunKategoriId" required type="text" id="vergiYuzde_@urunKategori.urunKategoriId" class="form-control" placeholder="%" value="@urunKategori.vergiYuzde">
+                        </div>
+                        <div class="col-md-3 col-lg-12 col-xs-12 col-sm-12">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <a class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</a>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <a onclick="urunKategoriGuncelle(this.name)" name="@urunKategori.urunKategoriId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<!-- URUN KATEGORİ DÜZENLEME -->
+<script>
+function urunKategoriEkle() {
+    var urunKategoriAd = $('#urunKategoriAd').val();
+    var departmanId = $('#departmanId').val();
+    var vergiYuzde = $('#vergiYuzde').val();
+    var menuId = $('#menuId').val();
+    if (urunKategoriAd != "" && departmanId != "" && vergiYuzde != "" && menuId != "") {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/UrunKategoriEkle/',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({ urunKategoriAd: urunKategoriAd, departmanId: departmanId, vergiYuzde: vergiYuzde, menuId:menuId, subeId: subeId }),
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+    else {
+        alertAlanDoldur();
+    }
+            
+}
+function urunKategoriGuncelle(urunKategoriId) {
+    var urunKategoriAd = $('#urunKategoriAd_' + urunKategoriId).val();
+    var urunKategoriId = $('#urunKategoriId_' + urunKategoriId).val();
+    var vergiYuzde = $('#vergiYuzde_' + urunKategoriId).val();
+    var departmanId = $('#departmanId_' + urunKategoriId).val();
+    if (urunKategoriAd != "" && urunKategoriId != "" && departmanId != "" && vergiYuzde != "") {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/UrunKategoriGuncelle/',
+            dataType: 'json',
+            data: { urunKategoriAd: urunKategoriAd, urunKategoriId: urunKategoriId, departmanId: departmanId, menuId:0, vergiYuzde: vergiYuzde, subeId: subeId },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+    else {
+        alertAlanDoldur();
+    }
+            
+}
+function urunKategoriSil(urunKategoriId) {
+    if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/UrunKategoriSil/',
+            dataType: 'json',
+            data: { urunKategoriId: urunKategoriId, subeId: subeId },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+}
+</script>

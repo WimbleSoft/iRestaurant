@@ -1,0 +1,2488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4BD38D5F-D219-4E25-A845-4AC235EDFE80}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>iRestaurant</RootNamespace>
+    <AssemblyName>iRestaurant</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <ApplicationInsightsResourceId>/subscriptions/35c8be53-a30c-4f78-b55d-ddb13aee1ff2/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/TeknoGenco_iRestaurant_Mutfak</ApplicationInsightsResourceId>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rework.1.0.12\lib\net45\Rework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Attributes\MyAttributes.cs" />
+    <Compile Include="Controllers\SirketYonetimController.cs" />
+    <Compile Include="Controllers\KasaController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MutfakController.cs" />
+    <Compile Include="Controllers\YazdiriciController.cs" />
+    <Compile Include="Controllers\SubeYonetimController.cs" />
+    <Compile Include="Departmanlar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Duyurular.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FaturadakiHizmetler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Faturalar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FaturaOdemeleri.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ViewModelDemoVM.cs" />
+    <Compile Include="HizmetKampanyaHizmetleri.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HizmetKampanyalari.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hizmetler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HizmetLisanslari.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ilceler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Iller.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="iRestaurant.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>iRestaurant.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="iRestaurant.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="iRestaurant.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>iRestaurant.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Kampanyalar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KampanyaUrunleri.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Katlar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Masalar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Menuler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailFormModel.cs" />
+    <Compile Include="Models\SirketCookieControl.cs" />
+    <Compile Include="Models\PersonelCookieControl.cs" />
+    <Compile Include="Models\SirketHesapViewModel.cs" />
+    <Compile Include="Models\PersonelHesapViewModel.cs" />
+    <Compile Include="Models\HaftaninGunu.cs" />
+    <Compile Include="Odemeler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OdemeTurleri.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OturumKampanyalari.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Oturumlar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParaBirimleri.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Personeller.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Siparisler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiparisUrunleri.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiparisUrunleriEkstralari.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sirketler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <Compile Include="Subeler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ulkeler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UrunEkstralar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UrunKategoriler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Urunler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UrunOzellikler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UrunStokGirdiler.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UrunStoklar.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+    <Compile Include="YazdirmaListesi.cs">
+      <DependentUpon>iRestaurant.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\buttons.dataTables.min.css" />
+    <Content Include="assets\css\countdown.css" />
+    <Content Include="assets\css\ionicons.css" />
+    <Content Include="assets\css\ionicons.min.css" />
+    <Content Include="assets\css\jquery-ui.css" />
+    <Content Include="assets\css\main.css" />
+    <Content Include="assets\css\main.min.css" />
+    <Content Include="assets\css\main.rtl.css" />
+    <Content Include="assets\css\main.rtl.min.css" />
+    <Content Include="assets\css\style-switcher.css" />
+    <Content Include="assets\css\style-switcher.min.css" />
+    <Content Include="assets\css\theme.css" />
+    <Content Include="assets\css\theme.min.css" />
+    <Content Include="assets\img\cp.png" />
+    <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\metis-tile.png" />
+    <Content Include="assets\img\pattern\always_grey.png" />
+    <Content Include="assets\img\pattern\arches.png" />
+    <Content Include="assets\img\pattern\batthern.png" />
+    <Content Include="assets\img\pattern\bo_play_pattern.png" />
+    <Content Include="assets\img\pattern\brillant.png" />
+    <Content Include="assets\img\pattern\carbon_fibre.png" />
+    <Content Include="assets\img\pattern\cartographer.png" />
+    <Content Include="assets\img\pattern\crissXcross.png" />
+    <Content Include="assets\img\pattern\diagonal_striped_brick.png" />
+    <Content Include="assets\img\pattern\diamond_upholstery.png" />
+    <Content Include="assets\img\pattern\egg_shell.png" />
+    <Content Include="assets\img\pattern\gplaypattern.png" />
+    <Content Include="assets\img\pattern\greyfloral.png" />
+    <Content Include="assets\img\pattern\irongrip.png" />
+    <Content Include="assets\img\pattern\large_leather.png" />
+    <Content Include="assets\img\pattern\low_contrast_linen.png" />
+    <Content Include="assets\img\pattern\noisy_grid.png" />
+    <Content Include="assets\img\pattern\pool_table.png" />
+    <Content Include="assets\img\pattern\purty_wood.png" />
+    <Content Include="assets\img\pattern\random_grey_variations.png" />
+    <Content Include="assets\img\pattern\retina_wood.png" />
+    <Content Include="assets\img\pattern\rip_jobs.png" />
+    <Content Include="assets\img\pattern\white_tiles.png" />
+    <Content Include="assets\img\pattern\wood_1.png" />
+    <Content Include="assets\img\user.gif" />
+    <Content Include="assets\js\jquery.pulsate.min.js" />
+    <Content Include="assets\js\app.js" />
+    <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\core.js" />
+    <Content Include="assets\js\core.min.js" />
+    <Content Include="assets\js\countdown.js" />
+    <Content Include="assets\js\style-switcher.js" />
+    <Content Include="assets\lib\animate.css\animate.css" />
+    <Content Include="assets\lib\animate.css\animate.min.css" />
+    <Content Include="assets\lib\bootstrap-daterangepicker\daterangepicker-bs2.css" />
+    <Content Include="assets\lib\bootstrap-daterangepicker\daterangepicker-bs3.css" />
+    <Content Include="assets\lib\bootstrap-daterangepicker\daterangepicker.js" />
+    <Content Include="assets\lib\bootstrap-daterangepicker\examples.html" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap.css" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap.min.css" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap.rtl.css" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap.rtl.min.css" />
+    <Content Include="assets\lib\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\lib\bootstrap\js\bootstrap.js" />
+    <Content Include="assets\lib\bootstrap\js\bootstrap.min.js" />
+    <Content Include="assets\lib\bootstrap\js\npm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ac.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ad.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ae.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.af.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ag.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ai.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.al.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.am.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ao.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ar.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.as.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.at.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.au.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.aw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ax.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.az.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ba.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bb.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bd.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.be.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bf.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bh.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bi.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bj.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bl.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bo.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bq.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.br.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bs.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bt.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.by.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.bz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ca.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cc.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cd.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cf.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ch.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ci.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ck.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cl.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.co.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cu.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cv.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cx.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cy.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.cz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.de.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.dj.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.dk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.dm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.do.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.dz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ec.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ee.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.eg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.eh.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.er.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.es.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.et.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.fi.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.fj.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.fk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.fm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.fo.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.fr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ga.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gb.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gd.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ge.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gf.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gh.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gi.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gl.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gp.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gq.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gt.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gu.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.gy.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.hk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.hn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.hr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ht.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.hu.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.i18n.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.id.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ie.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.il.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.im.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.in.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.io.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.iq.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ir.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.is.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.it.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.je.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.jm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.jo.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.jp.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ke.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.kg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.kh.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ki.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.km.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.kn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.kp.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.kr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.kw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ky.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.kz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.la.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.lb.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.lc.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.li.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.lk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.lr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ls.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.lt.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.lu.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.lv.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ly.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ma.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mc.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.md.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.me.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mf.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mh.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ml.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mo.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mp.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mq.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ms.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mt.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mu.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mv.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mx.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.my.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.mz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.na.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.nc.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ne.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.nf.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ng.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ni.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.nl.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.no.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.np.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.nr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.nu.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.nz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.om.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pa.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pe.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pf.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ph.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pl.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ps.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pt.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.pw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.py.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.qa.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.re.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ro.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.rs.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ru.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.rw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sa.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sb.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sc.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sd.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.se.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sh.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.si.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sj.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sl.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.so.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ss.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.st.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sv.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sx.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sy.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.sz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ta.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tc.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.td.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.th.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tj.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tk.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tl.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.to.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tr.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tt.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tv.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tw.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.tz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ua.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ug.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.us.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.uy.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.uz.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.va.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.vc.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ve.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.vg.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.vi.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.vn.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.vu.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.wf.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ws.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.ye.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.yt.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.za.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.zm.js" />
+    <Content Include="assets\lib\cleave.js\addons\cleave-phone.zw.js" />
+    <Content Include="assets\lib\cleave.js\cleave-angular.js" />
+    <Content Include="assets\lib\cleave.js\cleave-angular.min.js" />
+    <Content Include="assets\lib\cleave.js\cleave-react.js" />
+    <Content Include="assets\lib\cleave.js\cleave-react.min.js" />
+    <Content Include="assets\lib\cleave.js\cleave.js" />
+    <Content Include="assets\lib\cleave.js\cleave.min.js" />
+    <Content Include="assets\lib\clipboard\clipboard.js" />
+    <Content Include="assets\lib\clipboard\clipboard.min.js" />
+    <Content Include="assets\lib\css\font-awesome.css" />
+    <Content Include="assets\lib\css\font-awesome.min.css" />
+    <Content Include="assets\lib\datetimepicker\jquery.datetimepicker.css" />
+    <Content Include="assets\lib\datetimepicker\jquery.datetimepicker.full.js" />
+    <Content Include="assets\lib\datetimepicker\jquery.datetimepicker.full.min.js" />
+    <Content Include="assets\lib\datetimepicker\jquery.datetimepicker.js" />
+    <Content Include="assets\lib\datetimepicker\jquery.datetimepicker.min.css" />
+    <Content Include="assets\lib\datetimepicker\jquery.datetimepicker.min.js" />
+    <Content Include="assets\lib\font-awesome\css\font-awesome.css" />
+    <Content Include="assets\lib\font-awesome\css\font-awesome.min.css" />
+    <Content Include="assets\lib\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\lib\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="assets\lib\formwizard\changelog.txt" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\base\jquery.ui.all.css" />
+    <Content Include="assets\lib\formwizard\examples\css\base\jquery.ui.base.css" />
+    <Content Include="assets\lib\formwizard\examples\css\base\jquery.ui.core.css" />
+    <Content Include="assets\lib\formwizard\examples\css\base\jquery.ui.theme.css" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-anim_basic_16x16.gif" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-icons_222222_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="assets\lib\formwizard\examples\css\ui-lightness\jquery-ui-1.8.2.custom.css" />
+    <Content Include="assets\lib\formwizard\examples\example_10_custom_validation_initialization.html" />
+    <Content Include="assets\lib\formwizard\examples\example_11_changing_options_after_initialization.html" />
+    <Content Include="assets\lib\formwizard\examples\example_12_using_remoteAjax_for_all_steps.html" />
+    <Content Include="assets\lib\formwizard\examples\example_13_nested_routes.html" />
+    <Content Include="assets\lib\formwizard\examples\example_14_using_fieldset_as_step_identifier.html" />
+    <Content Include="assets\lib\formwizard\examples\example_15_add_and_remove_steps_dynamically.html" />
+    <Content Include="assets\lib\formwizard\examples\example_16_have_the_wizard_ignore_specific_inputs_during_transition.html" />
+    <Content Include="assets\lib\formwizard\examples\example_17_cancel_the_submit_in_using_beforeSubmit_beforeSend_and_beforeSerialize_callbacks.html" />
+    <Content Include="assets\lib\formwizard\examples\example_18_disable_jquery_ui_styles_using_disableUIStyles.html" />
+    <Content Include="assets\lib\formwizard\examples\example_19_summary_page.html" />
+    <Content Include="assets\lib\formwizard\examples\example_1_straight.html" />
+    <Content Include="assets\lib\formwizard\examples\example_20_submit_form_without_ajax.html" />
+    <Content Include="assets\lib\formwizard\examples\example_21_add_steps_using_update_steps_method.html" />
+    <Content Include="assets\lib\formwizard\examples\example_22_before_step_shown_event.html" />
+    <Content Include="assets\lib\formwizard\examples\example_2_branch.html" />
+    <Content Include="assets\lib\formwizard\examples\example_3_bbq_integration_history_handling.html" />
+    <Content Include="assets\lib\formwizard\examples\example_4_step_shown_event.html" />
+    <Content Include="assets\lib\formwizard\examples\example_5_methods.html" />
+    <Content Include="assets\lib\formwizard\examples\example_6_remoteAjax_and_events.html" />
+    <Content Include="assets\lib\formwizard\examples\example_7_transition_animation.html" />
+    <Content Include="assets\lib\formwizard\examples\example_8_multiple_wizards.html" />
+    <Content Include="assets\lib\formwizard\examples\example_9_branching_using_checkbox_radiobutton_hidden_.html" />
+    <Content Include="assets\lib\formwizard\examples\json.html" />
+    <Content Include="assets\lib\formwizard\examples\normal_submit.html" />
+    <Content Include="assets\lib\formwizard\examples\store_in_database.html" />
+    <Content Include="assets\lib\formwizard\examples\validate.html" />
+    <Content Include="assets\lib\formwizard\js\bbq.js" />
+    <Content Include="assets\lib\formwizard\js\jquery-1.4.2.min.js" />
+    <Content Include="assets\lib\formwizard\js\jquery-ui-1.8.5.custom.min.js" />
+    <Content Include="assets\lib\formwizard\js\jquery.form.js" />
+    <Content Include="assets\lib\formwizard\js\jquery.form.wizard.js" />
+    <Content Include="assets\lib\formwizard\js\jquery.validate.js" />
+    <Content Include="assets\lib\fullcalendar\fullcalendar.css" />
+    <Content Include="assets\lib\fullcalendar\fullcalendar.js" />
+    <Content Include="assets\lib\fullcalendar\fullcalendar.min.css" />
+    <Content Include="assets\lib\fullcalendar\fullcalendar.min.js" />
+    <Content Include="assets\lib\fullcalendar\fullcalendar.print.css" />
+    <Content Include="assets\lib\fullcalendar\fullcalendar.print.min.css" />
+    <Content Include="assets\lib\fullcalendar\gcal.js" />
+    <Content Include="assets\lib\fullcalendar\gcal.min.js" />
+    <Content Include="assets\lib\fullcalendar\locale-all.js" />
+    <Content Include="assets\lib\fullcalendar\locale\af.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ar-dz.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ar-ly.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ar-ma.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ar-sa.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ar-tn.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ar.js" />
+    <Content Include="assets\lib\fullcalendar\locale\bg.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ca.js" />
+    <Content Include="assets\lib\fullcalendar\locale\cs.js" />
+    <Content Include="assets\lib\fullcalendar\locale\da.js" />
+    <Content Include="assets\lib\fullcalendar\locale\de-at.js" />
+    <Content Include="assets\lib\fullcalendar\locale\de.js" />
+    <Content Include="assets\lib\fullcalendar\locale\el.js" />
+    <Content Include="assets\lib\fullcalendar\locale\en-au.js" />
+    <Content Include="assets\lib\fullcalendar\locale\en-ca.js" />
+    <Content Include="assets\lib\fullcalendar\locale\en-gb.js" />
+    <Content Include="assets\lib\fullcalendar\locale\en-ie.js" />
+    <Content Include="assets\lib\fullcalendar\locale\en-nz.js" />
+    <Content Include="assets\lib\fullcalendar\locale\es-do.js" />
+    <Content Include="assets\lib\fullcalendar\locale\es.js" />
+    <Content Include="assets\lib\fullcalendar\locale\eu.js" />
+    <Content Include="assets\lib\fullcalendar\locale\fa.js" />
+    <Content Include="assets\lib\fullcalendar\locale\fi.js" />
+    <Content Include="assets\lib\fullcalendar\locale\fr-ca.js" />
+    <Content Include="assets\lib\fullcalendar\locale\fr-ch.js" />
+    <Content Include="assets\lib\fullcalendar\locale\fr.js" />
+    <Content Include="assets\lib\fullcalendar\locale\gl.js" />
+    <Content Include="assets\lib\fullcalendar\locale\he.js" />
+    <Content Include="assets\lib\fullcalendar\locale\hi.js" />
+    <Content Include="assets\lib\fullcalendar\locale\hr.js" />
+    <Content Include="assets\lib\fullcalendar\locale\hu.js" />
+    <Content Include="assets\lib\fullcalendar\locale\id.js" />
+    <Content Include="assets\lib\fullcalendar\locale\is.js" />
+    <Content Include="assets\lib\fullcalendar\locale\it.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ja.js" />
+    <Content Include="assets\lib\fullcalendar\locale\kk.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ko.js" />
+    <Content Include="assets\lib\fullcalendar\locale\lb.js" />
+    <Content Include="assets\lib\fullcalendar\locale\lt.js" />
+    <Content Include="assets\lib\fullcalendar\locale\lv.js" />
+    <Content Include="assets\lib\fullcalendar\locale\mk.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ms-my.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ms.js" />
+    <Content Include="assets\lib\fullcalendar\locale\nb.js" />
+    <Content Include="assets\lib\fullcalendar\locale\nl-be.js" />
+    <Content Include="assets\lib\fullcalendar\locale\nl.js" />
+    <Content Include="assets\lib\fullcalendar\locale\nn.js" />
+    <Content Include="assets\lib\fullcalendar\locale\pl.js" />
+    <Content Include="assets\lib\fullcalendar\locale\pt-br.js" />
+    <Content Include="assets\lib\fullcalendar\locale\pt.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ro.js" />
+    <Content Include="assets\lib\fullcalendar\locale\ru.js" />
+    <Content Include="assets\lib\fullcalendar\locale\sk.js" />
+    <Content Include="assets\lib\fullcalendar\locale\sl.js" />
+    <Content Include="assets\lib\fullcalendar\locale\sr-cyrl.js" />
+    <Content Include="assets\lib\fullcalendar\locale\sr.js" />
+    <Content Include="assets\lib\fullcalendar\locale\sv.js" />
+    <Content Include="assets\lib\fullcalendar\locale\th.js" />
+    <Content Include="assets\lib\fullcalendar\locale\tr.js" />
+    <Content Include="assets\lib\fullcalendar\locale\uk.js" />
+    <Content Include="assets\lib\fullcalendar\locale\vi.js" />
+    <Content Include="assets\lib\fullcalendar\locale\zh-cn.js" />
+    <Content Include="assets\lib\fullcalendar\locale\zh-tw.js" />
+    <Content Include="assets\lib\gmaps\gmaps.js" />
+    <Content Include="assets\lib\gmaps\gmaps.min.js" />
+    <Content Include="assets\lib\input-mask\jquery.inputmask.date.extensions.js" />
+    <Content Include="assets\lib\input-mask\jquery.inputmask.extensions.js" />
+    <Content Include="assets\lib\input-mask\jquery.inputmask.js" />
+    <Content Include="assets\lib\input-mask\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="assets\lib\input-mask\jquery.inputmask.phone.extensions.js" />
+    <Content Include="assets\lib\input-mask\jquery.inputmask.regex.extensions.js" />
+    <Content Include="assets\lib\input-mask\phone-codes\readme.txt" />
+    <Content Include="assets\lib\inputlimiter\jquery.inputlimiter.css" />
+    <Content Include="assets\lib\inputlimiter\jquery.inputlimiter.js" />
+    <Content Include="assets\lib\jquery-validation\additional-methods.js" />
+    <Content Include="assets\lib\jquery-validation\jquery.validate.js" />
+    <Content Include="assets\lib\jquery-validation\jquery.validate.min.js" />
+    <Content Include="assets\lib\jquery.gritter\css\jquery.gritter.css" />
+    <Content Include="assets\lib\jquery.gritter\images\gritter-light.png" />
+    <Content Include="assets\lib\jquery.gritter\images\gritter-long.png" />
+    <Content Include="assets\lib\jquery.gritter\images\gritter.png" />
+    <Content Include="assets\lib\jquery.gritter\images\ie-spacer.gif" />
+    <Content Include="assets\lib\jquery.gritter\images\trees.jpg" />
+    <Content Include="assets\lib\jquery.gritter\index.html" />
+    <Content Include="assets\lib\jquery.gritter\js\jquery.gritter.js" />
+    <Content Include="assets\lib\jquery.gritter\js\jquery.gritter.min.js" />
+    <Content Include="assets\lib\jquery.js" />
+    <Content Include="assets\lib\jquery\jquery.js" />
+    <Content Include="assets\lib\jquery\jquery.min.js" />
+    <Content Include="assets\lib\metismenu\metisMenu.css" />
+    <Content Include="assets\lib\metismenu\metisMenu.js" />
+    <Content Include="assets\lib\metismenu\metisMenu.min.css" />
+    <Content Include="assets\lib\metismenu\metisMenu.min.js" />
+    <Content Include="assets\lib\moment\locales.js" />
+    <Content Include="assets\lib\moment\locales.min.js" />
+    <Content Include="assets\lib\moment\moment-with-locales.js" />
+    <Content Include="assets\lib\moment\moment-with-locales.min.js" />
+    <Content Include="assets\lib\moment\moment.min.js" />
+    <Content Include="assets\lib\noty\jquery.noty.packaged.js" />
+    <Content Include="assets\lib\noty\jquery.noty.packaged.min.js" />
+    <Content Include="assets\lib\onoffcanvas\onoffcanvas.css" />
+    <Content Include="assets\lib\onoffcanvas\onoffcanvas.js" />
+    <Content Include="assets\lib\onoffcanvas\onoffcanvas.min.css" />
+    <Content Include="assets\lib\onoffcanvas\onoffcanvas.min.js" />
+    <Content Include="assets\lib\pagedown-bootstrap\css\jquery.pagedown-bootstrap.css" />
+    <Content Include="assets\lib\pagedown-bootstrap\demo\index.html" />
+    <Content Include="assets\lib\pagedown-bootstrap\js\jquery.pagedown-bootstrap.combined.js" />
+    <Content Include="assets\lib\pagedown-bootstrap\js\jquery.pagedown-bootstrap.combined.min.js" />
+    <Content Include="assets\lib\pagedown-bootstrap\js\jquery.pagedown-bootstrap.js" />
+    <Content Include="assets\lib\pagedown-bootstrap\js\Markdown.Converter.js" />
+    <Content Include="assets\lib\pagedown-bootstrap\js\Markdown.Editor.js" />
+    <Content Include="assets\lib\pagedown-bootstrap\js\Markdown.Sanitizer.js" />
+    <Content Include="assets\lib\pagedown-bootstrap\LICENSE.txt" />
+    <Content Include="assets\lib\plupload\examples\custom.html" />
+    <Content Include="assets\lib\plupload\examples\dump.php" />
+    <Content Include="assets\lib\plupload\examples\events.html" />
+    <Content Include="assets\lib\plupload\examples\jquery\all_runtimes.html" />
+    <Content Include="assets\lib\plupload\examples\jquery\jquery_ui_widget.html" />
+    <Content Include="assets\lib\plupload\examples\jquery\queue_widget.html" />
+    <Content Include="assets\lib\plupload\examples\jquery\s3.php" />
+    <Content Include="assets\lib\plupload\examples\upload.php" />
+    <Content Include="assets\lib\plupload\js\i18n\ar.js" />
+    <Content Include="assets\lib\plupload\js\i18n\az.js" />
+    <Content Include="assets\lib\plupload\js\i18n\bs.js" />
+    <Content Include="assets\lib\plupload\js\i18n\cs.js" />
+    <Content Include="assets\lib\plupload\js\i18n\cy.js" />
+    <Content Include="assets\lib\plupload\js\i18n\da.js" />
+    <Content Include="assets\lib\plupload\js\i18n\de.js" />
+    <Content Include="assets\lib\plupload\js\i18n\el.js" />
+    <Content Include="assets\lib\plupload\js\i18n\en.js" />
+    <Content Include="assets\lib\plupload\js\i18n\es.js" />
+    <Content Include="assets\lib\plupload\js\i18n\et.js" />
+    <Content Include="assets\lib\plupload\js\i18n\fa.js" />
+    <Content Include="assets\lib\plupload\js\i18n\fi.js" />
+    <Content Include="assets\lib\plupload\js\i18n\fr.js" />
+    <Content Include="assets\lib\plupload\js\i18n\he.js" />
+    <Content Include="assets\lib\plupload\js\i18n\hr.js" />
+    <Content Include="assets\lib\plupload\js\i18n\hu.js" />
+    <Content Include="assets\lib\plupload\js\i18n\hy.js" />
+    <Content Include="assets\lib\plupload\js\i18n\id.js" />
+    <Content Include="assets\lib\plupload\js\i18n\it.js" />
+    <Content Include="assets\lib\plupload\js\i18n\ja.js" />
+    <Content Include="assets\lib\plupload\js\i18n\ka.js" />
+    <Content Include="assets\lib\plupload\js\i18n\kk.js" />
+    <Content Include="assets\lib\plupload\js\i18n\km.js" />
+    <Content Include="assets\lib\plupload\js\i18n\ko.js" />
+    <Content Include="assets\lib\plupload\js\i18n\lt.js" />
+    <Content Include="assets\lib\plupload\js\i18n\lv.js" />
+    <Content Include="assets\lib\plupload\js\i18n\mn.js" />
+    <Content Include="assets\lib\plupload\js\i18n\ms.js" />
+    <Content Include="assets\lib\plupload\js\i18n\nl.js" />
+    <Content Include="assets\lib\plupload\js\i18n\pl.js" />
+    <Content Include="assets\lib\plupload\js\i18n\pt_BR.js" />
+    <Content Include="assets\lib\plupload\js\i18n\ro.js" />
+    <Content Include="assets\lib\plupload\js\i18n\ru.js" />
+    <Content Include="assets\lib\plupload\js\i18n\sk.js" />
+    <Content Include="assets\lib\plupload\js\i18n\sq.js" />
+    <Content Include="assets\lib\plupload\js\i18n\sr.js" />
+    <Content Include="assets\lib\plupload\js\i18n\sr_RS.js" />
+    <Content Include="assets\lib\plupload\js\i18n\sv.js" />
+    <Content Include="assets\lib\plupload\js\i18n\th_TH.js" />
+    <Content Include="assets\lib\plupload\js\i18n\tr.js" />
+    <Content Include="assets\lib\plupload\js\i18n\uk_UA.js" />
+    <Content Include="assets\lib\plupload\js\i18n\zh_CN.js" />
+    <Content Include="assets\lib\plupload\js\i18n\zh_TW.js" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\css\jquery.plupload.queue.css" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\backgrounds.gif" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\buttons-disabled.png" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\buttons.png" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\delete.gif" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\done.gif" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\error.gif" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\throbber.gif" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\img\transp50.png" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\jquery.plupload.queue.js" />
+    <Content Include="assets\lib\plupload\js\jquery.plupload.queue\jquery.plupload.queue.min.js" />
+    <Content Include="assets\lib\plupload\js\jquery.ui.plupload\css\jquery.ui.plupload.css" />
+    <Content Include="assets\lib\plupload\js\jquery.ui.plupload\img\loading.gif" />
+    <Content Include="assets\lib\plupload\js\jquery.ui.plupload\img\plupload.png" />
+    <Content Include="assets\lib\plupload\js\jquery.ui.plupload\jquery.ui.plupload.js" />
+    <Content Include="assets\lib\plupload\js\jquery.ui.plupload\jquery.ui.plupload.min.js" />
+    <Content Include="assets\lib\plupload\js\moxie.js" />
+    <Content Include="assets\lib\plupload\js\moxie.min.js" />
+    <Content Include="assets\lib\plupload\js\Moxie.swf" />
+    <Content Include="assets\lib\plupload\js\Moxie.xap" />
+    <Content Include="assets\lib\plupload\js\plupload.dev.js" />
+    <Content Include="assets\lib\plupload\js\plupload.full.min.js" />
+    <Content Include="assets\lib\plupload\js\plupload.min.js" />
+    <Content Include="assets\lib\plupload\license.txt" />
+    <Content Include="assets\lib\screenfull\screenfull.js" />
+    <Content Include="assets\lib\timepicker\css\bootstrap-responsive.css" />
+    <Content Include="assets\lib\timepicker\css\bootstrap-timepicker.css" />
+    <Content Include="assets\lib\timepicker\css\bootstrap-timepicker.min.css" />
+    <Content Include="assets\lib\timepicker\js\bootstrap-timepicker.js" />
+    <Content Include="assets\lib\timepicker\js\bootstrap-timepicker.min.js" />
+    <Content Include="assets\lib\validVal\index.html" />
+    <Content Include="assets\lib\validVal\js\jquery.validVal-customValidations.js" />
+    <Content Include="assets\lib\validVal\js\jquery.validVal-debugger.js" />
+    <Content Include="assets\lib\validVal\js\jquery.validVal.js" />
+    <Content Include="assets\lib\validVal\js\jquery.validVal.min.js" />
+    <Content Include="assets\lib\validVal\serverside-validations\index.html" />
+    <Content Include="assets\lib\validVal\serverside-validations\validations.php" />
+    <Content Include="assets\urunresimleri\resimyok.jpg" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Home\assets\css\fonts\et-line-2.html" />
+    <Content Include="Content\Home\assets\css\fonts\et-line-3.html" />
+    <Content Include="Content\Home\assets\css\fonts\et-line-4.html" />
+    <Content Include="Content\Home\assets\css\fonts\et-line.html" />
+    <Content Include="Content\Home\assets\css\fonts\et-lined41d.html" />
+    <Content Include="Content\Home\assets\css\page.min.css" />
+    <Content Include="Content\Home\assets\css\style.css" />
+    <Content Include="Content\Home\assets\fonts\et-line.svg" />
+    <Content Include="Content\Home\assets\fonts\fontawesome-webfont3e6e.html" />
+    <Content Include="Content\Home\assets\fonts\fontawesome-webfont3e6e.svg" />
+    <Content Include="Content\Home\assets\fonts\themify9f24.svg" />
+    <Content Include="Content\Home\assets\img\apple-touch-icon.html" />
+    <Content Include="Content\Home\assets\img\apple-touch-icon.png" />
+    <Content Include="Content\Home\assets\img\app\badge-apple.png" />
+    <Content Include="Content\Home\assets\img\app\badge-google.png" />
+    <Content Include="Content\Home\assets\img\app\badge-microsoft.png" />
+    <Content Include="Content\Home\assets\img\app\map-marker.png" />
+    <Content Include="Content\Home\assets\img\avatar\1.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\10.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\11.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\2.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\3.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\4.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\5.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\6.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\7.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\8.jpg" />
+    <Content Include="Content\Home\assets\img\avatar\9.jpg" />
+    <Content Include="Content\Home\assets\img\bg\1.jpg" />
+    <Content Include="Content\Home\assets\img\bg\10.jpg" />
+    <Content Include="Content\Home\assets\img\bg\11.jpg" />
+    <Content Include="Content\Home\assets\img\bg\12.jpg" />
+    <Content Include="Content\Home\assets\img\bg\13.jpg" />
+    <Content Include="Content\Home\assets\img\bg\2.jpg" />
+    <Content Include="Content\Home\assets\img\bg\3.jpg" />
+    <Content Include="Content\Home\assets\img\bg\4.jpg" />
+    <Content Include="Content\Home\assets\img\bg\5.jpg" />
+    <Content Include="Content\Home\assets\img\bg\6.jpg" />
+    <Content Include="Content\Home\assets\img\bg\8.jpg" />
+    <Content Include="Content\Home\assets\img\bg\9.jpg" />
+    <Content Include="Content\Home\assets\img\bg\pattern-1.png" />
+    <Content Include="Content\Home\assets\img\favicon.html" />
+    <Content Include="Content\Home\assets\img\favicon.png" />
+    <Content Include="Content\Home\assets\img\icon\cloud.html" />
+    <Content Include="Content\Home\assets\img\icon\dog.png" />
+    <Content Include="Content\Home\assets\img\icon\github.png" />
+    <Content Include="Content\Home\assets\img\icon\light.html" />
+    <Content Include="Content\Home\assets\img\icon\planet.png" />
+    <Content Include="Content\Home\assets\img\icon\rocket.png" />
+    <Content Include="Content\Home\assets\img\icon\rocket2.png" />
+    <Content Include="Content\Home\assets\img\logo-dark.png" />
+    <Content Include="Content\Home\assets\img\logo-light.png" />
+    <Content Include="Content\Home\assets\img\logo\bootstrap-punchout.png" />
+    <Content Include="Content\Home\assets\img\logo\bootstrap-solid.png" />
+    <Content Include="Content\Home\assets\img\logo\bootstrap.png" />
+    <Content Include="Content\Home\assets\img\logo\dropbox.png" />
+    <Content Include="Content\Home\assets\img\logo\github-light.png" />
+    <Content Include="Content\Home\assets\img\logo\github.png" />
+    <Content Include="Content\Home\assets\img\logo\google.png" />
+    <Content Include="Content\Home\assets\img\logo\mailchimp.png" />
+    <Content Include="Content\Home\assets\img\logo\paypal-light.png" />
+    <Content Include="Content\Home\assets\img\logo\paypal.png" />
+    <Content Include="Content\Home\assets\img\logo\slack.png" />
+    <Content Include="Content\Home\assets\img\logo\trello-light.png" />
+    <Content Include="Content\Home\assets\img\logo\trello.png" />
+    <Content Include="Content\Home\assets\img\logo\zendesk.png" />
+    <Content Include="Content\Home\assets\img\partner\1.png" />
+    <Content Include="Content\Home\assets\img\partner\2.png" />
+    <Content Include="Content\Home\assets\img\partner\3.png" />
+    <Content Include="Content\Home\assets\img\partner\4.png" />
+    <Content Include="Content\Home\assets\img\partner\5.png" />
+    <Content Include="Content\Home\assets\img\partner\6.png" />
+    <Content Include="Content\Home\assets\img\portfolio\1.jpg" />
+    <Content Include="Content\Home\assets\img\portfolio\2.jpg" />
+    <Content Include="Content\Home\assets\img\portfolio\3.jpg" />
+    <Content Include="Content\Home\assets\img\portfolio\4.jpg" />
+    <Content Include="Content\Home\assets\img\portfolio\5.jpg" />
+    <Content Include="Content\Home\assets\img\portfolio\6.jpg" />
+    <Content Include="Content\Home\assets\img\portfolio\7.jpg" />
+    <Content Include="Content\Home\assets\img\portfolio\8.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-1.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-2.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-3.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-4.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-5.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-6.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-7.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-8.jpg" />
+    <Content Include="Content\Home\assets\img\preview\block-9.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-bootstrap.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-dropbox.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-github.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-gmail.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-mailchimp.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-paypal.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-slack.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-trello.jpg" />
+    <Content Include="Content\Home\assets\img\preview\demo-zendesk.jpg" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-10.jpg" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-11.jpg" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-2.jpg" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-3.jpg" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-4.jpg" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-5.jpg" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-6.png" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-7.png" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-8.png" />
+    <Content Include="Content\Home\assets\img\preview\dribbble-9.gif" />
+    <Content Include="Content\Home\assets\img\preview\feature-tablet.png" />
+    <Content Include="Content\Home\assets\img\preview\header-color.jpg" />
+    <Content Include="Content\Home\assets\img\preview\header-gradient.jpg" />
+    <Content Include="Content\Home\assets\img\preview\header-image.jpg" />
+    <Content Include="Content\Home\assets\img\preview\header-particle.jpg" />
+    <Content Include="Content\Home\assets\img\preview\header-slider.jpg" />
+    <Content Include="Content\Home\assets\img\preview\header-typing.jpg" />
+    <Content Include="Content\Home\assets\img\preview\header-video.jpg" />
+    <Content Include="Content\Home\assets\img\preview\icons-etline.png" />
+    <Content Include="Content\Home\assets\img\preview\icons-fontawesome.png" />
+    <Content Include="Content\Home\assets\img\preview\icons-themify.png" />
+    <Content Include="Content\Home\assets\img\preview\ipad-1.png" />
+    <Content Include="Content\Home\assets\img\preview\laptop-1.png" />
+    <Content Include="Content\Home\assets\img\preview\laptop-2.png" />
+    <Content Include="Content\Home\assets\img\preview\mac-1.png" />
+    <Content Include="Content\Home\assets\img\preview\phone-1.png" />
+    <Content Include="Content\Home\assets\img\preview\phone-2.png" />
+    <Content Include="Content\Home\assets\img\preview\phone-3.png" />
+    <Content Include="Content\Home\assets\img\preview\phone-4.png" />
+    <Content Include="Content\Home\assets\img\preview\shot-1.png" />
+    <Content Include="Content\Home\assets\img\preview\shot-2.png" />
+    <Content Include="Content\Home\assets\img\preview\shot-3.png" />
+    <Content Include="Content\Home\assets\img\preview\shot-4.png" />
+    <Content Include="Content\Home\assets\img\shop\1.png" />
+    <Content Include="Content\Home\assets\img\shop\10.jpg" />
+    <Content Include="Content\Home\assets\img\shop\11.jpg" />
+    <Content Include="Content\Home\assets\img\shop\12.jpg" />
+    <Content Include="Content\Home\assets\img\shop\13.jpg" />
+    <Content Include="Content\Home\assets\img\shop\14.jpg" />
+    <Content Include="Content\Home\assets\img\shop\15.jpg" />
+    <Content Include="Content\Home\assets\img\shop\16.jpg" />
+    <Content Include="Content\Home\assets\img\shop\17.jpg" />
+    <Content Include="Content\Home\assets\img\shop\18.jpg" />
+    <Content Include="Content\Home\assets\img\shop\19.png" />
+    <Content Include="Content\Home\assets\img\shop\2.png" />
+    <Content Include="Content\Home\assets\img\shop\20.png" />
+    <Content Include="Content\Home\assets\img\shop\21.png" />
+    <Content Include="Content\Home\assets\img\shop\22.png" />
+    <Content Include="Content\Home\assets\img\shop\23.jpg" />
+    <Content Include="Content\Home\assets\img\shop\3.png" />
+    <Content Include="Content\Home\assets\img\thumb\1.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\10.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\11.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\12.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\13.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\14.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\15.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\16.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\17.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\2.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\3.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\4.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\5.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\6.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\8.jpg" />
+    <Content Include="Content\Home\assets\img\thumb\9.jpg" />
+    <Content Include="Content\Home\assets\img\vector\1.png" />
+    <Content Include="Content\Home\assets\img\vector\10.png" />
+    <Content Include="Content\Home\assets\img\vector\11.png" />
+    <Content Include="Content\Home\assets\img\vector\12.png" />
+    <Content Include="Content\Home\assets\img\vector\13.png" />
+    <Content Include="Content\Home\assets\img\vector\14.png" />
+    <Content Include="Content\Home\assets\img\vector\15.png" />
+    <Content Include="Content\Home\assets\img\vector\16.png" />
+    <Content Include="Content\Home\assets\img\vector\17.png" />
+    <Content Include="Content\Home\assets\img\vector\18.png" />
+    <Content Include="Content\Home\assets\img\vector\2.png" />
+    <Content Include="Content\Home\assets\img\vector\3.png" />
+    <Content Include="Content\Home\assets\img\vector\4.png" />
+    <Content Include="Content\Home\assets\img\vector\5.png" />
+    <Content Include="Content\Home\assets\img\vector\6.png" />
+    <Content Include="Content\Home\assets\img\vector\7.jpg" />
+    <Content Include="Content\Home\assets\img\vector\8.png" />
+    <Content Include="Content\Home\assets\img\vector\9.jpg" />
+    <Content Include="Content\Home\assets\img\video\1.html" />
+    <Content Include="Content\Home\assets\img\video\1.jpg" />
+    <Content Include="Content\Home\assets\img\video\1.mp4" />
+    <Content Include="Content\Home\assets\js\page.min.js" />
+    <Content Include="Content\Home\assets\js\script.js" />
+    <Content Include="Content\jquery-ui-timepicker-addon.css" />
+    <Content Include="iRestaurant.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>iRestaurant.edmx</DependentUpon>
+      <LastGenOutput>iRestaurant.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="iRestaurant.edmx.sql" />
+    <Content Include="iRestaurant.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>iRestaurant.edmx</DependentUpon>
+      <LastGenOutput>iRestaurant.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
+    <Content Include="bundles\fonts\fontawesome-webfont.svg" />
+    <Content Include="bundles\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\less.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="yonetim\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="yonetim\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="yonetim\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="yonetim\bootstrap\css\bootstrap-theme.min.css.map" />
+    <Content Include="yonetim\bootstrap\css\bootstrap.css" />
+    <Content Include="yonetim\bootstrap\css\bootstrap.css.map" />
+    <Content Include="yonetim\bootstrap\css\bootstrap.min.css" />
+    <Content Include="yonetim\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="yonetim\bootstrap\fonts\fontawesome-webfont.svg" />
+    <Content Include="yonetim\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="yonetim\bootstrap\js\bootstrap.js" />
+    <Content Include="yonetim\bootstrap\js\bootstrap.min.js" />
+    <Content Include="yonetim\bootstrap\js\npm.js" />
+    <Content Include="yonetim\dist\css\AdminLTE.css" />
+    <Content Include="yonetim\dist\css\AdminLTE.min.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-bootstrap-social.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-bootstrap-social.min.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-fullcalendar.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-fullcalendar.min.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-select2.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-select2.min.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-without-plugins.css" />
+    <Content Include="yonetim\dist\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-black-light.css" />
+    <Content Include="yonetim\dist\css\skins\skin-black-light.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-black.css" />
+    <Content Include="yonetim\dist\css\skins\skin-black.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-blue-light.css" />
+    <Content Include="yonetim\dist\css\skins\skin-blue-light.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-blue.css" />
+    <Content Include="yonetim\dist\css\skins\skin-blue.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-green-light.css" />
+    <Content Include="yonetim\dist\css\skins\skin-green-light.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-green.css" />
+    <Content Include="yonetim\dist\css\skins\skin-green.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-purple-light.css" />
+    <Content Include="yonetim\dist\css\skins\skin-purple-light.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-purple.css" />
+    <Content Include="yonetim\dist\css\skins\skin-purple.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-red-light.css" />
+    <Content Include="yonetim\dist\css\skins\skin-red-light.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-red.css" />
+    <Content Include="yonetim\dist\css\skins\skin-red.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-yellow-light.css" />
+    <Content Include="yonetim\dist\css\skins\skin-yellow-light.min.css" />
+    <Content Include="yonetim\dist\css\skins\skin-yellow.css" />
+    <Content Include="yonetim\dist\css\skins\skin-yellow.min.css" />
+    <Content Include="yonetim\dist\css\skins\_all-skins.css" />
+    <Content Include="yonetim\dist\css\skins\_all-skins.min.css" />
+    <Content Include="yonetim\dist\img\avatar.png" />
+    <Content Include="yonetim\dist\img\avatar04.png" />
+    <Content Include="yonetim\dist\img\avatar2.png" />
+    <Content Include="yonetim\dist\img\avatar3.png" />
+    <Content Include="yonetim\dist\img\avatar5.png" />
+    <Content Include="yonetim\dist\img\boxed-bg.jpg" />
+    <Content Include="yonetim\dist\img\boxed-bg.png" />
+    <Content Include="yonetim\dist\img\credit\american-express.png" />
+    <Content Include="yonetim\dist\img\credit\cirrus.png" />
+    <Content Include="yonetim\dist\img\credit\mastercard.png" />
+    <Content Include="yonetim\dist\img\credit\mestro.png" />
+    <Content Include="yonetim\dist\img\credit\paypal.png" />
+    <Content Include="yonetim\dist\img\credit\paypal2.png" />
+    <Content Include="yonetim\dist\img\credit\visa.png" />
+    <Content Include="yonetim\dist\img\default-50x50.gif" />
+    <Content Include="yonetim\dist\img\icons.png" />
+    <Content Include="yonetim\dist\img\photo1.png" />
+    <Content Include="yonetim\dist\img\photo2.png" />
+    <Content Include="yonetim\dist\img\photo3.jpg" />
+    <Content Include="yonetim\dist\img\photo4.jpg" />
+    <Content Include="yonetim\dist\img\user1-128x128.jpg" />
+    <Content Include="yonetim\dist\img\user2-160x160.jpg" />
+    <Content Include="yonetim\dist\img\user3-128x128.jpg" />
+    <Content Include="yonetim\dist\img\user4-128x128.jpg" />
+    <Content Include="yonetim\dist\img\user5-128x128.jpg" />
+    <Content Include="yonetim\dist\img\user6-128x128.jpg" />
+    <Content Include="yonetim\dist\img\user7-128x128.jpg" />
+    <Content Include="yonetim\dist\img\user8-128x128.jpg" />
+    <Content Include="yonetim\dist\js\app.js" />
+    <Content Include="yonetim\dist\js\app.min.js" />
+    <Content Include="yonetim\dist\js\demo.js" />
+    <Content Include="yonetim\dist\js\pages\dashboard.js" />
+    <Content Include="yonetim\dist\js\pages\dashboard2.js" />
+    <Content Include="yonetim\plugins\bootstrap-slider\bootstrap-slider.js" />
+    <Content Include="yonetim\plugins\bootstrap-slider\slider.css" />
+    <Content Include="yonetim\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
+    <Content Include="yonetim\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="yonetim\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
+    <Content Include="yonetim\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.min.css" />
+    <Content Include="yonetim\plugins\chartjs\Chart.js" />
+    <Content Include="yonetim\plugins\chartjs\Chart.min.js" />
+    <Content Include="yonetim\plugins\ckeditor\adapters\jquery.js" />
+    <Content Include="yonetim\plugins\ckeditor\build-config.js" />
+    <Content Include="yonetim\plugins\ckeditor\ckeditor.js" />
+    <Content Include="yonetim\plugins\ckeditor\config.js" />
+    <Content Include="yonetim\plugins\ckeditor\contents.css" />
+    <Content Include="yonetim\plugins\ckeditor\lang\af.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ar.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\bg.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\bn.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\bs.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ca.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\cs.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\cy.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\da.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\de-ch.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\de.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\el.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\en-au.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\en-ca.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\en-gb.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\en.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\eo.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\es.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\et.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\eu.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\fa.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\fi.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\fo.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\fr-ca.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\fr.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\gl.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\gu.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\he.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\hi.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\hr.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\hu.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\id.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\is.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\it.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ja.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ka.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\km.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ko.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ku.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\lt.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\lv.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\mk.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\mn.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ms.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\nb.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\nl.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\no.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\pl.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\pt-br.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\pt.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ro.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ru.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\si.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\sk.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\sl.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\sq.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\sr-latn.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\sr.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\sv.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\th.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\tr.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\tt.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\ug.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\uk.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\vi.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\zh-cn.js" />
+    <Content Include="yonetim\plugins\ckeditor\lang\zh.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\af.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ar.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\bg.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ca.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\cs.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\cy.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\da.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\de-ch.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\de.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\el.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\en-gb.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\en.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\eo.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\es.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\et.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\eu.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fa.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fi.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fo.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fr-ca.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\fr.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\gl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\gu.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\he.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hi.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hr.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\hu.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\id.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\it.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ja.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\km.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ko.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ku.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\lt.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\lv.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\mk.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\mn.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\nb.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\nl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\no.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pt-br.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\pt.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ro.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ru.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\si.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sk.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sq.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sr-latn.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sr.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\sv.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\th.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\tr.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\tt.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\ug.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\uk.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\vi.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\zh-cn.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\zh.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\a11yhelp\dialogs\lang\_translationstatus.txt" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\about\dialogs\hidpi\logo_ckeditor.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\icons.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\icons_hidpi.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\image\dialogs\image.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\image\images\noimage.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\link\images\anchor.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\link\images\hidpi\anchor.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\magicline\images\hidpi\icon-rtl.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\magicline\images\hidpi\icon.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\magicline\images\icon-rtl.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\magicline\images\icon.png" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\pastefromword\filter\default.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\scayt\dialogs\options.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\af.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\da.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\de-ch.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\de.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\el.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\en-gb.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\en.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\es.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\et.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\eu.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\he.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\id.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\it.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\km.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\ko.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\lt.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\no.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\th.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\tt.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\zh.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\table\dialogs\table.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\wsc\dialogs\ciframe.html" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\wsc\dialogs\wsc.css" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\css\samples.css" />
+    <Content Include="yonetim\plugins\ckeditor\samples\img\github-top.png" />
+    <Content Include="yonetim\plugins\ckeditor\samples\img\header-bg.png" />
+    <Content Include="yonetim\plugins\ckeditor\samples\img\header-separator.png" />
+    <Content Include="yonetim\plugins\ckeditor\samples\img\logo.png" />
+    <Content Include="yonetim\plugins\ckeditor\samples\img\navigation-tip.png" />
+    <Content Include="yonetim\plugins\ckeditor\samples\index.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\js\sample.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\js\sf.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\ajax.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\api.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\appendto.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\assets\inlineall\logo.png" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\assets\outputxhtml\outputxhtml.css" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\assets\posteddata.php" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\assets\sample.jpg" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\assets\uilanguages\languages.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\datafiltering.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\dialog\assets\my_dialog.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\dialog\dialog.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\divreplace.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\enterkey\enterkey.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.swf" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\htmlwriter\assets\outputforflash\swfobject.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\htmlwriter\outputforflash.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\htmlwriter\outputhtml.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\index.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\inlineall.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\inlinebycode.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\inlinetextarea.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\jquery.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\magicline\magicline.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\readonly.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\replacebyclass.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\replacebycode.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\sample.css" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\sample.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\sample_posteddata.php" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\tabindex.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\toolbar\toolbar.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\uicolor.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\uilanguages.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\wysiwygarea\fullpage.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\xhtmlstyle.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\css\fontello.css" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\font\fontello.svg" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\font\LICENSE.txt" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\index.html" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\js\abstracttoolbarmodifier.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\js\fulltoolbareditor.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\js\toolbarmodifier.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\js\toolbartextmodifier.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.css" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\lib\codemirror\javascript.js" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\lib\codemirror\neo.css" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.css" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.js" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\dialog.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\dialog_ie.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\dialog_ie7.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\dialog_ie8.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\dialog_iequirks.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\editor.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\editor_gecko.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\editor_ie.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\editor_ie7.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\editor_ie8.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\editor_iequirks.css" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\icons.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\icons_hidpi.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\arrow.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\close.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\hidpi\close.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\hidpi\lock-open.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\hidpi\lock.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\hidpi\refresh.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\lock-open.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\lock.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\refresh.png" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\images\spinner.gif" />
+    <Content Include="yonetim\plugins\ckeditor\styles.js" />
+    <Content Include="yonetim\plugins\colorpicker\bootstrap-colorpicker.css" />
+    <Content Include="yonetim\plugins\colorpicker\bootstrap-colorpicker.js" />
+    <Content Include="yonetim\plugins\colorpicker\bootstrap-colorpicker.min.css" />
+    <Content Include="yonetim\plugins\colorpicker\bootstrap-colorpicker.min.js" />
+    <Content Include="yonetim\plugins\colorpicker\img\alpha-horizontal.png" />
+    <Content Include="yonetim\plugins\colorpicker\img\alpha.png" />
+    <Content Include="yonetim\plugins\colorpicker\img\hue-horizontal.png" />
+    <Content Include="yonetim\plugins\colorpicker\img\hue.png" />
+    <Content Include="yonetim\plugins\colorpicker\img\saturation.png" />
+    <Content Include="yonetim\plugins\datatables\dataTables.bootstrap.css" />
+    <Content Include="yonetim\plugins\datatables\dataTables.bootstrap.js" />
+    <Content Include="yonetim\plugins\datatables\dataTables.bootstrap.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\css\dataTables.autoFill.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\columns.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\complete-callback.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\fill-both.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\fill-horizontal.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\scrolling.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\examples\step-callback.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\images\filler.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\js\dataTables.autoFill.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\AutoFill\Readme.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\css\dataTables.colReorder.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\alt_insert.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\colvis.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\col_filter.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\fixedcolumns.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\fixedheader.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\jqueryui.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\new_init.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\predefined.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\realtime.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\reset.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\scrolling.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\server_side.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\examples\state_save.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\images\insert.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\js\dataTables.colReorder.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\License.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\css\dataTables.colVis.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\css\dataTables.colvis.jqueryui.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\css\dataTables.colVis.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\button_order.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\exclude_columns.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\group_columns.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\jqueryui.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\mouseover.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\new_init.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\restore.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\text.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\title_callback.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\two_tables.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\examples\two_tables_identical.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\js\dataTables.colVis.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\js\dataTables.colVis.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\License.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\css\dataTables.fixedColumns.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\bootstrap.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\colvis.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\col_filter.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\css_size.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\index_column.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\left_right_columns.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\right_column.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\rowspan.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\server-side-processing.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\size_fixed.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\size_fluid.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\examples\two_columns.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\js\dataTables.fixedColumns.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\License.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\css\dataTables.fixedHeader.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\examples\header_footer.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\examples\top_left_right.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\examples\two_tables.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\examples\zIndexes.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\js\dataTables.fixedHeader.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedHeader\Readme.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\css\dataTables.keyTable.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\examples\events.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\examples\html.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\examples\scrolling.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\js\dataTables.keyTable.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\KeyTable\Readme.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\css\dataTables.responsive.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\child-rows\column-control.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\child-rows\custom-renderer.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\child-rows\disable-child-rows.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\child-rows\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\child-rows\right-column.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\child-rows\whole-row-control.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\display-control\auto.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\display-control\classes.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\display-control\complexHeader.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\display-control\fixedHeader.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\display-control\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\display-control\init-classes.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\initialisation\ajax.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\initialisation\className.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\initialisation\default.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\initialisation\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\initialisation\new.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\initialisation\option.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\styling\bootstrap.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\styling\compact.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\styling\foundation.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\styling\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\examples\styling\scrolling.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\js\dataTables.responsive.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\js\dataTables.responsive.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\License.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\css\dataTables.scroller.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\css\dataTables.scroller.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\api_scrolling.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\data\2500.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\data\ssp.php" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\large_js_source.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\server-side_processing.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\examples\state_saving.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\images\loading-background.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\js\dataTables.scroller.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\js\dataTables.scroller.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\Scroller\Readme.txt" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\css\dataTables.tableTools.min.css" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\ajax.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\alter_buttons.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\bootstrap.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\button_text.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\collection.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\defaults.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\index.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\jqueryui.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\multiple_tables.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\multi_instance.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\new_init.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\pdf_message.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\plug-in.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\select_column.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\select_multi.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\select_os.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\select_single.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\simple.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\examples\swf_path.html" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\collection.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\collection_hover.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\copy.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\copy_hover.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\csv.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\csv_hover.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\pdf.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\pdf_hover.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\print.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\print_hover.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\xls.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\xls_hover.png" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\js\dataTables.tableTools.min.js" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\swf\copy_csv_xls.swf" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="yonetim\plugins\datatables\images\sort_asc.png" />
+    <Content Include="yonetim\plugins\datatables\images\sort_asc_disabled.png" />
+    <Content Include="yonetim\plugins\datatables\images\sort_both.png" />
+    <Content Include="yonetim\plugins\datatables\images\sort_desc.png" />
+    <Content Include="yonetim\plugins\datatables\images\sort_desc_disabled.png" />
+    <Content Include="yonetim\plugins\datatables\jquery.dataTables.css" />
+    <Content Include="yonetim\plugins\datatables\jquery.dataTables.js" />
+    <Content Include="yonetim\plugins\datatables\jquery.dataTables.min.css" />
+    <Content Include="yonetim\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="yonetim\plugins\datatables\jquery.dataTables_themeroller.css" />
+    <Content Include="yonetim\plugins\datepicker\bootstrap-datepicker.js" />
+    <Content Include="yonetim\plugins\datepicker\datepicker3.css" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.az.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.da.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.de.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.el.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.es.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.et.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.he.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.id.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.is.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.it.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.no.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.th.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="yonetim\plugins\datepicker\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="yonetim\plugins\daterangepicker\daterangepicker.css" />
+    <Content Include="yonetim\plugins\daterangepicker\daterangepicker.js" />
+    <Content Include="yonetim\plugins\daterangepicker\moment.js" />
+    <Content Include="yonetim\plugins\daterangepicker\moment.min.js" />
+    <Content Include="yonetim\plugins\fastclick\fastclick.js" />
+    <Content Include="yonetim\plugins\fastclick\fastclick.min.js" />
+    <Content Include="yonetim\plugins\flot\excanvas.js" />
+    <Content Include="yonetim\plugins\flot\excanvas.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.colorhelpers.js" />
+    <Content Include="yonetim\plugins\flot\jquery.colorhelpers.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.canvas.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.canvas.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.categories.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.categories.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.crosshair.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.crosshair.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.errorbars.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.errorbars.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.fillbetween.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.fillbetween.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.image.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.image.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.navigate.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.navigate.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.pie.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.resize.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.selection.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.selection.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.stack.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.stack.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.symbol.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.symbol.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.threshold.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.threshold.min.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.time.js" />
+    <Content Include="yonetim\plugins\flot\jquery.flot.time.min.js" />
+    <Content Include="yonetim\plugins\font-awesome\css\font-awesome.css" />
+    <Content Include="yonetim\plugins\font-awesome\css\font-awesome.min.css" />
+    <Content Include="yonetim\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="yonetim\plugins\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="yonetim\plugins\fullcalendar\fullcalendar.css" />
+    <Content Include="yonetim\plugins\fullcalendar\fullcalendar.js" />
+    <Content Include="yonetim\plugins\fullcalendar\fullcalendar.min.css" />
+    <Content Include="yonetim\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="yonetim\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="yonetim\plugins\iCheck\all.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\aero%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\aero.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\aero.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\blue%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\blue.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\blue.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\flat%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\flat.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\flat.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\green%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\green.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\green.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\grey%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\grey.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\grey.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\orange%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\orange.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\orange.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\pink%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\pink.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\pink.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\purple%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\purple.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\purple.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\red%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\red.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\red.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\yellow%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\yellow.css" />
+    <Content Include="yonetim\plugins\iCheck\flat\yellow.png" />
+    <Content Include="yonetim\plugins\iCheck\flat\_all.css" />
+    <Content Include="yonetim\plugins\iCheck\futurico\futurico%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\futurico\futurico.css" />
+    <Content Include="yonetim\plugins\iCheck\futurico\futurico.png" />
+    <Content Include="yonetim\plugins\iCheck\icheck.js" />
+    <Content Include="yonetim\plugins\iCheck\icheck.min.js" />
+    <Content Include="yonetim\plugins\iCheck\line\aero.css" />
+    <Content Include="yonetim\plugins\iCheck\line\blue.css" />
+    <Content Include="yonetim\plugins\iCheck\line\green.css" />
+    <Content Include="yonetim\plugins\iCheck\line\grey.css" />
+    <Content Include="yonetim\plugins\iCheck\line\line%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\line\line.css" />
+    <Content Include="yonetim\plugins\iCheck\line\line.png" />
+    <Content Include="yonetim\plugins\iCheck\line\orange.css" />
+    <Content Include="yonetim\plugins\iCheck\line\pink.css" />
+    <Content Include="yonetim\plugins\iCheck\line\purple.css" />
+    <Content Include="yonetim\plugins\iCheck\line\red.css" />
+    <Content Include="yonetim\plugins\iCheck\line\yellow.css" />
+    <Content Include="yonetim\plugins\iCheck\line\_all.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\aero%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\aero.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\aero.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\blue%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\blue.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\blue.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\green%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\green.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\green.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\grey%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\grey.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\grey.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\minimal%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\minimal.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\minimal.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\orange%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\orange.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\orange.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\pink%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\pink.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\pink.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\purple%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\purple.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\purple.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\red%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\red.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\red.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\yellow%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\yellow.css" />
+    <Content Include="yonetim\plugins\iCheck\minimal\yellow.png" />
+    <Content Include="yonetim\plugins\iCheck\minimal\_all.css" />
+    <Content Include="yonetim\plugins\iCheck\polaris\polaris%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\polaris\polaris.css" />
+    <Content Include="yonetim\plugins\iCheck\polaris\polaris.png" />
+    <Content Include="yonetim\plugins\iCheck\square\aero%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\aero.css" />
+    <Content Include="yonetim\plugins\iCheck\square\aero.png" />
+    <Content Include="yonetim\plugins\iCheck\square\blue%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\blue.css" />
+    <Content Include="yonetim\plugins\iCheck\square\blue.png" />
+    <Content Include="yonetim\plugins\iCheck\square\green%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\green.css" />
+    <Content Include="yonetim\plugins\iCheck\square\green.png" />
+    <Content Include="yonetim\plugins\iCheck\square\grey%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\grey.css" />
+    <Content Include="yonetim\plugins\iCheck\square\grey.png" />
+    <Content Include="yonetim\plugins\iCheck\square\orange%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\orange.css" />
+    <Content Include="yonetim\plugins\iCheck\square\orange.png" />
+    <Content Include="yonetim\plugins\iCheck\square\pink%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\pink.css" />
+    <Content Include="yonetim\plugins\iCheck\square\pink.png" />
+    <Content Include="yonetim\plugins\iCheck\square\purple%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\purple.css" />
+    <Content Include="yonetim\plugins\iCheck\square\purple.png" />
+    <Content Include="yonetim\plugins\iCheck\square\red%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\red.css" />
+    <Content Include="yonetim\plugins\iCheck\square\red.png" />
+    <Content Include="yonetim\plugins\iCheck\square\square%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\square.css" />
+    <Content Include="yonetim\plugins\iCheck\square\square.png" />
+    <Content Include="yonetim\plugins\iCheck\square\yellow%402x.png" />
+    <Content Include="yonetim\plugins\iCheck\square\yellow.css" />
+    <Content Include="yonetim\plugins\iCheck\square\yellow.png" />
+    <Content Include="yonetim\plugins\iCheck\square\_all.css" />
+    <Content Include="yonetim\plugins\input-mask\jquery.inputmask.date.extensions.js" />
+    <Content Include="yonetim\plugins\input-mask\jquery.inputmask.extensions.js" />
+    <Content Include="yonetim\plugins\input-mask\jquery.inputmask.js" />
+    <Content Include="yonetim\plugins\input-mask\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="yonetim\plugins\input-mask\jquery.inputmask.phone.extensions.js" />
+    <Content Include="yonetim\plugins\input-mask\jquery.inputmask.regex.extensions.js" />
+    <Content Include="yonetim\plugins\input-mask\phone-codes\readme.txt" />
+    <Content Include="yonetim\plugins\ionslider\img\sprite-skin-flat.png" />
+    <Content Include="yonetim\plugins\ionslider\img\sprite-skin-nice.png" />
+    <Content Include="yonetim\plugins\ionslider\ion.rangeSlider.css" />
+    <Content Include="yonetim\plugins\ionslider\ion.rangeSlider.min.js" />
+    <Content Include="yonetim\plugins\ionslider\ion.rangeSlider.skinFlat.css" />
+    <Content Include="yonetim\plugins\ionslider\ion.rangeSlider.skinNice.css" />
+    <Content Include="yonetim\plugins\jQueryUI\jquery-ui.js" />
+    <Content Include="yonetim\plugins\jQueryUI\jquery-ui.min.js" />
+    <Content Include="yonetim\plugins\jQuery\jquery-2.2.3.min.js" />
+    <Content Include="yonetim\plugins\jvectormap\jquery-jvectormap-1.2.2.css" />
+    <Content Include="yonetim\plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="yonetim\plugins\jvectormap\jquery-jvectormap-usa-en.js" />
+    <Content Include="yonetim\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="yonetim\plugins\knob\jquery.knob.js" />
+    <Content Include="yonetim\plugins\moment\moment.min.js" />
+    <Content Include="yonetim\plugins\morris\morris.css" />
+    <Content Include="yonetim\plugins\morris\morris.js" />
+    <Content Include="yonetim\plugins\morris\morris.min.js" />
+    <Content Include="yonetim\plugins\pace\pace.css" />
+    <Content Include="yonetim\plugins\pace\pace.js" />
+    <Content Include="yonetim\plugins\pace\pace.min.css" />
+    <Content Include="yonetim\plugins\pace\pace.min.js" />
+    <Content Include="yonetim\plugins\raphael\raphael.min.js" />
+    <Content Include="yonetim\plugins\select2\i18n\ar.js" />
+    <Content Include="yonetim\plugins\select2\i18n\az.js" />
+    <Content Include="yonetim\plugins\select2\i18n\bg.js" />
+    <Content Include="yonetim\plugins\select2\i18n\ca.js" />
+    <Content Include="yonetim\plugins\select2\i18n\cs.js" />
+    <Content Include="yonetim\plugins\select2\i18n\da.js" />
+    <Content Include="yonetim\plugins\select2\i18n\de.js" />
+    <Content Include="yonetim\plugins\select2\i18n\el.js" />
+    <Content Include="yonetim\plugins\select2\i18n\en.js" />
+    <Content Include="yonetim\plugins\select2\i18n\es.js" />
+    <Content Include="yonetim\plugins\select2\i18n\et.js" />
+    <Content Include="yonetim\plugins\select2\i18n\eu.js" />
+    <Content Include="yonetim\plugins\select2\i18n\fa.js" />
+    <Content Include="yonetim\plugins\select2\i18n\fi.js" />
+    <Content Include="yonetim\plugins\select2\i18n\fr.js" />
+    <Content Include="yonetim\plugins\select2\i18n\gl.js" />
+    <Content Include="yonetim\plugins\select2\i18n\he.js" />
+    <Content Include="yonetim\plugins\select2\i18n\hi.js" />
+    <Content Include="yonetim\plugins\select2\i18n\hr.js" />
+    <Content Include="yonetim\plugins\select2\i18n\hu.js" />
+    <Content Include="yonetim\plugins\select2\i18n\id.js" />
+    <Content Include="yonetim\plugins\select2\i18n\is.js" />
+    <Content Include="yonetim\plugins\select2\i18n\it.js" />
+    <Content Include="yonetim\plugins\select2\i18n\ja.js" />
+    <Content Include="yonetim\plugins\select2\i18n\km.js" />
+    <Content Include="yonetim\plugins\select2\i18n\ko.js" />
+    <Content Include="yonetim\plugins\select2\i18n\lt.js" />
+    <Content Include="yonetim\plugins\select2\i18n\lv.js" />
+    <Content Include="yonetim\plugins\select2\i18n\mk.js" />
+    <Content Include="yonetim\plugins\select2\i18n\ms.js" />
+    <Content Include="yonetim\plugins\select2\i18n\nb.js" />
+    <Content Include="yonetim\plugins\select2\i18n\nl.js" />
+    <Content Include="yonetim\plugins\select2\i18n\pl.js" />
+    <Content Include="yonetim\plugins\select2\i18n\pt-BR.js" />
+    <Content Include="yonetim\plugins\select2\i18n\pt.js" />
+    <Content Include="yonetim\plugins\select2\i18n\ro.js" />
+    <Content Include="yonetim\plugins\select2\i18n\ru.js" />
+    <Content Include="yonetim\plugins\select2\i18n\sk.js" />
+    <Content Include="yonetim\plugins\select2\i18n\sr-Cyrl.js" />
+    <Content Include="yonetim\plugins\select2\i18n\sr.js" />
+    <Content Include="yonetim\plugins\select2\i18n\sv.js" />
+    <Content Include="yonetim\plugins\select2\i18n\th.js" />
+    <Content Include="yonetim\plugins\select2\i18n\tr.js" />
+    <Content Include="yonetim\plugins\select2\i18n\uk.js" />
+    <Content Include="yonetim\plugins\select2\i18n\vi.js" />
+    <Content Include="yonetim\plugins\select2\i18n\zh-CN.js" />
+    <Content Include="yonetim\plugins\select2\i18n\zh-TW.js" />
+    <Content Include="yonetim\plugins\select2\select2.css" />
+    <Content Include="yonetim\plugins\select2\select2.full.js" />
+    <Content Include="yonetim\plugins\select2\select2.full.min.js" />
+    <Content Include="yonetim\plugins\select2\select2.js" />
+    <Content Include="yonetim\plugins\select2\select2.min.css" />
+    <Content Include="yonetim\plugins\select2\select2.min.js" />
+    <Content Include="yonetim\plugins\slimScroll\jquery.slimscroll.js" />
+    <Content Include="yonetim\plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="yonetim\plugins\sparkline\jquery.sparkline.js" />
+    <Content Include="yonetim\plugins\sparkline\jquery.sparkline.min.js" />
+    <Content Include="yonetim\plugins\timepicker\bootstrap-timepicker.css" />
+    <Content Include="yonetim\plugins\timepicker\bootstrap-timepicker.js" />
+    <Content Include="yonetim\plugins\timepicker\bootstrap-timepicker.min.css" />
+    <Content Include="yonetim\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\mutfak_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="assets\duyururesimleri\" />
+    <Folder Include="assets\fonts\" />
+    <Folder Include="assets\kampanyaresimleri\" />
+    <Folder Include="assets\png\" />
+    <Folder Include="assets\scss\" />
+    <Folder Include="assets\src\" />
+    <Folder Include="Views\Default\" />
+    <Folder Include="Views\MusteriModu\" />
+    <Folder Include="Views\PersonelModu\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="yonetim\plugins\ckeditor\CHANGES.md" />
+    <Content Include="yonetim\plugins\ckeditor\LICENSE.md" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\scayt\CHANGELOG.md" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\scayt\LICENSE.md" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\scayt\README.md" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\wsc\LICENSE.md" />
+    <Content Include="yonetim\plugins\ckeditor\plugins\wsc\README.md" />
+    <Content Include="yonetim\plugins\ckeditor\README.md" />
+    <Content Include="yonetim\plugins\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.fla" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\font\config.json" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
+    <Content Include="yonetim\plugins\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
+    <Content Include="yonetim\plugins\ckeditor\skins\moono\readme.md" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColReorder\Readme.md" />
+    <Content Include="yonetim\plugins\datatables\extensions\ColVis\Readme.md" />
+    <Content Include="yonetim\plugins\datatables\extensions\FixedColumns\Readme.md" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\css\dataTables.responsive.scss" />
+    <Content Include="yonetim\plugins\datatables\extensions\Responsive\Readme.md" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\psd\collection.psd" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\psd\copy document.psd" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\psd\file_types.psd" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\images\psd\printer.psd" />
+    <Content Include="yonetim\plugins\datatables\extensions\TableTools\Readme.md" />
+    <Content Include="yonetim\plugins\input-mask\phone-codes\phone-be.json" />
+    <Content Include="yonetim\plugins\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="assets\img\pattern\README.md" />
+    <Content Include="assets\less\theme.less" />
+    <Content Include="assets\lib\bootstrap-daterangepicker\bower.json" />
+    <Content Include="assets\lib\bootstrap-daterangepicker\package.json" />
+    <Content Include="assets\lib\bootstrap-daterangepicker\README.md" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap-theme.min.css.map" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap.css.map" />
+    <Content Include="assets\lib\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="assets\lib\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\lib\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\lib\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\lib\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="assets\lib\css\font-awesome.css.map" />
+    <Content Include="assets\lib\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\lib\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\lib\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\lib\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="assets\lib\font-awesome\less\animated.less" />
+    <Content Include="assets\lib\font-awesome\less\bordered-pulled.less" />
+    <Content Include="assets\lib\font-awesome\less\core.less" />
+    <Content Include="assets\lib\font-awesome\less\fixed-width.less" />
+    <Content Include="assets\lib\font-awesome\less\font-awesome.less" />
+    <Content Include="assets\lib\font-awesome\less\icons.less" />
+    <Content Include="assets\lib\font-awesome\less\larger.less" />
+    <Content Include="assets\lib\font-awesome\less\list.less" />
+    <Content Include="assets\lib\font-awesome\less\mixins.less" />
+    <Content Include="assets\lib\font-awesome\less\path.less" />
+    <Content Include="assets\lib\font-awesome\less\rotated-flipped.less" />
+    <Content Include="assets\lib\font-awesome\less\screen-reader.less" />
+    <Content Include="assets\lib\font-awesome\less\stacked.less" />
+    <Content Include="assets\lib\font-awesome\less\variables.less" />
+    <Content Include="assets\lib\font-awesome\scss\font-awesome.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_animated.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_core.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_icons.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_larger.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_list.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_mixins.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_path.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_stacked.scss" />
+    <Content Include="assets\lib\font-awesome\scss\_variables.scss" />
+    <Content Include="assets\lib\formwizard\README.md" />
+    <Content Include="assets\lib\jquery.gritter\bower.json" />
+    <Content Include="assets\lib\jquery.gritter\package.json" />
+    <Content Include="assets\lib\jquery.gritter\README.markdown" />
+    <Content Include="assets\lib\jquery\jquery.min.map" />
+    <Content Include="assets\lib\metismenu\metisMenu.js.map" />
+    <Content Include="assets\lib\pagedown-bootstrap\less\jquery.pagedown-bootstrap.less" />
+    <Content Include="assets\lib\pagedown-bootstrap\README.md" />
+    <Content Include="assets\lib\plupload\readme.md" />
+    <Content Include="assets\lib\validVal\bower.json" />
+    <Content Include="assets\lib\validVal\README.md" />
+    <Content Include="assets\lib\validVal\validVal.jquery.json" />
+    <Content Include="bundles\fonts\fontawesome-webfont.eot" />
+    <Content Include="bundles\fonts\fontawesome-webfont.ttf" />
+    <Content Include="bundles\fonts\fontawesome-webfont.woff" />
+    <Content Include="bundles\fonts\fontawesome-webfont.woff2" />
+    <Content Include="bundles\fonts\FontAwesome.otf" />
+    <Content Include="assets\lib\input-mask\phone-codes\phone-be.json" />
+    <Content Include="assets\lib\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="bundles\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="bundles\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="bundles\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\wells.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\utilities.less" />
+    <Content Include="Content\bootstrap\type.less" />
+    <Content Include="Content\bootstrap\tooltip.less" />
+    <Content Include="Content\bootstrap\thumbnails.less" />
+    <Content Include="Content\bootstrap\theme.less" />
+    <Content Include="Content\bootstrap\tables.less" />
+    <Content Include="Content\bootstrap\scaffolding.less" />
+    <Content Include="Content\bootstrap\responsive-utilities.less" />
+    <Content Include="Content\bootstrap\responsive-embed.less" />
+    <Content Include="Content\bootstrap\progress-bars.less" />
+    <Content Include="Content\bootstrap\print.less" />
+    <Content Include="Content\bootstrap\popovers.less" />
+    <Content Include="Content\bootstrap\panels.less" />
+    <Content Include="Content\bootstrap\pagination.less" />
+    <Content Include="Content\bootstrap\pager.less" />
+    <Content Include="Content\bootstrap\normalize.less" />
+    <Content Include="Content\bootstrap\navs.less" />
+    <Content Include="Content\bootstrap\navbar.less" />
+    <Content Include="Content\bootstrap\modals.less" />
+    <Content Include="Content\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\bootstrap\mixins\text-overflow.less" />
+    <Content Include="Content\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="Content\bootstrap\mixins\table-row.less" />
+    <Content Include="Content\bootstrap\mixins\tab-focus.less" />
+    <Content Include="Content\bootstrap\mixins\size.less" />
+    <Content Include="Content\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="Content\bootstrap\mixins\resize.less" />
+    <Content Include="Content\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\bootstrap\mixins\reset-filter.less" />
+    <Content Include="Content\bootstrap\mixins\progress-bar.less" />
+    <Content Include="Content\bootstrap\mixins\panels.less" />
+    <Content Include="Content\bootstrap\mixins\pagination.less" />
+    <Content Include="Content\bootstrap\mixins\opacity.less" />
+    <Content Include="Content\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="Content\bootstrap\mixins\nav-divider.less" />
+    <Content Include="Content\bootstrap\mixins\list-group.less" />
+    <Content Include="Content\bootstrap\mixins\labels.less" />
+    <Content Include="Content\bootstrap\mixins\image.less" />
+    <Content Include="Content\bootstrap\mixins\hide-text.less" />
+    <Content Include="Content\bootstrap\mixins\grid.less" />
+    <Content Include="Content\bootstrap\mixins\grid-framework.less" />
+    <Content Include="Content\bootstrap\mixins\gradients.less" />
+    <Content Include="Content\bootstrap\mixins\forms.less" />
+    <Content Include="Content\bootstrap\mixins\clearfix.less" />
+    <Content Include="Content\bootstrap\mixins\center-block.less" />
+    <Content Include="Content\bootstrap\mixins\buttons.less" />
+    <Content Include="Content\bootstrap\mixins\border-radius.less" />
+    <Content Include="Content\bootstrap\mixins\background-variant.less" />
+    <Content Include="Content\bootstrap\mixins\alerts.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Content\bootstrap\media.less" />
+    <Content Include="Content\bootstrap\list-group.less" />
+    <Content Include="Content\bootstrap\labels.less" />
+    <Content Include="Content\bootstrap\jumbotron.less" />
+    <Content Include="Content\bootstrap\input-groups.less" />
+    <Content Include="Content\bootstrap\grid.less" />
+    <Content Include="Content\bootstrap\glyphicons.less" />
+    <Content Include="Content\bootstrap\forms.less" />
+    <Content Include="Content\bootstrap\dropdowns.less" />
+    <Content Include="Content\bootstrap\component-animations.less" />
+    <Content Include="Content\bootstrap\code.less" />
+    <Content Include="Content\bootstrap\close.less" />
+    <Content Include="Content\bootstrap\carousel.less" />
+    <Content Include="Content\bootstrap\buttons.less" />
+    <Content Include="Content\bootstrap\button-groups.less" />
+    <Content Include="Content\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\bootstrap\bootstrap.less" />
+    <Content Include="Content\bootstrap\badges.less" />
+    <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Content\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="bundles\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="bundles\as\bootstrap.min.css.map" />
+    <Content Include="assets\less\ionicons.less" />
+    <Content Include="assets\less\_ionicons-font.less" />
+    <Content Include="assets\less\_ionicons-icons.less" />
+    <Content Include="assets\less\_ionicons-variables.less" />
+    <Content Include="Content\Home\assets\fonts\et-line.eot" />
+    <Content Include="Content\Home\assets\fonts\et-line.ttf" />
+    <Content Include="Content\Home\assets\fonts\et-line.woff" />
+    <Content Include="Content\Home\assets\fonts\et-lined41d.eot" />
+    <Content Include="Content\Home\assets\fonts\fontawesome-webfont3e6e.eot" />
+    <Content Include="Content\Home\assets\fonts\fontawesome-webfont3e6e.ttf" />
+    <Content Include="Content\Home\assets\fonts\fontawesome-webfont3e6e.woff" />
+    <Content Include="Content\Home\assets\fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="Content\Home\assets\fonts\themify9f24.eot" />
+    <Content Include="Content\Home\assets\fonts\themify9f24.ttf" />
+    <Content Include="Content\Home\assets\fonts\themify9f24.woff" />
+    <Content Include="Content\Home\assets\fonts\themifyd41d.eot" />
+    <EntityDeploy Include="iRestaurant.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>iRestaurant.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="iRestaurant.edmx.diagram">
+      <DependentUpon>iRestaurant.edmx</DependentUpon>
+    </Content>
+    <Content Include="Views\Mutfak\YeniGelenSiparisler.cshtml" />
+    <Content Include="Views\Mutfak\TamamlananSiparisler.cshtml" />
+    <None Include="Properties\PublishProfiles\AAA.pubxml" />
+    <Content Include="Views\Kasa\Kasa.cshtml" />
+    <Content Include="Views\Shared\subeYonetim_Layout.cshtml" />
+    <Content Include="Views\SubeYonetim\Katlar.cshtml" />
+    <Content Include="Views\SubeYonetim\YoneticiGiris.cshtml" />
+    <Content Include="Views\SubeYonetim\Masalar.cshtml" />
+    <Content Include="Views\SubeYonetim\Anasayfa.cshtml" />
+    <Content Include="Views\SubeYonetim\UrunlerleOzellikleri.cshtml" />
+    <Content Include="Views\SubeYonetim\UrunKategorileri.cshtml" />
+    <Content Include="Views\SubeYonetim\Departmanlar.cshtml" />
+    <Content Include="Views\SubeYonetim\Personeller.cshtml" />
+    <Content Include="Views\SubeYonetim\Duyurular.cshtml" />
+    <Content Include="yonetim\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="yonetim\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="yonetim\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="yonetim\plugins\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="yonetim\plugins\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="yonetim\plugins\font-awesome\less\animated.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\bordered-pulled.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\core.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\fixed-width.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\font-awesome.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\icons.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\larger.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\list.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\mixins.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\path.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\rotated-flipped.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\screen-reader.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\stacked.less" />
+    <Content Include="yonetim\plugins\font-awesome\less\variables.less" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_animated.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_core.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_icons.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_larger.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_list.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_mixins.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_path.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_stacked.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\_variables.scss" />
+    <Content Include="yonetim\plugins\font-awesome\scss\font-awesome.scss" />
+    <Content Include="yonetim\bootstrap\fonts\fontawesome-webfont.eot" />
+    <Content Include="yonetim\bootstrap\fonts\fontawesome-webfont.ttf" />
+    <Content Include="yonetim\bootstrap\fonts\fontawesome-webfont.woff" />
+    <Content Include="yonetim\bootstrap\fonts\fontawesome-webfont.woff2" />
+    <Content Include="yonetim\bootstrap\fonts\FontAwesome.otf" />
+    <Content Include="yonetim\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="yonetim\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="yonetim\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="yonetim\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Views\Kasa\KasaDokumu.cshtml" />
+    <Content Include="Views\Kasa\Oturumlar.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\SirketYonetim\Anasayfa.cshtml" />
+    <Content Include="Views\SirketYonetim\YoneticiGiris.cshtml" />
+    <Content Include="Views\SirketYonetim\Personeller.cshtml" />
+    <Content Include="Views\SirketYonetim\Subeler.cshtml" />
+    <Content Include="Views\Kasa\YoneticiGiris.cshtml" />
+    <Content Include="Views\SubeYonetim\Kampanyalar.cshtml" />
+    <Content Include="Views\Kasa\Masalar.cshtml" />
+    <Content Include="Views\Shared\sirketYonetim_Layout.cshtml" />
+    <Content Include="Views\SirketYonetim\Ayarlar.cshtml" />
+    <Content Include="Views\SubeYonetim\Menuler.cshtml" />
+    <Content Include="Views\Shared\home_Layout.cshtml" />
+    <Content Include="Views\Home\Testimonials.cshtml" />
+    <Content Include="Views\Home\Recover.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Checkout.cshtml" />
+    <Content Include="Views\Home\Career.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\CareerDetail.cshtml" />
+    <Content Include="Views\Home\Faq.cshtml" />
+    <Content Include="Views\Home\Error404.cshtml" />
+    <Content Include="Views\Home\Terms.cshtml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Views\Home\Features.cshtml" />
+    <Content Include="Views\Home\Pricing.cshtml" />
+    <Content Include="Views\SirketYonetim\Lisanslar.cshtml" />
+    <Content Include="Views\Home\Cart.cshtml" />
+    <Content Include="Views\Home\CheckoutFinished.cshtml" />
+    <Content Include="Views\SirketYonetim\Faturalar.cshtml" />
+    <Content Include="Views\SubeYonetim\OdemeTurleri.cshtml" />
+    <Content Include="Views\Mutfak\YoneticiGiris.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62422</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:62422/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

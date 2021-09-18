@@ -1,0 +1,164 @@
+﻿<!doctype html>
+<html style="height:100%;">
+<head>
+    <meta charset="UTF-8">
+    <!--IE Compatibility modes-->
+    <meta http-equiv="X-UA-Compatible" content="IE=11">
+    <!--Mobile first-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>@ViewBag.Title</title>
+
+    <meta name="description" content="iRestaurant ">
+    <meta name="author" content="Sirüs Yazılım">
+
+    <meta name="msapplication-TileColor" content="#5bc0de" />
+    <meta name="msapplication-TileImage" content="assets/img/metis-tile.png" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    @Styles.Render("~/bundles/as/css")
+    @Scripts.Render("~/bundles/as/js")
+    @RenderSection("scripts", required: false)
+
+    <link rel="stylesheet" href="~/assets/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="~/assets/css/main.css">
+</head>
+<body style="height:inherit !important;">
+    <div class="bg-light dk" id="wrap" style="height:inherit !important;">
+        <div id="top">
+            <!-- .navbar -->
+            <nav class="navbar navbar-inverse navbar-static-top">
+                <div class="container-fluid">
+
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <div class="col-lg-8">
+                            <ul class="nav navbar-nav">
+                                <li @if (ViewBag.AcikSayfa == "YeniGelenSiparisler") { <text> style="background-color:#6e6e6e !important; color:white !important;" </text> }>@Html.ActionLink("YENİ GELEN SİPARİŞLER", "YeniGelenSiparisler", "Mutfak", new { @style = "color:white !important;" })</li>
+                                <li @if (ViewBag.AcikSayfa == "TamamlananSiparisler") { <text> style="background-color:#6e6e6e !important; color:white !important;" </text> }>@Html.ActionLink("TAMAMLANAN SİPARİŞLER", "TamamlananSiparisler", "Mutfak", new { @style = "color:white !important;" })</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2" style="text-align:right; align-items:center; vertical-align:middle;">
+                            <ul class="nav navbar-nav" style="font-size:xx-large; color:white; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+                                @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
+                            </ul>
+                            <!-- /.nav -->
+                        </div>
+                        <div class="col-lg-2" style="text-align:right; align-items:center; vertical-align:middle; margin-left:unset !important; margin-right:unset !important; color:white; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+
+                            <div class="btn-group" style="">
+                                @if (!((bool)Session["webView"] == true))
+                                {
+                                    <a class="btn btn-grad btn-lg btn-danger" style="min-height:46px;" onclick="" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#poweroff"><i class="fa fa-power-off"></i><span> </span></a>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            <!-- /.navbar -->
+            <!-- /.head -->
+        </div>
+        @if (!((bool)Session["webView"] == true))
+        {
+            <div id="poweroff" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <header>
+                                <h4 style="align-self:center; align-items:center; text-align:center;">
+                                    ÇIKIŞ YAP
+                                </h4>
+                            </header>
+                        </div>
+                        <div class="modal-body" style="padding:0px !important;">
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-xs-12" style="background-color:#222222; text-align:center;">
+                                    <div class="row" style="background-color:#BBBBBB;color:black; text-align:center;">
+                                        SAYIN @Session["personelAd"]
+                                    </div>
+                                    <div class="row" style="background-color:#222222;color:white; text-align:center;">
+                                        ÇIKIŞ YAPABİLMENİZ İÇİN ŞİFRENİZİ YENİDEN GİRMENİZ GEREKLİDİR
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important; text-align:center; font-size:22px;">
+                                    <br>
+                                    <br>
+                                </div>
+
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important; text-align:center; font-size:22px;">
+                                    <input type="password" placeholder="Yönetici Parolanız" id="personelParola" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px; margin-bottom:15px; margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-xs-4">
+
+                                </div>
+                                <div class="col-xs-4">
+                                    <a style="min-width:100%; max-width:150px" class="btn btn-grad btn-danger" onclick="cikisYap()"><i class="fa fa-power-off"></i></a>
+                                </div>
+                                <div class="col-xs-4">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="padding:0px !important; border-top: none !important;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- /#top -->
+        <div id="content" style="height:inherit !important;">
+            @RenderBody()
+        </div>
+        <!-- /#content -->
+    </div>
+    <!-- /#wrap -->
+    <footer class="Footer bg-dark dker">
+        <p>2019 &copy; <a href="http://www.sirusyazilim.com">Sirüs Yazılım <i class="fa fa-world"></i></a></p>
+    </footer>
+    <!-- /#footer -->
+    @RenderSection("scripts", required: false)
+    <script>
+    function cikisYap() {
+        var personelId = @Session["girenId"];
+        var personelParola = $('#personelParola').val();
+        if (personelId != "" && personelParola != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/Kasa/CikisKontrol/',
+                dataType: 'json',
+                data: { personelId: personelId, personelParola: personelParola, subeId: subeId },
+                success: function (data2) {
+                    if (data2 == 0) {
+                        location.href = "/Kasa/YoneticiGiris";
+                    }
+                    else if (data2 == 1) {
+                        alert("Yönetici Parolanızı Yanlış Girdiniz.");
+                    }
+                    else if (data2 == 2) {
+                        alert("Çok sayıda yanlış deneme yaptığınız için bir süre sistemden uzaklaştırıldınız.");
+                    }
+                    else {
+
+                    }
+                }
+            });
+        }
+        else {
+            alert("Değerler boş olamaz");
+        }
+    }
+    </script>
+</body>
+</html>

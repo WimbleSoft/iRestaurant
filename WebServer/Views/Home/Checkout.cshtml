@@ -1,0 +1,329 @@
+﻿@{
+    Layout = "~/Views/Shared/home_Layout.cshtml";
+    ViewBag.Title = "Ödeme Yap";
+    int paraBirimiId = 0;
+    if (Session["paraBirimiId"] == null)
+    {
+        paraBirimiId = 1;
+    }
+    else
+    {
+        if ((int)Session["paraBirimiId"] > 0 && (int)Session["paraBirimiId"] <= 4)
+        {
+            paraBirimiId = (int)Session["paraBirimiId"];
+        }
+        else
+        {
+            paraBirimiId = 1;
+        }
+    }
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+<!-- Header -->
+<header class="header bg-gray">
+    <div class="container">
+        <h1 class="display-4">Ödeme Yap Checkout</h1>
+        <p class="lead-2 mt-6">Görünen o ki işleminizi tamamladınız. Bilgilerinizi düzenleyin, ödeme yapın. Seems you're done! Let us know where should we send your order.</p>
+    </div>
+</header><!-- /.header -->
+<!-- Main Content -->
+<main class="main-content">
+    <section class="section">
+        <div class="container">
+            <form class="row gap-y" action="/Home/Buy" enctype="application/x-www-form-urlencoded">
+            @if (Model.SepettekiHizmetler.Count > 0)
+            {
+                <div class="col-lg-8">
+                    <table class="table table-cart">
+                        <tbody valign="middle">
+                            @foreach (var item in Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId != null).GroupBy(x => x.hizmetKampanyaId))
+                            {
+                                <tr>
+                                    <td>
+                                        <h5>@Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == item.Key).First().hizmetKampanyaAd</h5>
+                                        <p>
+                                            @{
+                                                if (Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId == item.Key).First().yillikMi)
+                                                {
+                                                    <text>Yıllık</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>Aylık</text>
+                                                }
+                                            }
+                                    
+                                                Kampanya
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <label>Adet</label>
+                                        <span>@Model.SepettekiHizmetler.Where(x=>x.hizmetKampanyaId == item.Key).First().adet</span>
+                                    </td>
+                                    <td>
+                                        <h4 class="price" >
+                                        @{ 
+                                            HizmetKampanyalari hizmetKampanyasi = Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == item.Key).First();
+                                            if (hizmetKampanyasi != null)
+                                            {
+                                    
+                                                    <span id="ucretCampaign_@Model.SepettekiHizmetler.Where(x=>x.hizmetKampanyaId == item.Key).First().hizmetKampanyaId">@(hizmetKampanyasi.hizmetKampanyaFiyat)</span>
+                                            
+                                            }
+                                            else
+                                            {
+                                                <meta http-equiv="refresh" content="0; url=/Home/Error404" />
+                                            }
+                                        }
+
+                                        @{
+                                            if (Model.HizmetKampanyalari.Where(y => y.hizmetKampanyaId == item.Key).First().ParaBirimleri != null)
+                                            {
+                                                <span>
+                                                    @Model.HizmetKampanyalari.Where(y => y.hizmetKampanyaId == item.Key).First().ParaBirimleri.paraBirimiAd
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                            <span>
+                                                <meta http-equiv="refresh" content="0; url=/Home/Error404" />
+                                            </span>
+                                            }
+                                        }
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
+                            @foreach (var item in Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId == null))
+                            {
+                                <tr>
+                                    <td>
+                                        <h5>@item.hizmetAd</h5>
+                                        <p>
+                                            @{
+                                                if (item.yillikMi)
+                                                {
+                                                    <text>Yıllık</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>Aylık</text>
+                                                }
+                                            }
+                                    
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <label>Adet</label>
+                                        <span>@item.adet</span>
+                                    </td>
+                                    <td>
+                                        <h4 class="price" id="ucretItem_@item.hizmetId">
+                                            @if (item.yillikMi)
+                                            {
+                                                <span>@(item.hizmetAylikUcret * 12)</span>
+                                            }
+                                            else
+                                            {
+                                                <span>
+                                                    @item.hizmetAylikUcret
+                                                </span>
+                                            }
+                                        @{
+                                            if (Model.ParaBirimleri.Where(x => x.paraBirimiId == item.paraBirimiId).Count() > 0)
+                                            {
+                                                <span>
+                                                    @Model.ParaBirimleri.Where(x => x.paraBirimiId == item.paraBirimiId).First().paraBirimiAd
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                            <span>
+                                                0
+                                            </span>
+                                            }
+                                        }
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr class="my-8">
+                    <h5 class="mb-6">Shipping Address</h5>
+                    <div class="form-row">
+                        @if (Session["sirketId"] == null)
+                        {
+                            <span>Sisteme kayıt olmadan satın alımlar şu an için kapalıdır. Lütfen önce sistemimize kayıt olun, satın alma işlemini daha sonra tekrar deneyin.</span>
+                        }
+                        <div class="col-md-6 form-group">
+                            <label>Şirket Adı</label>
+                            <input class="form-control" type="text" name="sirketAd"required placeholder="Şirket Adı" disabled="disabled" value="@Session["sirketAd"]">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Şirket Email</label>
+                            <input class="form-control" type="text" name="sirketEmail"required placeholder="Şirket Email Adresiniz" disabled="disabled" value="@Session["sirketEmail"]">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Şirket Telefon</label>
+                            <input class="form-control" type="text" name="sirketTelefon"required placeholder="Şirket Telefonu" disabled="disabled" value="@Session["sirketTelefon"]">
+                        </div>
+                        @{ 
+                            if (Session["sirketId"] != null)
+                            {
+                                Sirketler sirket = Model.Sirketler.Where(x => x.sirketId == (int)Session["sirketId"]).First();
+                                <div class="col-md-6 form-group">
+                                    <label>Fatura Ülke</label>
+                                    <select id="ulkeId" name="ulkeId" disabled required class="form-control select2" style="width: 100%;">
+                                        <option selected>@sirket.Ilceler.Iller.Ulkeler.ulkeAd</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Fatura İl</label>
+                                    <select id="ilId" name="ilId" disabled required class="form-control select2" style="width: 100%;">
+                                        <option selected>@sirket.Ilceler.Iller.ilAd</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Fatura İlçe</label>
+                                    <select id="ilceId" disabled required class="form-control select2" style="width: 100%;">
+                                        <option selected value="@sirket.ilceId">@sirket.Ilceler.ilceAd</option>
+                                    </select>
+                                    <input hidden name="ilceId" readonly required style="width:100%;" value="@sirket.ilceId"/>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6 form-group">
+                                    <label>Fatura Ülke</label>
+                                    <select id="ulkeId" name="ulkeId" onchange="illerGetir(this.value)"required class="form-control select2" style="width: 100%;">
+                                        <option>Ülke Seç</option>
+                                        @foreach (var ulke in Model.Ulkeler)
+                                        {
+                                            <option value="@ulke.ulkeId">@ulke.ulkeAd</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Fatura İl</label>
+                                    <select id="ilId" name="ilId" onchange="ilcelerGetir(this.value)"required class="form-control select2" style="width: 100%;"></select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Fatura İlçe</label>
+                                    <select id="ilceId" name="ilceId" class="form-control select2"required style="width: 100%;"></select>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        var ulkeSecici = $("#ulkeId");
+                            
+                                        illerGetir(ulkeSecici[0].value);
+                                    });
+                                    function illerGetir(ulkeId) {
+                                        $.ajax({
+                                            url: '/SirketYonetim/IllerGetir',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            data: JSON.stringify({ ulkeId: ulkeId }),
+                                            traditional: true,
+                                            success: function (gelenIller) {
+                                                var ilId = $("#ilId");
+                                                ilId.empty();
+                                                //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                $.each(gelenIller, function () {
+                                                    ilId.append($("<option />").val(this.ilId).text(this.ilAd));
+                                                });
+                                                ilcelerGetir(ilId.val());
+                                            }
+                                        });
+                                    }
+                                    function ilcelerGetir(ilId) {
+                                        $.ajax({
+                                            url: '/SirketYonetim/IlcelerGetir',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            data: JSON.stringify({ ilId: ilId }),
+                                            traditional: true,
+                                            success: function (gelenIlceler) {
+                                                var ilceId = $("#ilceId");
+                                                ilceId.empty();
+                                                //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                $.each(gelenIlceler, function () {
+                                                    ilceId.append($("<option />").val(this.ilceId).text(this.ilceAd));
+                                                });
+                                            }
+                                        });
+                                    }
+                                </script>
+                            }
+                        }
+                        <div class="col-12 form-group">
+                            <label>Fatura Adres</label>
+                            <textarea class="form-control" style="resize:none!important;" type="text" name="sirketAdres" required placeholder="Fatura Adresiniz"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="cart-price">
+                        <div class="flexbox">
+                            <div>
+                                <p><strong>Ara Toplam:</strong></p>
+                                <p><strong>KDV (%18):</strong></p>
+                            </div>
+                            <div>
+                                <p>@{
+                                        double aratop = (Model.SepettekiHizmetler.Where(x => x.yillikMi == true && x.hizmetKampanyaId == null).Sum(x => x.hizmetAylikUcret * x.adet) * 12)+
+                                            Model.SepettekiHizmetler.Where(x => x.yillikMi == false && x.hizmetKampanyaId == null).Sum(x => x.hizmetAylikUcret * x.adet);
+
+                                        double aratop2 = 0;
+                                        foreach(var hizmetKampanya in Model.SepettekiHizmetler.Where(x =>x.hizmetKampanyaId != null).GroupBy(x => x.hizmetKampanyaId))
+                                        {
+                                            aratop2+= Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == hizmetKampanya.Key.Value).First().hizmetKampanyaFiyat* Model.SepettekiHizmetler.Where(x => x.hizmetKampanyaId == hizmetKampanya.Key.Value).First().adet;
+                                        }
+                                        }
+                                    @(aratop+aratop2) 
+                                    @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd
+                                </p>
+                                <p>
+                                    @((aratop + aratop2) * 0.18) 
+                                    @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="flexbox">
+                            <div>
+                                <p><strong>Toplam:</strong></p>
+                            </div>
+                            <div>
+                                <p class="fw-600">@((aratop + aratop2) * 1.18) @Model.ParaBirimleri.Where(x => x.paraBirimiId == paraBirimiId).First().paraBirimiAd</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <a class="btn btn-block btn-secondary" href="/Home/Cart">Sepeti Düzenle</a>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-block btn-primary" type="submit">Ödeme Yap <i class="ti-angle-right fs-9"></i></button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-lg btn-light btn-round btn-outline-success" href="/Home/Pricing">Sepetiniz boş. Buraya tıklayarak kampanyalarımızı görebilirsiniz.</a>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            }
+            </form>
+        </div>
+    </section>
+</main>

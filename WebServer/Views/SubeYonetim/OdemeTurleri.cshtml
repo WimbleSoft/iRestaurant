@@ -1,0 +1,268 @@
+﻿@{
+    ViewBag.Title = "Ödeme Yöntemleri";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+document.getElementById("odemeturleri").className = "active";
+</script>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            OdemeTurleri
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Ödeme Yöntemleri</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Ödeme Yöntemi Ekle
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-2 col-lg-4 col-xs-12 col-sm-6">
+                                                <label>Ödeme Yöntemi Adı</label>
+                                                <input name="odemeTurAd" required type="text" id="odemeTurAd" class="form-control" placeholder="Ödeme Yöntemi Adını Giriniz">
+                                            </div>
+                                            <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                <label>Para Birimi</label>
+                                                <select name="paraBirimiId" id="paraBirimiId"  class="form-control">
+                                                    @foreach(var paraBirimi in Model.ParaBirimleri)
+                                                    {
+                                                        <option value="@paraBirimi.paraBirimiId">@paraBirimi.paraBirimiAd</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 col-lg-2 col-xs-12 col-sm-6">
+                                                <label>İşlemler</label>
+                                                <button type="button" onclick="odemeTurEkle()" class="btn btn-primary btn-md btn-grad form-control">Ödeme Yöntemi Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ödeme Yöntemi Id</th>
+                                    <th>Ödeme Yöntemi Adı</th>
+                                    <th>Ödeme Yöntemi Para Birimi</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var odemeTur in Model.OdemeTurleri.ToList())
+                                {
+                                <tr>
+                                    <td>@odemeTur.odemeTurId</td>
+                                    <td>@odemeTur.odemeTurAd</td>
+                                    <td>@odemeTur.ParaBirimleri.paraBirimiAd</td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button type="button" class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#myModalId_@odemeTur.odemeTurId"></button>
+                                            <a href="#" name="@odemeTur.odemeTurId" onclick="odemeTurSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <!-- ÖDEME TURU DÜZENLEME -->
+                        @foreach (var odemeTur in Model.OdemeTurleri.ToList())
+                        {
+                        <div class="modal fade bs-example-modal-lg" id="myModalId_@odemeTur.odemeTurId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Ödeme Yöntemi Düzenle</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>Ödeme Yöntemi Adı</label>
+                                                    <input name="odemeTurAd_@odemeTur.odemeTurId" required type="text" id="odemeTurAd_@odemeTur.odemeTurId" class="form-control" placeholder="Ödeme Yöntemi Adını Girin" value="@odemeTur.odemeTurAd">
+                                                    <input name="odemeTurId_@odemeTur.odemeTurId" type="text" id="odemeTurId_@odemeTur.odemeTurId" hidden="hidden" value="@odemeTur.odemeTurId">
+                                                </div>
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>Para Birimi</label>
+                                                    <select name="paraBirimiId_@odemeTur.odemeTurId" id="paraBirimiId_@odemeTur.odemeTurId">
+                                                        <option selected value="@odemeTur.paraBirimiId">@odemeTur.ParaBirimleri.paraBirimiAd</option>
+                                                        @foreach(var paraBirimi in Model.ParaBirimleri.Where(x => x.paraBirimiId != odemeTur.paraBirimiId))
+                                                        {
+                                                            <option value="@paraBirimi.paraBirimiId">@paraBirimi.paraBirimiAd</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>İşlemler</label>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                            <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                            <button type="button" class="btn btn-warning btn-md btn-grad form-control" name="@odemeTur.odemeTurId" onclick="odemeTurDuzenle(this.name)">Kaydet</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        <!-- ÖDEME TURU DÜZENLEME -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    function odemeTurEkle() {
+        var odemeTurAd = $('#odemeTurAd').val();
+        var paraBirimiId = $('#paraBirimiId').val();
+
+        if (odemeTurAd != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/OdemeTurEkle/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ odemeTurAd: odemeTurAd, subeId: subeId, paraBirimiId: paraBirimiId }),
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+        
+    }
+    function odemeTurDuzenle(odemeTurId) {
+        var odemeTurAd = $('#odemeTurAd_' + odemeTurId).val();
+        var paraBirimiId = $('#paraBirimiId_' + odemeTurId).val();
+         
+        if (odemeTurAd != "" && odemeTurId != "" && paraBirimiId != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/OdemeTurGuncelle/',
+                dataType: 'json',
+                data: { odemeTurAd: odemeTurAd, odemeTurId: odemeTurId, subeId: subeId, paraBirimiId: paraBirimiId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+    function odemeTurSil(odemeTurId) {
+        if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/OdemeTurSil/',
+                dataType: 'json',
+                data: { odemeTurId: odemeTurId, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertIslemIptal();
+        }
+            
+    }
+</script>

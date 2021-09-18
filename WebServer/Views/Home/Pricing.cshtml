@@ -1,0 +1,108 @@
+﻿@{
+    Layout = "~/Views/Shared/home_Layout.cshtml";
+    ViewBag.Title = "Tarifeler";
+    int paraBirimiId = 0;
+    if (Session["paraBirimiId"] == null)
+    {
+        paraBirimiId = 1;
+    }
+    else
+    {
+        if((int)Session["paraBirimiId"]>0 && (int)Session["paraBirimiId"] <= 4)
+        {
+            paraBirimiId = (int)Session["paraBirimiId"];
+        }
+        else
+        {
+            paraBirimiId = 1;
+        }
+    }
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+<!-- Main Content -->
+<main class="main-content">
+    <!-- PRICING -->
+    <section class="section overflow-hidden bg-gray" id="pricing">
+        <div class="container">
+            <header class="section-header">
+                <small>Tarifeler</small>
+                <h2>Şubeniz için size en uygun paketi seçin</h2>
+                <hr>
+                <p class="lead">Şimdi her bir şubeniz için tarife seçin. Esnek tarifelerle her şubenize uygun tercih yapabilirsiniz.</p>
+            </header>
+
+            <div data-provide="shuffle">
+                <ul class="nav nav-tabs-outline nav-center nav-bold nav-uppercase nav-pills mb-7" data-shuffle="filter">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-shuffle="button">Tümü</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-shuffle="button" data-group="aylik">Aylık</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-shuffle="button" data-group="yillik">Yıllık</a>
+                    </li>
+                </ul>
+                <div class="row gap-y text-center gap-2" data-shuffle="list">
+                    @foreach (var hizmetKampanya in Model.HizmetKampanyalari.Where(x => x.yillikMi == false && x.paraBirimiId == paraBirimiId))
+                    {
+                    <div class="col-3 col-md-3" data-shuffle="item" data-groups="aylik">
+                        <div class="pricing-1">
+                            <p class="plan-name">@hizmetKampanya.hizmetKampanyaAd</p>
+                            <br>
+                            <h2 class="price">@(hizmetKampanya.hizmetKampanyaFiyat*1.18) @hizmetKampanya.ParaBirimleri.paraBirimiAd</h2>
+                            <p class="small">&nbsp;</p>
+                            <div class="col-md-9 col-md-offset-3">
+                                <div class="text-muted text-left">
+                                    @foreach (var hizmetKampanyaHizmet in Model.HizmetKampanyaHizmetleri.Where(x => x.hizmetKampanyaId == hizmetKampanya.hizmetKampanyaId))
+                                    {
+                                        <small><i class="fa fa-check-square-o"></i> @hizmetKampanyaHizmet.Hizmetler.hizmetAd</small><br>
+                                    }
+                                        <small><i class="fa fa-check-square-o"></i> Abonelik durdurma </small><br>
+                                </div>
+                            </div>
+                            <br>
+                            <form action="/Home/AddCampaignToCart" method="post" enctype="application/x-www-form-urlencoded">
+                                <input name="hizmetKampanyaId" value="@hizmetKampanya.hizmetKampanyaId" hidden="hidden" />
+                                <p class="text-center py-3"><button class="btn btn-primary" type="submit">Sepete Ekle</button></p>
+                            </form>
+                        </div>
+                    </div>
+                    }
+                    @foreach (var hizmetKampanya in Model.HizmetKampanyalari.Where(x => x.yillikMi == true && x.paraBirimiId == paraBirimiId))
+                    {
+                
+                        <div class="col-3 col-md-3" data-shuffle="item" data-groups="yillik">
+                            <div class="pricing-1">
+                                <p class="plan-name">@hizmetKampanya.hizmetKampanyaAd</p>
+                                <br>
+                                <h2 class="price">@(hizmetKampanya.hizmetKampanyaFiyat * 1.18) @hizmetKampanya.ParaBirimleri.paraBirimiAd</h2>
+                                <p class="small">&nbsp;</p>
+                                <div class="col-md-9 col-md-offset-3">
+                                    <div class="text-muted text-left">
+                                        @foreach (var hizmetKampanyaHizmet in Model.HizmetKampanyaHizmetleri.Where(x => x.hizmetKampanyaId == hizmetKampanya.hizmetKampanyaId))
+                                        {
+                                            <small><i class="fa fa-check-square-o small"></i> @hizmetKampanyaHizmet.Hizmetler.hizmetAd</small><br>
+                                        }
+                                        <small><i class="fa fa-times-circle"></i> Abonelik durdurma</small><br>
+                                    </div>
+                                </div>
+                                <br>
+                                <form action="/Home/AddCampaignToCart" method="post" enctype="application/x-www-form-urlencoded">
+                                    <input name="hizmetKampanyaId" value="@hizmetKampanya.hizmetKampanyaId" hidden="hidden" />
+                                    <p class="text-center py-3"><button class="btn btn-primary" type="submit" >Sepete Ekle</button></p>
+                                </form>
+                            </div>
+                        </div>
+                
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.PRICING -->
+
+
+
+</main><!-- /.main-content -->
+<!-- Footer -->

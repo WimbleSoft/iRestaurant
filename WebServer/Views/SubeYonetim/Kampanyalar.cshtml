@@ -1,0 +1,510 @@
+﻿@{
+    ViewBag.Title = "Kampanyalar";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- PAGE CONTENT -->
+<script>
+    document.getElementById("kampanyalar").className = "active";
+</script>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Kampanyalar
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Kampanyalar ve Kampanya Kampanyaleri</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Kampanya Ekle
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                                                <label>Kampanya Adı</label>
+                                                <input name="kampanyaAd"  required type="text" id="kampanyaAd" class="form-control" placeholder="Kampanya Adını Girin">
+                                            </div>
+                                            <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                                                <label>Kampanya Fiyatı</label>
+                                                <input name="kampanyaFiyat" required type="text" id="kampanyaFiyat" class="form-control" placeholder="Kampanyanın Fiyatını Giriniz">
+                                            </div>
+                                            <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                                                <label>Kampanya Resmi</label>
+                                                <input type="file" name="kampanyaResim" class="" id="kampanyaResim" accept="image/*" reject="*/*" runat="server" />
+                                            </div>
+                                            <div class="col-md-12 col-md-3 col-sm-3 col-lg-3">
+                                                <label>Menü</label>
+                                                <select name="menuId" id="menuId" class="form-control Select2">
+                                                    <option value="" selected>Menü Seçiniz</option>
+                                                    @foreach(var menu in Model.Menuler)
+                                                    {
+                                                        <option value="@menu.menuId">@menu.menuAd</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <br />
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-xs-12 col-md-6 col-sm-6 col-lg-6">
+                                                <label>Kampanya Açıklaması</label>
+                                                <textarea name="kampanyaAciklama" required type="text" id="kampanyaAciklama" class="form-control" style="resize:none;" placeholder="Kampanya Açıklamasını Girin"></textarea>
+                                            </div>
+                                            <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                                                <label>
+                                                    Yayında Mı?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="yayindaMi" type="checkbox" checked />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-md-3 col-sm-3 col-lg-3">
+                                                <label>İşlemler</label>
+                                                <button type="button" onclick="kampanyaEkle()" class="btn btn-primary btn-md btn-grad form-control">Kampanya Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.form -->
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                    @foreach(var menu in Model.Menuler)
+                    {
+                        <div class="box-header">
+                            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                <div class="box box-default collapsed-box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                                <i class="fa fa-plus"></i> &nbsp;&nbsp;@((menu.menuAd+" Kampanyaları").ToUpper().ToString())
+                                            </button>
+                                        </h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kampanya Resmi</th>
+                                                    <th>Kampanya Id</th>
+                                                    <th>Kampanya Adı</th>
+                                                    <th>Kampanya Fiyat</th>
+                                                    <th>Yayında</th>
+                                                    <th>İşlemler</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var kampanya in Model.Kampanyalar.Where(x=>x.menuId==menu.menuId).OrderBy(x => x.kampanyaId))
+                                                {
+                                                    <tr>
+                                                        <td><img width="100" height="100" src="../assets/kampanyaresimleri/@kampanya.kampanyaResim" /></td>
+                                                        <td>@kampanya.kampanyaId</td>
+                                                        <td>@kampanya.kampanyaAd</td>
+                                                        <td>@kampanya.kampanyaFiyat <i class="fa fa-try"></i></td>
+                                                        <td>
+                                                            @{
+                                                                if (kampanya.yayindaMi == true)
+                                                                {
+                                                                        <text>Aktif</text>
+                                                                }
+                                                                else
+                                                                {
+                                                                        <text>Pasif</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#KampanyaDuzenle_@kampanya.kampanyaId"></button>
+                                                                <button class="btn btn-primary btn-md btn-grad fa fa-info-circle" data-toggle="modal" data-target="#KampanyaUrunuDuzenle_@kampanya.kampanyaId"></button>
+                                                                <button class="btn btn-danger  btn-md btn-grad fa fa-trash" name="@kampanya.kampanyaId" onclick="kampanyalarSil(this.name)"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <!-- /.form -->
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            @foreach (var kampanya in Model.Kampanyalar)
+            {
+                <!-- KAMPANYA DÜZENLEME -->
+                <div class="modal fade bd-example-modal-lg" id="KampanyaDuzenle_@kampanya.kampanyaId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_UrunDuzenle_@kampanya.kampanyaId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_UrunDuzenle_@kampanya.kampanyaId">@kampanya.kampanyaAd Kampanyaünü Düzenle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-xs-12 col-sm-4 col-lg-4">
+                                            <label>Kampanya Adı</label>
+                                            <input name="kampanyaAd_@kampanya.kampanyaId" required type="text" id="kampanyaAd_@kampanya.kampanyaId" class="form-control" placeholder="Kampanya Adını Girin" value="@kampanya.kampanyaAd">
+                                            <input name="kampanyaId_@kampanya.kampanyaId" type="text" id="kampanyaId_@kampanya.kampanyaId" hidden="hidden" value="@kampanya.kampanyaId">
+                                        </div>
+                                        <div class="col-md-2 col-xs-12 col-sm-4 col-lg-2">
+                                            <label>Kampanya Fiyatı</label>
+                                            <input name="kampanyaFiyat_@kampanya.kampanyaId" required type="text" id="kampanyaFiyat_@kampanya.kampanyaId" class="form-control" placeholder="Kampanya Fiyatını Girin" value="@kampanya.kampanyaFiyat">
+                                        </div>
+                                        <div class="col-md-2 col-xs-12 col-sm-4 col-lg-2">
+                                            <label>
+                                                Yayında Mı?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="yayindaMi_@kampanya.kampanyaId" @{if (kampanya.yayindaMi == true) { <text> checked="checked" </text>  }} type="checkbox" />
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-xs-12 col-sm-4 col-lg-4">
+                                            <label>Menü</label>
+                                            <select name="menuId_@kampanya.menuId" id="menu_@kampanya.menuId" class="form-control Select2">
+                                                <option selected value="@kampanya.menuId">@kampanya.Menuler.menuAd</option>
+                                                @foreach(var menu in Model.Menuler.Where(x => x.menuId == kampanya.menuId))
+                                                {
+                                                    <option value="@menu.menuId" >@menu.menuAd</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <hr>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-xs-12 col-sm-6 col-lg-6">
+                                            <label>Varolan Resim</label>
+                                            <img style="margin-left: 5px !important; margin-right: 5px !important; border:3px;" width="250" height="250" src="../assets/kampanyaresimleri/@kampanya.kampanyaResim" />
+                                        </div>
+                                        <div class="col-md-2 col-xs-12 col-sm-6 col-lg-6">
+                                            <label>Kampanya Resmi</label>
+                                            <input type="file" name="kampanyaResim_@kampanya.kampanyaId" id="kampanyaResim_@kampanya.kampanyaId"  accept="image/*" reject="*/*" runat="server"/>
+                                        </div>
+                                        <div class="col-md-2 col-xs-12 col-sm-6 col-lg-6">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-6">
+                                            <label>Kampanya Açıklaması</label>
+                                            <textarea name="kampanyaAciklama_@kampanya.kampanyaId" required type="text" id="kampanyaAciklama_@kampanya.kampanyaId" class="form-control" style="resize:none;" placeholder="Kampanya Açıklamasını Girin">@kampanya.kampanyaAciklama</textarea>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-6">
+                                            <label>İşlemler</label>
+                                            <div class="row">
+                                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
+                                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                                </div>
+                                                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
+                                                    <button type="button" onclick="kampanyaDuzenle(this.name)" name="@kampanya.kampanyaId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- KAMPANYA ÜRÜN EKLE -->
+                <div class="modal fade bd-example-modal-lg" id="KampanyaUrunuDuzenle_@kampanya.kampanyaId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_KampanyaUrunuDuzenle_@kampanya.kampanyaId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_KampanyaUrunuDuzenle_@kampanya.kampanyaId">@kampanya.kampanyaAd için Ürün Ekle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 col-lg-4 col-xs-12 col-sm-12">
+                                                <label>Ürün</label>
+                                                <select id="urunId_@kampanya.kampanyaId" name="urunId_@kampanya.kampanyaId" class="form-control Select2 ">
+                                                    @foreach (var urunKategori in Model.UrunKategoriler)
+                                                    {
+                                                        <optgroup label="@urunKategori.urunKategoriAd">
+                                                            @foreach (var urun in Model.Urunler.Where(x => x.urunKategoriId == urunKategori.urunKategoriId))
+                                                            {
+                                                                <option value="@urun.urunId">@urun.urunAd</option>
+                                                            }
+                                                        </optgroup>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                <label>İşlem</label>
+                                                <button type="button" onclick="kampanyaUrunEkle(this.name)" name="@kampanya.kampanyaId" class="btn btn-warning btn-md btn-grad form-control">Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabelOzellikListele">@kampanya.kampanyaAd Kampanyasına Ait Ürünleri Listele</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <table id="example3" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Ürün Adı</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var kampanyaOzellik in Model.KampanyaUrunleri.Where(x => x.kampanyaId == kampanya.kampanyaId))
+                                            {
+                                                <tr>
+                                                    <td>@kampanyaOzellik.Urunler.urunAd</td>
+                                                    <td><a href="#" name="@kampanyaOzellik.kampanyaUrunleriId" onclick="kampanyaUrunSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+<script>
+
+//URUN DUZENLEME FONKSİYONU
+function kampanyaDuzenle(kampanyaId) {
+    var formData = new FormData();
+    var kampanyaAd = $('#kampanyaAd_' + kampanyaId).val();
+    var kampanyaFiyat = $('#kampanyaFiyat_' + kampanyaId).val();
+    var kampanyaAciklama = $('#kampanyaAciklama_' + kampanyaId).val();
+    var yayindaMi = $('#yayindaMi_' + kampanyaId).is(":checked");;
+    var kampanyaResim = $('#kampanyaResim_' + kampanyaId)[0].files[0];
+    var menuId = $('#menuId_' + kampanyaId).val();
+
+    if (kampanyaAd != "" && kampanyaFiyat != "" && kampanyaResim != "" && kampanyaAciklama != "" && menuId != "") {
+        formData.append("kampanyaAd", kampanyaAd);
+        formData.append("kampanyaId", kampanyaId);
+        formData.append("kampanyaFiyat", kampanyaFiyat);
+        formData.append("yayindaMi", yayindaMi);
+        formData.append("kampanyaAciklama", kampanyaAciklama);
+        formData.append("kampanyaResimFile", kampanyaResim);
+        formData.append("menuId", menuId);
+        formData.append("subeId", subeId);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/SubeYonetim/KampanyaGuncelle", true);
+        xhr.addEventListener("load",
+        function (data) {
+            if (data.target.response == 0) {
+                location.reload(true);
+            }
+            else if (data.target.response == 1) {
+                alertHata();
+            }
+            else {
+                alertLoginHatasi();
+            }
+        },
+            false);
+        xhr.addEventListener("error", function (data) { alertHata(); }, false);
+        xhr.send(formData);
+    }
+    else {
+        alertAlanDoldur();
+    }
+
+}
+//EKLEME FONKSİYONLARI
+function kampanyaEkle() {
+    var kampanyaAd = $('#kampanyaAd').val();
+    var kampanyaFiyat = $('#kampanyaFiyat').val();
+    var kampanyaAciklama = $('#kampanyaAciklama').val();
+    var yayindaMi = $('#yayindaMi').is(":checked");
+    var kampanyaResim = $('#kampanyaResim')[0].files[0];
+    var menuId = $('#menuId').val();
+
+    if (kampanyaAd != "" && kampanyaFiyat != "" && kampanyaResim != "" && kampanyaAciklama != "" && menuId != "")
+    {
+        var formData = new FormData();
+        formData.append("kampanyaAd", kampanyaAd);
+        formData.append("kampanyaFiyat", kampanyaFiyat);
+        formData.append("kampanyaAciklama", kampanyaAciklama);
+        formData.append("yayindaMi", yayindaMi);
+        formData.append("kampanyaResimFile", kampanyaResim);
+        formData.append("menuId", menuId);
+        formData.append("subeId", subeId);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/SubeYonetim/KampanyaEkle", true);
+        xhr.addEventListener("load",
+            function (data) {
+                if (data.target.response == 0) {
+                location.reload(true);
+            }
+                else if (data.target.response == 1) {
+                alertHata();
+            }
+            else {
+                alertLoginHatasi();
+            }
+        },
+            false);
+        xhr.addEventListener("error", function (data) { alertHata(); }, false);
+        xhr.send(formData);
+    }
+    else {
+        alertAlanDoldur();
+    }
+    
+
+}
+function kampanyaUrunEkle(kampanyaId) {
+    var urunId = $('#urunId_' + kampanyaId).val();
+    $.ajax({
+        type: 'POST',
+        url: '/SubeYonetim/KampanyaUrunEkle/',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ kampanyaUrunleriId: 0, urunId: urunId, kampanyaId: kampanyaId, subeId: subeId }),
+        success: function (data) {
+            if (data == 0) {
+                location.reload(true);
+            }
+            else if (data == 1) {
+                alertHata();
+            }
+            else {
+                alertLoginHatasi();
+            }
+        }
+    });
+}
+//SİLME FONKSİYONLARI
+function kampanyaUrunSil(kampanyaUrunleriId) {
+    if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/KampanyaUrunSil/',
+            dataType: 'json',
+            data: { kampanyaUrunleriId: kampanyaUrunleriId, subeId: subeId },
+            success: function (data) {
+                if (data == 0) {
+                     location.reload(true);
+                }
+                else if (data == 1) {
+                    alertHata();
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+}
+function kampanyalarSil(kampanyaId) {
+    if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/KampanyaSil/',
+            dataType: 'json',
+            data: { kampanyaId: kampanyaId, subeId: subeId },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else if (data == 1) {
+                    alertHata();
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+}
+</script>

@@ -1,0 +1,518 @@
+﻿@model  List<iRestaurant.Siparisler>
+
+@{
+    Layout = "~/Views/Shared/mutfak_Layout.cshtml";
+    int counter = 0;
+    int counter2 = 0;
+    int counter3 = 0;
+}
+
+
+<div class="outer"style="height:inherit !important;background-color: #303030;">
+    <div class="inner bg-dark lter">
+        <!--4 TANEDE 1 SATIR - BAŞLANGIÇ-->
+        <div class="row">
+            <!--HER BİR SİPARİŞ - BAŞLANGIÇ-->
+            @foreach (var item in Model.Where(x => x.siparisDurumu == true).Take(4).OrderBy(x => x.siparisTarihi))
+            {
+                <div class="col-lg-3 ui-sortable">
+                    <div class="box" style="position: relative; left: 0px; top: 0px; border:none !important;">
+                        <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                            <!--KAT MASA SÜRE SATIRI - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important; background-color:azure;">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:25%;">Kat: @item.Oturumlar.Masalar.Katlar.katAd</td>
+                                            <td style="width:25%;">Masa: @item.Oturumlar.Masalar.masaAd</td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:40%;">Sipariş: @DateTime.Now.Subtract(item.siparisTarihi).Hours saat @DateTime.Now.Subtract(item.siparisTarihi).Minutes dk. Önce</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--KAT MASA SÜRE SATIRI - BİTİŞ-->
+                            <!--TÜR SEÇENEKLER SATIRI - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-lg-12" style="background-color:cadetblue;">
+                                    <table style="background-color:cadetblue;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:black" class="col-lg-3">Tür</td>
+                                                <td style="color:black" class="col-lg-3"></td>
+                                                <td style="color:black" class="col-lg-3"></td>
+                                                <td style="color:black" class="col-lg-3">Seçenekler</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--TÜR SEÇENEKLER SATIRI - BİTİŞ-->
+                            <!--HER BİR SİPARİŞ ÜRÜNÜ - BAŞLANGIÇ-->
+                            @foreach (var item2 in item.SiparisUrunleri.Where(y => y.siparislerId == item.siparislerId))
+                            {
+                                counter++;
+                                <div class="row  btn-grad @if (counter % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-8" style="padding-top:10px; padding-bottom:10px;">
+                                        <span>@item2.Urunler.urunAd - @item2.UrunOzellikler.urunOzellikAd</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="btn btn-success btn-metis-3 btn-circle btn-grad" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#helpModal_@item2.siparisUrunlerId"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            <!-- #helpModal -->
+                                <div class="row">
+                                    <div id="helpModal_@item2.siparisUrunlerId" class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content"style="background-color:#ffffff !important;">
+                                                <div class="modal-header" >
+                                                    <button type="button" class="close btn-danger btn-circle btn-grad" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                                                    <h4 class="modal-title">@item2.Urunler.urunAd - @item2.UrunOzellikler.urunOzellikAd Detayları</h4>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:25%;">Kat: @item2.Siparisler.Oturumlar.Masalar.Katlar.katAd</td>
+                                                                <td style="width:25%;">Masa: @item2.Siparisler.Oturumlar.Masalar.masaAd</td>
+                                                                <td style="width:10%;"></td>
+                                                                <td style="width:40%;">Sipariş: @DateTime.Now.Subtract(item2.Siparisler.siparisTarihi).Hours saat @DateTime.Now.Subtract(item.siparisTarihi).Minutes dk. Önce</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-body" style="padding:0px !important;">
+                                                    @{
+                                                        int solSutunSayisi = 0, sagSutunSayisi = 0;
+                                                        int urunOzellikSayisi = item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).Count();
+                                                        int urunOzellikSayisiIkiyeBolumundenKalan = urunOzellikSayisi % 2;
+
+                                                        if (urunOzellikSayisiIkiyeBolumundenKalan == 0)
+                                                        {
+                                                            solSutunSayisi = urunOzellikSayisi / 2; sagSutunSayisi = urunOzellikSayisi / 2;
+                                                        }
+                                                        else
+                                                        {
+                                                            solSutunSayisi = (urunOzellikSayisi + 1) / 2;
+                                                            sagSutunSayisi = urunOzellikSayisi - solSutunSayisi;
+                                                        }
+                                                    }
+                                                    <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                                        <div class="col-md-6" style="padding-left:0px !important; padding-right:0px !important;">
+                                                            @foreach (var item3 in item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).OrderBy(p => p.siparisUrunEkstraId).Take(solSutunSayisi))
+                                                            {
+                                                                counter2++;
+                                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px; background-color:@if (counter2 % 2 == 0){<text>#EEEEEE</text>}else{<text>#9FC5F8</text>};">
+                                                                    @item3.UrunEkstralar.urunEkstraAd
+                                                                </div>
+                                                                <div class="col-md-6" style="text-align:right; background-color:@if (counter2 % 2 == 0){<text>#EEEEEE</text>}else{<text>#9FC5F8</text>};">
+                                                                    <a class="btn btn-success btn-metis-5 btn-circle btn-grad"><i class="fa fa-check"></i></a>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-6" style="padding-left:0px !important; padding-right:0px !important;">
+                                                            @foreach (var item3 in item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).OrderBy(p => p.siparisUrunEkstraId).Skip(solSutunSayisi).Take(sagSutunSayisi))
+                                                            {
+                                                                counter3++;
+
+                                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px; background-color:@if (counter3 % 2 == 0){<text>#9FC5F8</text>}else{<text>#EEEEEE</text>};">
+                                                                    @item3.UrunEkstralar.urunEkstraAd
+                                                                </div>
+                                                                <div class="col-md-6" style="text-align:right; background-color:@if (counter3 % 2 == 0){<text>#9FC5F8</text>}else{<text>#EEEEEE</text>};">
+                                                                    <a class="btn btn-success btn-metis-5 btn-circle btn-grad"><i class="fa fa-check"></i></a>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer" style="padding:0px !important;">
+                                                    <div class="row" style="background-color:#9FC5F8; margin-left:0px !important; margin-right:0px !important;">
+                                                        <div class="col-md-12" style="padding:0px !important; border-top:0px solid azure !important;">
+                                                            <a id="siparisUrunleriDurumDegistir" class="btn btn-metis-5 btn-lg btn-grad" data-dismiss="modal" style="min-width:100%"><i class="fa fa-chevron-left"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                </div>
+                            <!-- /#helpModal -->
+                            }
+                            <!--HER BİR SİPARİŞ ÜRÜNÜ - BİTİŞ-->
+                            <!--SİPARİŞ NOTU BAŞLANGIÇ-->
+                            <div class="row btn-grad btn-metis-6" style="width:100%; margin-left:0px !important; margin-right:0px !important;">
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+                                        <span style="color:white;">Sipariş Notu:</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-12" style="padding-top:10px; padding-bottom:10px; text-align:left;">
+                                        <span style="color:white;">@item.note</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--SİPARİŞ NOTU BİTİŞ-->
+                            <!--BÜTÜN ÜRÜNLERİ ONAYLA - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-md-12" style="padding-left:0px !important; padding-right:0px !important;">
+                                    <a id="siparisUrunleriTumunuOnaylama_ID" onclick="XsiparisUrunleriTumunuOnaylama(this.name)" name="@item.siparislerId" class="btn btn-danger btn-lg btn-grad" style="min-width:100%"><i class="fa fa-undo"></i></a>
+                                </div>
+                            </div>
+                            <!--BÜTÜN ÜRÜNLERİ ONAYLA - BİTİŞ-->
+
+                        </div>
+                    </div>
+                </div>
+                }
+            <!--HER BİR SİPARİŞ - BİTİŞ-->
+        </div>
+        <!--4 TANEDE 1 SATIR - BİTİŞ-->
+        <!--4 TANEDE 1 SATIR - BAŞLANGIÇ-->
+        <div class="row">
+            <!--HER BİR SİPARİŞ - BAŞLANGIÇ-->
+            @foreach (var item in Model.Where(x => x.siparisDurumu == true).Skip(4).Take(4).OrderBy(x => x.siparisTarihi))
+            {
+                <div class="col-lg-3 ui-sortable">
+                    <div class="box" style="position: relative; left: 0px; top: 0px; border:none !important;">
+                        <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                            <!--KAT MASA SÜRE SATIRI - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important; background-color:azure;">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:25%;">Kat: @item.Oturumlar.Masalar.Katlar.katAd</td>
+                                            <td style="width:25%;">Masa: @item.Oturumlar.Masalar.masaAd</td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:40%;">Sipariş: @DateTime.Now.Subtract(item.siparisTarihi).Hours saat @DateTime.Now.Subtract(item.siparisTarihi).Minutes dk. Önce</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--KAT MASA SÜRE SATIRI - BİTİŞ-->
+                            <!--TÜR SEÇENEKLER SATIRI - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-lg-12" style="background-color:cadetblue;">
+                                    <table style="background-color:cadetblue;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:black" class="col-lg-3">Tür</td>
+                                                <td style="color:black" class="col-lg-3"></td>
+                                                <td style="color:black" class="col-lg-3"></td>
+                                                <td style="color:black" class="col-lg-3">Seçenekler</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--TÜR SEÇENEKLER SATIRI - BİTİŞ-->
+                            <!--HER BİR SİPARİŞ ÜRÜNÜ - BAŞLANGIÇ-->
+                            @foreach (var item2 in item.SiparisUrunleri.Where(y => y.siparislerId == item.siparislerId))
+                            {
+                                counter++;
+                                <div class="row  btn-grad @if (counter % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-8" style="padding-top:10px; padding-bottom:10px;">
+                                        <span>@item2.Urunler.urunAd - @item2.UrunOzellikler.urunOzellikAd</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="btn btn-success btn-metis-3 btn-circle btn-grad" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#helpModal_@item2.siparisUrunlerId"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            <!-- #helpModal -->
+                                <div class="row">
+                                    <div id="helpModal_@item2.siparisUrunlerId" class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close btn-danger btn-circle btn-grad" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                                                    <h4 class="modal-title">@item2.Urunler.urunAd - @item2.UrunOzellikler.urunOzellikAd Detayları</h4>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:25%;">Kat: @item2.Siparisler.Oturumlar.Masalar.Katlar.katAd</td>
+                                                                <td style="width:25%;">Masa: @item2.Siparisler.Oturumlar.Masalar.masaAd</td>
+                                                                <td style="width:10%;"></td>
+                                                                <td style="width:40%;">Sipariş: @DateTime.Now.Subtract(item2.Siparisler.siparisTarihi).Hours saat @DateTime.Now.Subtract(item.siparisTarihi).Minutes dk. Önce</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-body" style="padding:0px !important;">
+                                                    @{
+                                                        int solSutunSayisi = 0, sagSutunSayisi = 0;
+                                                        int urunOzellikSayisi = item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).Count();
+                                                        int urunOzellikSayisiIkiyeBolumundenKalan = urunOzellikSayisi % 2;
+
+                                                        if (urunOzellikSayisiIkiyeBolumundenKalan == 0)
+                                                        {
+                                                            solSutunSayisi = urunOzellikSayisi / 2; sagSutunSayisi = urunOzellikSayisi / 2;
+                                                        }
+                                                        else
+                                                        {
+                                                            solSutunSayisi = (urunOzellikSayisi + 1) / 2;
+                                                            sagSutunSayisi = urunOzellikSayisi - solSutunSayisi;
+                                                        }
+                                                    }
+                                                    <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                                        <div class="col-md-6" style="padding-left:0px !important; padding-right:0px !important;">
+                                                            @foreach (var item3 in item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).OrderBy(p => p.siparisUrunEkstraId).Take(solSutunSayisi))
+                                                            {
+                                                                counter2++;
+                                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px; background-color:@if (counter2 % 2 == 0){<text>#EEEEEE</text>}else{<text>#9FC5F8</text>};">
+                                                                    @item3.UrunEkstralar.urunEkstraAd
+                                                                </div>
+                                                                <div class="col-md-6" style="text-align:right; background-color:@if (counter2 % 2 == 0){<text>#EEEEEE</text>}else{<text>#9FC5F8</text>};">
+                                                                    <a class="btn btn-success btn-metis-5 btn-circle btn-grad"><i class="fa fa-check"></i></a>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-6" style="padding-left:0px !important; padding-right:0px !important;">
+                                                            @foreach (var item3 in item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).OrderBy(p => p.siparisUrunEkstraId).Skip(solSutunSayisi).Take(sagSutunSayisi))
+                                                            {
+                                                                counter3++;
+
+                                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px; background-color:@if (counter3 % 2 == 0){<text>#9FC5F8</text>}else{<text>#EEEEEE</text>};">
+                                                                    @item3.UrunEkstralar.urunEkstraAd
+                                                                </div>
+                                                                <div class="col-md-6" style="text-align:right; background-color:@if (counter3 % 2 == 0){<text>#9FC5F8</text>}else{<text>#EEEEEE</text>};">
+                                                                    <a class="btn btn-success btn-metis-5 btn-circle btn-grad"><i class="fa fa-check"></i></a>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer" style="padding:0px !important;">
+                                                    <div class="row" style="background-color:#9FC5F8; margin-left:0px !important; margin-right:0px !important;">
+                                                        <div class="col-md-12" style="padding:0px !important; border-top:0px solid azure !important;">
+                                                            <a id="siparisUrunleriDurumDegistir" class="btn btn-metis-5 btn-lg btn-grad" data-dismiss="modal" style="min-width:100%"><i class="fa fa-chevron-left"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                </div>
+                            <!-- /#helpModal -->
+                            }
+                            <!--HER BİR SİPARİŞ ÜRÜNÜ - BİTİŞ-->
+                            <!--SİPARİŞ NOTU BAŞLANGIÇ-->
+                            <div class="row btn-grad btn-metis-6" style="width:100%; margin-left:0px !important; margin-right:0px !important;">
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+                                        <span style="color:white;">Sipariş Notu:</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-12" style="padding-top:10px; padding-bottom:10px; text-align:left;">
+                                        <span style="color:white;">@item.note</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--SİPARİŞ NOTU BİTİŞ-->
+                            <!--BÜTÜN ÜRÜNLERİ ONAYLA - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-md-12" style="padding-left:0px !important; padding-right:0px !important;">
+                                    <a id="siparisUrunleriTumunuOnayla_ID" onclick="XsiparisUrunleriTumunuOnaylama(this.name)" name="@item.siparislerId" class="btn btn-danger btn-lg btn-grad" style="min-width:100%"><i class="fa fa-undo"></i></a>
+                                </div>
+                            </div>
+                            <!--BÜTÜN ÜRÜNLERİ ONAYLA - BİTİŞ-->
+
+                        </div>
+                    </div>
+                </div>
+            }
+            <!--HER BİR SİPARİŞ - BİTİŞ-->
+        </div>
+        <!--4 TANEDE 1 SATIR - BİTİŞ-->
+        <!--4 TANEDE 1 SATIR - BAŞLANGIÇ-->
+        <div class="row">
+            <!--HER BİR SİPARİŞ - BAŞLANGIÇ-->
+            @foreach (var item in Model.Where(x => x.siparisDurumu == true).Skip(8).Take(4).OrderBy(x => x.siparisTarihi))
+            {
+                <div class="col-lg-3 ui-sortable">
+                    <div class="box" style="position: relative; left: 0px; top: 0px; border:none !important;">
+                        <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                            <!--KAT MASA SÜRE SATIRI - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important; background-color:azure;">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:25%;">Kat: @item.Oturumlar.Masalar.Katlar.katAd</td>
+                                            <td style="width:25%;">Masa: @item.Oturumlar.Masalar.masaAd</td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:40%;">Sipariş: @DateTime.Now.Subtract(item.siparisTarihi).Hours saat @DateTime.Now.Subtract(item.siparisTarihi).Minutes dk. Önce</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--KAT MASA SÜRE SATIRI - BİTİŞ-->
+                            <!--TÜR SEÇENEKLER SATIRI - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-lg-12" style="background-color:cadetblue;">
+                                    <table style="background-color:cadetblue;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:black" class="col-lg-3">Tür</td>
+                                                <td style="color:black" class="col-lg-3"></td>
+                                                <td style="color:black" class="col-lg-3"></td>
+                                                <td style="color:black" class="col-lg-3">Seçenekler</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--TÜR SEÇENEKLER SATIRI - BİTİŞ-->
+                            <!--HER BİR SİPARİŞ ÜRÜNÜ - BAŞLANGIÇ-->
+                            @foreach (var item2 in item.SiparisUrunleri.Where(y => y.siparislerId == item.siparislerId))
+                            {
+                                counter++;
+                                <div class="row  btn-grad @if (counter % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-8" style="padding-top:10px; padding-bottom:10px;">
+                                        <span>@item2.Urunler.urunAd - @item2.UrunOzellikler.urunOzellikAd</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="btn btn-success btn-metis-3 btn-circle btn-grad" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#helpModal_@item2.siparisUrunlerId"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                            <!-- #helpModal -->
+                            <div class="row">
+                                    <div id="helpModal_@item2.siparisUrunlerId" class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close btn-danger btn-circle btn-grad" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                                                    <h4 class="modal-title">@item2.Urunler.urunAd - @item2.UrunOzellikler.urunOzellikAd Detayları</h4>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:25%;">Kat: @item2.Siparisler.Oturumlar.Masalar.Katlar.katAd</td>
+                                                                <td style="width:25%;">Masa: @item2.Siparisler.Oturumlar.Masalar.masaAd</td>
+                                                                <td style="width:10%;"></td>
+                                                                <td style="width:40%;">Sipariş: @DateTime.Now.Subtract(item2.Siparisler.siparisTarihi).Hours saat @DateTime.Now.Subtract(item.siparisTarihi).Minutes dk. Önce</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-body" style="padding:0px !important;">
+                                                    @{
+                                                        int solSutunSayisi = 0, sagSutunSayisi = 0;
+                                                        int urunOzellikSayisi = item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).Count();
+                                                        int urunOzellikSayisiIkiyeBolumundenKalan = urunOzellikSayisi % 2;
+
+                                                        if (urunOzellikSayisiIkiyeBolumundenKalan == 0)
+                                                        {
+                                                            solSutunSayisi = urunOzellikSayisi / 2; sagSutunSayisi = urunOzellikSayisi / 2;
+                                                        }
+                                                        else
+                                                        {
+                                                            solSutunSayisi = (urunOzellikSayisi + 1) / 2;
+                                                            sagSutunSayisi = urunOzellikSayisi - solSutunSayisi;
+                                                        }
+                                                    }
+                                                    <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                                        <div class="col-md-6" style="padding-left:0px !important; padding-right:0px !important;">
+                                                            @foreach (var item3 in item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).OrderBy(p => p.siparisUrunEkstraId).Take(solSutunSayisi))
+                                                            {
+                                                                counter2++;
+                                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px; background-color:@if (counter2 % 2 == 0){<text>#EEEEEE</text>}else{<text>#9FC5F8</text>};">
+                                                                    @item3.UrunEkstralar.urunEkstraAd
+                                                                </div>
+                                                                <div class="col-md-6" style="text-align:right; background-color:@if (counter2 % 2 == 0){<text>#EEEEEE</text>}else{<text>#9FC5F8</text>};">
+                                                                    <a class="btn btn-success btn-metis-5 btn-circle btn-grad"><i class="fa fa-check"></i></a>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-6" style="padding-left:0px !important; padding-right:0px !important;">
+                                                            @foreach (var item3 in item2.SiparisUrunleriEkstralari.Where(z => z.siparisUrunlerId == item2.siparisUrunlerId).OrderBy(p => p.siparisUrunEkstraId).Skip(solSutunSayisi).Take(sagSutunSayisi))
+                                                            {
+                                                                counter3++;
+
+                                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px; background-color:@if (counter3 % 2 == 0){<text>#9FC5F8</text>}else{<text>#EEEEEE</text>};">
+                                                                    @item3.UrunEkstralar.urunEkstraAd
+                                                                </div>
+                                                                <div class="col-md-6" style="text-align:right; background-color:@if (counter3 % 2 == 0){<text>#9FC5F8</text>}else{<text>#EEEEEE</text>};">
+                                                                    <a class="btn btn-success btn-metis-5 btn-circle btn-grad"><i class="fa fa-check"></i></a>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer" style="padding:0px !important;">
+                                                    <div class="row" style="background-color:#9FC5F8; margin-left:0px !important; margin-right:0px !important;">
+                                                        <div class="col-md-12" style="padding:0px !important; border-top:0px solid azure !important;">
+                                                            <a id="siparisUrunleriDurumDegistir" class="btn btn-metis-5 btn-lg btn-grad" data-dismiss="modal" style="min-width:100%"><i class="fa fa-chevron-left"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                </div>
+                            <!-- /#helpModal -->
+                                                        }
+                            <!--HER BİR SİPARİŞ ÜRÜNÜ - BİTİŞ-->
+                            <!--SİPARİŞ NOTU BAŞLANGIÇ-->
+                            <div class="row btn-grad btn-metis-6" style="width:100%; margin-left:0px !important; margin-right:0px !important;">
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+                                        <span style="color:white;">Sipariş Notu:</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div class="col-md-12" style="padding-top:10px; padding-bottom:10px; text-align:left;">
+                                        <span style="color:white;">@item.note</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--SİPARİŞ NOTU BİTİŞ-->
+                            <!--BÜTÜN ÜRÜNLERİ ONAYLA - BAŞLANGIÇ-->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-md-12" style="padding-left:0px !important; padding-right:0px !important;">
+                                    <a id="siparisUrunleriTumunuOnayla_ID" onclick="XsiparisUrunleriTumunuOnaylama(this.name)" name="@item.siparislerId" class="btn btn-danger btn-lg btn-grad" style="min-width:100%"><i class="fa fa-undo"></i></a>
+                                </div>
+                            </div>
+                            <!--BÜTÜN ÜRÜNLERİ ONAYLA - BİTİŞ-->
+
+                        </div>
+                    </div>
+                </div>
+             }
+            <!--HER BİR SİPARİŞ - BİTİŞ-->
+        </div>
+        <!--4 TANEDE 1 SATIR - BİTİŞ-->
+    </div>
+</div>
+
+<script type="text/javascript">
+function siparisUrunleriDurumDegistir(siparisUrunleriID) {
+    $.ajax({
+        url: '/Mutfak/SiparisUrunleriDurumunuDegistir?siparisUrunlerId=' + siparisUrunleriID,
+        type: 'POST',
+        dataType: 'json',
+        success: function (data) {
+            $("#SiparisUrunleriDurumu").html(data);
+        }
+    });
+};
+</script>
+<script type="text/javascript">
+    function XsiparisUrunleriTumunuOnaylama(siparisler_Id) {
+    $.ajax({
+        type: 'POST',
+        url: '/Mutfak/TumunuOnaylama?siparislerId=' + siparisler_Id,
+        dataType: 'json',
+        success: function (data) {
+            if (data) {
+                window.location.replace("/Mutfak/TamamlananSiparisler")
+            };
+        }
+    });
+};
+</script>

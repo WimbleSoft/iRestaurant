@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Ayarlar";
+    Layout = "~/Views/Shared/sirketYonetim_Layout.cshtml";
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+
+<script>
+    document.getElementById("ayarlar").className = "active";
+</script>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Ayarlar
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#"><i class="fa fa-dashboard"></i> Ayarlar</a>
+            </li>
+        </ol>
+    </section>
+        
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ui-sortable">
+                
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ui-sortable">
+                <!-- small box -->
+                <form action="/SirketYonetim/Ayarlar" enctype="application/x-www-form-urlencoded" method="post">
+                        @{Sirketler sirket = Model.Sirketler.First(); }
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket Adı</label>
+                                <input class="form-control" type="text" name="sirketAd"required placeholder="Şirket Adı" value="@sirket.sirketAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket Email</label>
+                                <input class="form-control" type="text" name="sirketEmail"required placeholder="Şirket Email Adresi" value="@sirket.sirketEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket Telefon</label>
+                                <input class="form-control" type="text" name="sirketTelefon"required placeholder="Şirket Telefonu" value="@sirket.sirketTelefon">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket Parola</label>
+                                <input class="form-control" type="password" name="sirketParola"required placeholder="Şirket Parolası">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket Parola (Tekrar)</label>
+                                <input class="form-control" type="password" name="sirketParolaTekrar"required placeholder="Şirket Parolası (Tekrar)">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket Ülke</label>
+                                <select id="ulkeId" name="ulkeId" onchange="illerGetir(this.value)"required class="form-control select2" style="width: 100%;">
+                                    <option value="">Ülke Seç</option>
+                                    @foreach (var ulke in Model.Ulkeler)
+                                    {
+                                        <option @if (ulke.ulkeId==sirket.Ilceler.Iller.ulkeId) {<text> selected="selected" </text> } value="@ulke.ulkeId">@ulke.ulkeAd</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket İl</label>
+                                <select id="ilId" name="ilId" onchange="ilcelerGetir(this.value)" required class="form-control select2" style="width: 100%;">
+                                    <option value="">Şehir Seç</option>
+                                    @foreach (var il in Model.Iller.Where(x => x.ulkeId == sirket.Ilceler.Iller.ulkeId))
+                                    {
+                                        <option @if (il.ilId==sirket.Ilceler.ilId) {<text> selected="selected" </text> } value="@il.ilId">@il.ilAd</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Şirket İlçe</label>
+                                <select id="ilceId" name="ilceId" class="form-control select2" required style="width: 100%;">
+                                    <option value="">İlçe Seç</option>
+                                    @foreach (var ilce in Model.Ilceler.Where(x => x.ilId == sirket.Ilceler.ilId))
+                                    {
+                                        <option @if (ilce.ilceId == sirket.ilceId) { <text> selected="selected" </text> } value="@ilce.ilceId">@ilce.ilceAd</option>
+                                    }
+                                </select>
+                            </div>
+                            <script>
+                                $(function () {
+                                    var ulkeSecici = $("#ulkeId");
+                                    /*
+                                    illerGetir(ulkeSecici[0].value);
+                                    */
+                                });
+                                function illerGetir(ulkeId) {
+                                    $.ajax({
+                                        url: '/SirketYonetim/IllerGetir',
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        contentType: "application/json",
+                                        data: JSON.stringify({ ulkeId: ulkeId }),
+                                        traditional: true,
+                                        success: function (gelenIller) {
+                                            var ilId = $("#ilId");
+                                            ilId.empty();
+                                            //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                            $.each(gelenIller, function () {
+                                                ilId.append($("<option />").val(this.ilId).text(this.ilAd));
+                                            });
+                                            ilcelerGetir(ilId.val());
+                                        }
+                                    });
+                                }
+                                function ilcelerGetir(ilId) {
+                                    $.ajax({
+                                        url: '/SirketYonetim/IlcelerGetir',
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        contentType: "application/json",
+                                        data: JSON.stringify({ ilId: ilId }),
+                                        traditional: true,
+                                        success: function (gelenIlceler) {
+                                            var ilceId = $("#ilceId");
+                                            ilceId.empty();
+                                            //ilceId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                            $.each(gelenIlceler, function () {
+                                                ilceId.append($("<option />").val(this.ilceId).text(this.ilceAd));
+                                            });
+                                        }
+                                    });
+                                }
+                            </script>
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <label>İşlemler</label>
+                                <button type="button" onclick="personelEkle()" class="btn btn-primary form-control">Kaydet</button>
+                            </div>
+                        </div>
+                    
+                    
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ui-sortable">
+            </div>
+
+        </div>
+        
+    </section>
+</div>

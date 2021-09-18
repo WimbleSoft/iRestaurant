@@ -1,0 +1,266 @@
+﻿
+@{
+    ViewBag.Title = "Departmanlar";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- PAGE CONTENT -->
+<script>
+    document.getElementById("departmanlar").className = "active";
+</script>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Departmanlar
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Departmanlar</a></li>
+        </ol>
+    </section>
+     <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Departman Ekle
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-2 col-lg-3 col-xs-12 col-sm-4">
+                                                <label>Departman Adı</label>
+                                                <input name="departmanAd" required type="text" id="departmanAd" class="form-control" placeholder="Departman Adını Giriniz">
+                                            </div>
+                                            <div class="col-md-2 col-lg-3 col-xs-12 col-sm-4">
+                                                <label>Departman IP</label>
+                                                <input name="departmanIp" required type="text" id="departmanIp" class="form-control" placeholder="xxx.xxx.xxx.xxx şeklinde giriniz.">
+                                                <span>Lütfen xxx.xxx.xxx.xxx şeklinde giriniz. örn: 192.168.2.100</span>
+                                            </div>
+                                            <div class="col-md-2 col-lg-3 col-xs-12 col-sm-4">
+                                                <label>İşlemler</label>
+                                                <button type="submit" onclick="departmanEkle()" class="btn btn-primary btn-md btn-grad form-control">Departman Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Departman Id</th>
+                                    <th>Departman Ad</th>
+                                    <th>Departman IP</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var departman in Model.Departmanlar) { 
+                                <tr>
+                                    <td>@departman.departmanId</td>
+                                    <td>@departman.departmanAd</td>
+                                    <td>@departman.departmanIp</td>
+                                    <td>@if (departman.aktifMi) { <text>Aktif</text>}else {<text>Pasif</text>}</td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button type="button" class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#myModalId_@departman.departmanId"></button>
+                                            <a href="#" name="@departman.departmanId" onclick="departmanSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                } 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- DEPARTMAN DÜZENLEME -->
+@foreach (var departman in Model.Departmanlar)
+{
+<div class="modal fade bs-example-modal-lg" id="myModalId_@departman.departmanId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@departman.departmanAd Departmanını Düzenle</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>Departman Adı</label>
+                            <input name="departmanAd_@departman.departmanAd" required type="text" id="departmanAd_@departman.departmanId" class="form-control" placeholder="Departman Adını Giriniz" value="@departman.departmanAd">
+                            <input name="departmanId_@departman.departmanId" type="text" id="departmanId_@departman.departmanId" hidden="hidden" value="@departman.departmanId">
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>Departman IP'si</label>
+                            <input name="departmanIp_@departman.departmanIp" required type="text" id="departmanIp_@departman.departmanId" class="form-control" placeholder="Departman Ip''sini Giriniz" value="@departman.departmanIp">
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>Departman Aktif Mi?</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="departmanAktifMi_@departman.departmanIp" type="checkbox" id="departmanAktifMi_@departman.departmanId" @if (departman.aktifMi) { <text> checked</text>}>
+                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                    İlk Kurulum Yapıldı
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <a class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</a>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <a onclick="departmanGuncelle(this.name)" name="@departman.departmanId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<!-- DEPARTMAN DÜZENLEME -->
+<script>
+    function departmanEkle() {
+        var departmanAd = $('#departmanAd').val();
+        var departmanIp = $('#departmanIp').val();
+        if (departmanAd != "" && departmanIp != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/DepartmanEkle/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ departmanAd: departmanAd, departmanIp: departmanIp, subeId: subeId }),
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+           
+    }
+    function departmanGuncelle(departmanId) {
+        var departmanAd = $('#departmanAd_' + departmanId).val();
+        var departmanId = $('#departmanId_' + departmanId).val();
+        var departmanIp = $('#departmanIp_' + departmanId).val();
+        var departmanAktifMi = $('#departmanAktifMi_' + departmanId).is(':checked');
+        if (departmanIp != "" && departmanId != "" && departmanAd != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/DepartmanGuncelle/',
+                dataType: 'json',
+                data: { departmanAd: departmanAd, departmanId: departmanId, departmanIp: departmanIp, aktifMi: departmanAktifMi, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+            
+    }
+    function departmanSil(departmanId) {
+        if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/DepartmanSil/',
+                dataType: 'json',
+                data: { departmanId: departmanId, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertIslemIptal();
+        }
+    }
+</script>

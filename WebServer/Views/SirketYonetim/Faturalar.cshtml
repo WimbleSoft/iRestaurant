@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = "Faturalar";
+    Layout = "~/Views/Shared/sirketYonetim_Layout.cshtml";
+    int sirketId = (int)Session["sirketId"];
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+<div id="content">
+    <script>
+        document.getElementById("faturalar").className = "active";
+    </script>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Lisanslar
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+                <li><a href="#">Faturalar</a></li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#odenmis" data-toggle="tab" aria-expanded="true">Ödenmiş Faturalar</a></li>
+                            <li class=""><a href="#odenmemis" data-toggle="tab" aria-expanded="false">Ödenmemiş Faturalar</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="odenmis">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Fatura Id</th>
+                                                    <th>Fatura Tarihi</th>
+                                                    <th></th>
+                                                    <th>Fatura Detay</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var fatura in Model.Faturalar.Where(x=>x.odendiMi==true))
+                                                {
+                                                    <tr class="parent" id="rowParent_@fatura.faturaId">
+                                                        <td>#@fatura.faturaId</td>
+                                                        <td>@fatura.faturaTarih</td>
+                                                        <td></td>
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-success fa fa-plus" data-toggle="collapse" data-target=".faturaDetay_@fatura.faturaId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-parent="#rowParent_@fatura.faturaId" class="collapse faturaDetay_@fatura.faturaId">
+                                                        @{ 
+                                                            <th class="label-danger">Lisans</th>
+                                                            <th class="label-danger">Satın Alınan Adet</th>
+                                                            <th class="label-danger">Süre</th>
+                                                            <th class="label-danger">Kampanya</th>
+                                                        }
+                                                    </tr>
+                                                    foreach (var faturadakiHizmet in fatura.FaturadakiHizmetler.Where(x=>x.faturaId==fatura.faturaId))
+                                                    {
+                                                    <tr data-parent="#rowParent_@fatura.faturaId" class="collapse label-success faturaDetay_@fatura.faturaId">
+                                                        <td>
+                                                            @faturadakiHizmet.Hizmetler.hizmetAd
+                                                        </td>
+                                                        <td>
+                                                            @faturadakiHizmet.adet
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (faturadakiHizmet.yillikMi)
+                                                                {
+                                                                    <text>Yıllık</text>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>Aylık</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (faturadakiHizmet.hizmetKampanyaId !=null)
+                                                                {
+
+                                                                    if(Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == faturadakiHizmet.hizmetKampanyaId).Count() == 1)
+                                                                    {
+                                                                        <text>
+                                                                            @Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == faturadakiHizmet.hizmetKampanyaId).First().hizmetKampanyaAd
+                                                                        </text>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <text>Kampanyasız</text>
+                                                                    }
+                                                                    
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>Kampanyasız</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="odenmemis">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Fatura Id</th>
+                                                    <th>Fatura Tarihi</th>
+                                                    <th></th>
+                                                    <th>Fatura Detay</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var fatura in Model.Faturalar.Where(x=>x.odendiMi==false))
+                                                {
+                                                    <tr class="parent" id="rowParent_@fatura.faturaId">
+                                                        <td>#@fatura.faturaId</td>
+                                                        <td>@fatura.faturaTarih</td>
+                                                        <td></td>
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-success fa fa-plus" data-toggle="collapse" data-target=".faturaDetay_@fatura.faturaId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-parent="#rowParent_@fatura.faturaId" class="collapse faturaDetay_@fatura.faturaId">
+                                                        @{ 
+                                                            <th class="label-danger">Lisans</th>
+                                                            <th class="label-danger">Satın Alınan Adet</th>
+                                                            <th class="label-danger">Süre</th>
+                                                            <th class="label-danger">Kampanya</th>
+                                                        }
+                                                    </tr>
+                                                    foreach (var faturadakiHizmet in fatura.FaturadakiHizmetler.Where(x=>x.faturaId==fatura.faturaId))
+                                                    {
+                                                    <tr data-parent="#rowParent_@fatura.faturaId" class="collapse label-success faturaDetay_@fatura.faturaId">
+                                                        <td>
+                                                            @faturadakiHizmet.Hizmetler.hizmetAd
+                                                        </td>
+                                                        <td>
+                                                            @faturadakiHizmet.adet
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (faturadakiHizmet.yillikMi)
+                                                                {
+                                                                    <text>Yıllık</text>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>Aylık</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (faturadakiHizmet.hizmetKampanyaId !=null)
+                                                                {
+
+                                                                    if(Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == faturadakiHizmet.hizmetKampanyaId).Count() == 1)
+                                                                    {
+                                                                        <text>
+                                                                            @Model.HizmetKampanyalari.Where(x => x.hizmetKampanyaId == faturadakiHizmet.hizmetKampanyaId).First().hizmetKampanyaAd
+                                                                        </text>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <text>Kampanyasız</text>
+                                                                    }
+                                                                    
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>Kampanyasız</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": false,
+            "info": false,
+            "autoWidth": true
+        });
+    });
+    function lisansDuzenle(hizmetLisansId) {
+        var subeId = $('#subeId_' + hizmetLisansId).val();
+        var sirketId = "@sirketId";
+        if (subeId != "" && sirketId != "" && hizmetLisansId!="") {
+            $.ajax({
+                type: 'POST',
+                url: '/SirketYonetim/HizmetLisansiGuncelle/',
+                dataType: 'json',
+                data: { sirketId: sirketId, subeId: subeId, hizmetLisansId: hizmetLisansId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else if (data == 2) {
+                        alert("Bu şubede bu lisans zaten atanmış durumdadır.");
+                    }
+                    else if (data == 3) {
+                        alert("Gönderdiğiniz şube bilgisi geçerli değil.");
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+</script>
+

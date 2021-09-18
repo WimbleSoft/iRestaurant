@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/home_Layout.cshtml";
+    ViewBag.Title = "Ödeme Yap";
+    int paraBirimiId = 0;
+    if (Session["paraBirimiId"] == null)
+    {
+        paraBirimiId = 1;
+    }
+    else
+    {
+        if ((int)Session["paraBirimiId"] > 0 && (int)Session["paraBirimiId"] <= 4)
+        {
+            paraBirimiId = (int)Session["paraBirimiId"];
+        }
+        else
+        {
+            paraBirimiId = 1;
+        }
+    }
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+<!-- Header -->
+<header class="header bg-gray">
+    <div class="container">
+        <h1 class="display-4">Ödeme Yap Checkout</h1>
+        <p class="lead-2 mt-6">Görünen o ki işleminizi tamamladınız. Bilgilerinizi düzenleyin, ödeme yapın. Seems you're done! Let us know where should we send your order.</p>
+    </div>
+</header><!-- /.header -->
+<!-- Main Content -->
+<main class="main-content">
+    <section class="section">
+        <div class="container">
+    
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-lg btn-light btn-round btn-outline-success" href="/Home/Pricing">@ViewBag.message</a>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+            
+            </div>
+        </section>
+    </main>

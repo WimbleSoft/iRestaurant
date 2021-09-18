@@ -1,0 +1,341 @@
+﻿
+@{
+    ViewBag.Title = "Duyurular";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- PAGE CONTENT -->
+<script>
+document.getElementById("duyurular").className = "active";
+</script>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Duyurular
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Duyurular</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Duyuru Ekle
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                                <label>Duyuru Adı</label>
+                                                <input name="duyuruBaslik" required type="text" id="duyuruBaslik" class="form-control" placeholder="Duyuru Başlığını Girin">
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                                <label>Duyuru Resmi</label>
+                                                <input type="file" name="duyuruResim" class="" id="duyuruResim" accept="image/*" reject="*/*" runat="server" />
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                                <label>İşlemler</label>
+                                                <button type="button" onclick="duyuruEkle()" class="btn btn-primary btn-md btn-grad form-control">Duyuru Ekle</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+                                                <label>Duyuru Açıklaması</label>
+                                                <textarea name="duyuruAciklama" required type="text" id="duyuruAciklama" class="form-control" style="resize:none;" placeholder="Duyuru Açıklamasını Girin"></textarea>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    Yayında Mı?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="yayinda" type="checkbox" checked />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.form -->
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Duyuru Resmi</th>
+                                    <th>Duyuru Başlık</th>
+                                    <th>Yayında</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var duyuru in Model.Duyurular.OrderBy(x => x.duyuruId))
+                                {
+                                <tr>
+                                    <td><img width="100" height="100" src="../assets/duyururesimleri/@duyuru.duyuruResim"/></td>
+                                    <td>@duyuru.duyuruBaslik</td>
+                                    <td>
+                                        @{
+                                            if (duyuru.yayinda==true)
+                                            {
+                                                <text>Aktif</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Pasif</text>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#DuyuruDuzenle_@duyuru.duyuruId"></button>
+                                            <button class="btn btn-danger  btn-md btn-grad fa fa-trash"name="@duyuru.duyuruId" onclick="duyuruSil(this.name)"></button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @foreach (var duyuru in Model.Duyurular)
+            {
+                <!-- URUN DÜZENLEME -->
+                <div class="modal fade bd-example-modal-lg" id="DuyuruDuzenle_@duyuru.duyuruId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_DuyuruDuzenle_@duyuru.duyuruId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_UrunDuzenle_@duyuru.duyuruId">@duyuru.duyuruBaslik Duyurusunu Düzenle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Duyuru Adı</label>
+                                            <input name="duyuruBaslik" required type="text" id="duyuruBaslik_@duyuru.duyuruId" class="form-control" placeholder="Duyuru Başlığını Girin" value="@duyuru.duyuruBaslik">
+                                            <input name="duyuruId"     type="text" id="duyuruId_@duyuru.duyuruId" hidden="hidden" value="@duyuru.duyuruId">
+                                        </div>
+                                        <div class="col-md-4 col-md-offset-4 col-lg-offset-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>
+                                                Yayında Mı?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="yayinda_@duyuru.duyuruId" @{if (duyuru.yayinda == true) { <text> checked="checked" </text>  }} type="checkbox" />
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <hr>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Varolan Resim</label>
+                                            <img style="margin-left: 5px !important; margin-right: 5px !important; border:3px;" width="250" height="250" src="../assets/duyururesimleri/@duyuru.duyuruResim" />
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Duyuru Resmi</label>
+                                            <input type="file" name="duyuruResim_@duyuru.duyuruId" id="duyuruResim_@duyuru.duyuruId"  accept="image/*" reject="*/*" runat="server" />
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>İşlemler</label>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" onclick="duyuruDuzenle(this.name)" name="@duyuru.duyuruId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <label>Duyuru Açıklaması</label>
+                                            <textarea name="duyuruAciklama_@duyuru.duyuruId" required type="text" id="duyuruAciklama_@duyuru.duyuruId" class="form-control" style="resize:none;" placeholder="Duyuru Açıklamasını Girin">@duyuru.duyuruAciklama</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            } 
+        </div>
+    </section>
+</div>
+<script>
+    
+//URUN DUZENLEME FONKSİYONU
+function duyuruDuzenle(duyuruId) {
+    var formData = new FormData();
+    var duyuruBaslik = $('#duyuruBaslik_' + duyuruId).val();
+    var duyuruId = $('#duyuruId_' + duyuruId).val();
+    var duyuruAciklama = $('#duyuruAciklama_' + duyuruId).val();
+    var yayinda = $('#yayinda_' + duyuruId).is(":checked");
+    var duyuruResim = $('#duyuruResim_' + duyuruId)[0].files[0];
+    
+    if (duyuruBaslik != "" && duyuruAciklama != "") {
+        formData.append("duyuruBaslik", duyuruBaslik);
+        formData.append("duyuruId", duyuruId);
+        formData.append("duyuruAciklama", duyuruAciklama);
+        formData.append("yayinda", yayinda);
+        formData.append("duyuruResimFile", duyuruResim);
+        formData.append("subeId", subeId);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/SubeYonetim/DuyuruGuncelle", true);
+        xhr.addEventListener("load",
+        function (data)
+        {
+            if (data.target.response == 0) {
+                location.reload(true);
+            }
+            else if (data.target.response == 1) {
+                alertHata();
+            }
+            else {
+                alertLoginHatasi();
+            }
+        },
+        false);
+        xhr.addEventListener("error", function (data) { alertHata(); }, false);
+        xhr.send(formData);
+    }
+    else {
+        alert("Lütfen başlık ve açıklamayı doldurunuz.");
+    }
+}
+    
+function duyuruEkle() {
+    var duyuruBaslik = $('#duyuruBaslik').val();
+    var duyuruAciklama = $('#duyuruAciklama').val();
+    var yayinda = $('#yayinda').is(":checked");
+    var duyuruResim = $('#duyuruResim')[0].files[0];
+
+    if (duyuruBaslik != "" && duyuruAciklama != "") {
+        var formData = new FormData();
+        formData.append("duyuruBaslik", duyuruBaslik);
+        formData.append("duyuruAciklama", duyuruAciklama);
+        formData.append("yayinda", yayinda);
+        formData.append("duyuruResimFile", duyuruResim);
+        formData.append("subeId", subeId);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/SubeYonetim/DuyuruEkle", true);
+        xhr.addEventListener("load",
+        function (data)
+        {
+            if (data.target.response == 0) {
+                location.reload(true);
+            }
+            else if (data.target.response == 1) {
+                alertHata();
+            }
+            else {
+                alertLoginHatasi();
+            }
+        },
+        false);
+        xhr.addEventListener("error", function (data) { alertHata(); }, false);
+        xhr.send(formData);
+    }
+    else {
+        alertAlanDoldur();
+    }
+    
+}
+
+function duyuruSil(duyuruId) {
+    if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+        $.ajax({
+            type: 'POST',
+            url: '/SubeYonetim/DuyuruSil/',
+            dataType: 'json',
+            data: { duyuruId: duyuruId, subeId: subeId },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else if (data == 1) {
+                    alertHata();
+                }
+                else {
+                    alertLoginHatasi();
+                }
+            }
+        });
+    }
+}
+</script>

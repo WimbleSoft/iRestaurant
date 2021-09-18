@@ -1,0 +1,889 @@
+﻿
+@{
+    ViewBag.Title = "Urunler ve Detayları";
+    Layout = "~/Views/Shared/subeYonetim_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Personeller.Where(x => x.personelId == (int)Session["girenId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="ayarlarGuncelleModal_@a.personelId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ayarlar Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Adı</label>
+                                <input name="personelAd" type="text" id="personelAd_id_@a.personelId" class="form-control" placeholder="Personel Adını Girin" value="@a.personelAd">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Parola</label>
+                                <input name="personelParola" type="password" required min="8" max="20" id="personelParola_id_@a.personelId" class="form-control" placeholder="Personel Parolasını Girin">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Email</label>
+                                <input name="personelEmail" type="text" id="personelEmail_id_@a.personelId" @if (a.yetki == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Personel Emailini Girin" value="@a.personelEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Personel Telefon</label>
+                                <input name="personelTelefon" type="text" id="personelTelefon_id_@a.personelId" class="form-control" placeholder="Personel Telefonunu Girin" value="@a.personelTelefon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>İşlemler</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="ayarlarGuncelle(this.id)" id="ayarlarGuncelle_id_@a.personelId" class="btn btn-warning btn-md btn-grad form-control">Güncelle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- PAGE CONTENT -->
+<script>
+document.getElementById("urunler").className = "active";
+</script>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Ürünler
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="#">Ürünler ve Detayları</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header"><!-- // ÜRÜN EKLEME BARI \\ -->
+                        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Yeni Ürün Ekle
+                                        </button> 
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-xs-12 col-lg-3 col-sm-12">
+                                                <label>Ürün Adı</label>
+                                                <input name="urunAd" required type="text" id="urunAd" class="form-control" placeholder="Ürün Adını Girin">
+                                            </div>
+                                            <div class="col-md-6 col-xs-12 col-lg-3 col-sm-12">
+                                                <label>Ürün Fiyatı</label>
+                                                <input name="urunFiyat" required type="text" id="urunFiyat" class="form-control" placeholder="Ürünün Fiyatını Giriniz"/>
+                                            </div>
+                                            <div class="col-md-6 col-xs-12 col-lg-3 col-sm-12">
+                                                <label>Kategori</label>
+                                                <select id="urunKategoriId" required name="urunKategoriId" class="form-control Select2">
+                                                    <option selected="selected">Kategori Seçiniz</option>
+                                                    @foreach (var menu in Model.Menuler)
+                                                    {
+                                                        <optgroup label="@menu.menuAd">
+                                                            @foreach (var kategori in Model.UrunKategoriler.Where(x=>x.menuId==menu.menuId))
+                                                            {
+                                                                <option value="@kategori.urunKategoriId">@kategori.urunKategoriAd</option>
+                                                            }
+                                                        </optgroup>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-xs-12 col-lg-3 col-sm-12">
+                                                <label>Ürün Resmi</label>
+                                                <input type="file" name="urunResim" class="" id="urunResim"  accept="image/*" reject="*/*" runat="server"/>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                <label>Ürün Açıklaması</label>
+                                                <textarea name="urunAciklama" type="text" id="urunAciklama" class="form-control" style="resize:none;" placeholder="Ürün Açıklamasını Girin"></textarea>
+                                            </div>
+                                            <div class="col-md-2 col-xs-12 col-lg-2 col-sm-12">
+                                                <label>Ürün Stok Alarm Miktarı</label>
+                                                <input name="urunStokAlarmAdet" required type="number" id="urunStokAlarmAdet" class="form-control" placeholder="Ürünün Stok Alarm Adedi">
+                                            </div>
+                                            <div class="col-md-2 col-xs-12 col-lg-2 col-sm-12">
+                                                <label>Ürün Yapım Süresi(DK)</label>
+                                                <input name="urunYapimSuresi" type="text" id="urunYapimSuresi" class="form-control" placeholder="Ürünün Yapım Süresini DK olarak Giriniz">
+                                            </div>
+                                            <div class="col-md-2 col-xs-12 col-lg-2 col-sm-12">
+                                                <label>
+                                                    Yayında Mı?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="yayinda" type="checkbox" />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-xs-12 col-lg-2 col-sm-12">
+                                                <label>İşlemler</label>
+                                                <button type="button" onclick="urunEkle()" class="btn btn-primary btn-md btn-grad form-control">Ürün Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.form -->
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div><!-- \\ ÜRÜN EKLEME BARI // -->
+                    <div class="box-body"><!-- // ÜRÜN LİSTELEME \\ -->
+                        <table id="example1" class="table table-bordered table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Ürün Resmi</th>
+                                    <!--<th>Ürün İd</th>-->
+                                    <th>Ürün Adı</th>
+                                    <th>Ürün Kategori</th>
+                                    <th>Ürün Fiyat</th>
+                                    <th>Ürün Yapım Süresi</th>
+                                    <th>Ürün Stok</th>
+                                    <th>Alarm Miktar</th>
+                                    <th>Yayında</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var urun in Model.Urunler.OrderBy(x => x.urunId))
+                                {
+                                <tr id="tr_urun_@urun.urunId">
+                                    <td><img width="100" height="100" src="../assets/urunresimleri/@urun.urunResim"/></td>
+                                    <!--<td>@urun.urunId</td>-->
+                                    <td>@urun.urunAd</td>
+                                    <td>@urun.UrunKategoriler.urunKategoriAd</td>
+                                    <td>@urun.urunFiyat <i class="fa fa-try"></i></td>
+                                    <td>@urun.urunYapimSuresi dk</td>
+                                    <td>@urun.UrunStoklar.Sum(x=>x.adet)</td>
+                                    <td>
+                                        @if (urun.urunStokAlarmAdet == 0)
+                                        {
+                                            <text>Alarm Yok</text>
+                                        }
+                                        else
+                                        {
+                                            <text>@urun.urunStokAlarmAdet</text>
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (urun.yayinda==true)
+                                            {
+                                                <text>Aktif</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Pasif</text>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button class="btn btn-info    btn-md btn-grad fa fa-balance-scale" data-toggle="modal" data-target="#UrunStok_@urun.urunId"></button>
+                                            <button class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#UrunDuzenle_@urun.urunId"></button>
+                                            <button class="btn btn-primary btn-md btn-grad fa fa-info-circle" data-toggle="modal" data-target="#OzellikDuzenle_@urun.urunId"></button>
+                                            <button class="btn btn-success btn-md btn-grad fa fa-user-plus" data-toggle="modal" data-target="#EkstraDuzenle_@urun.urunId"></button>
+                                            <button class="btn btn-danger  btn-md btn-grad fa fa-trash"name="@urun.urunId" onclick="urunlerSil(this.name)"></button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                if (urun.urunStokAlarmAdet>0 && urun.UrunStoklar.Sum(x => x.adet)<=urun.urunStokAlarmAdet)
+                                {
+                                    <script type="text/javascript">
+                                        $('#tr_urun_' + "@urun.urunId").pulsate({
+                                            color: "#f00",
+                                            repeat: true
+                                        });
+                                    </script>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div><!-- \\ ÜRÜN LİSTELEME // -->
+                </div>
+            </div>
+            @foreach (var urun in Model.Urunler)
+            {
+
+                <!-- // URUN DÜZENLEME \\ -->
+                <div class="modal fade bd-example-modal-lg" id="UrunDuzenle_@urun.urunId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_UrunDuzenle_@urun.urunId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_UrunDuzenle_@urun.urunId">@urun.urunAd Ürününü Düzenle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-xs-12 col-lg-3 col-sm-12">
+                                            <label>Ürün Adı</label>
+                                            <input name="urunAd"    required type="text" id="urunAd_@urun.urunId" class="form-control" placeholder="Ürün Adını Girin" value="@urun.urunAd">
+                                            <input name="urunId" required type="text" id="urunId_@urun.urunId" hidden="hidden" value="@urun.urunId">
+                                        </div>
+                                        <div class="col-md-3 col-xs-12 col-lg-3 col-sm-12">
+                                            <label>Kategori</label>
+                                            <select id="urunKategoriId_@urun.urunId" required name="urunKategoriId_@urun.urunId" class="form-control Select2 ">
+                                                <option value="@urun.urunKategoriId">Kategori Seçiniz</option>
+                                                @foreach (var menu in Model.Menuler)
+                                                {
+                                                    <optgroup label="@menu.menuAd">
+                                                        @foreach (var kategori in Model.UrunKategoriler.Where(x=>x.menuId==menu.menuId))
+                                                        {
+                                                            <option @if (kategori.urunKategoriId == urun.urunKategoriId) { <text>selected="selected"</text> } value="ifategori.urunKategoriId">@kategori.urunKategoriAd</option>
+                                                        }
+                                                    </optgroup>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-xs-12 col-lg-3 col-sm-12">
+                                            <label>Ürün Yapım Süresi (DK)</label>
+                                            <input name="urunYapimSuresi_@urun.urunId" type="number" id="urunYapimSuresi_@urun.urunId" class="form-control" placeholder="Ürün Yapım Süresini Girin" value="@urun.urunYapimSuresi">
+                                        </div>
+                                        <div class="col-md-2 col-xs-12 col-lg-3 col-sm-12">
+                                            <label>Ürün Fiyatı</label>
+                                            <input name="urunFiyat_@urun.urunId" required type="text" id="urunFiyat_@urun.urunId" class="form-control" placeholder="Ürün Fiyatını Girin" value="@urun.urunFiyat">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <hr>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                            <label>Varolan Resim</label>
+                                            <img style="margin-left: 5px !important; margin-right: 5px !important; border:3px;" width="250" height="250" src="../assets/urunresimleri/@urun.urunResim" />
+                                        </div>
+                                        <div class="col-md-8 col-xs-12 col-lg-8 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-md-5 col-xs-12 col-lg-5 col-sm-12">
+                                                    <label>
+                                                        Yayında Mı?
+                                                    </label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input id="yayinda_@urun.urunId" @{if (urun.yayinda == true) { <text> checked="checked" </text>  }} type="checkbox" />
+                                                            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-xs-12 col-lg-3 col-sm-12">
+                                                    <label>Stok Alarm Miktarı</label>
+                                                    <input name="urunStokAlarmAdet_@urun.urunId" type="number" id="urunStokAlarmAdet_@urun.urunId" class="form-control" placeholder="Alarm iptali için '0' yazınız." value="@urun.urunStokAlarmAdet">
+                                                </div>
+                                                <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                    <label>İşlemler</label>
+                                                    <span class="btn-group">
+                                                        <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">İptal</button>
+                                                        <button type="button" class="btn btn-warning btn-md btn-grad form-control" onclick="urunDuzenle(this.name)" name="@urun.urunId">Güncelle</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-xs-12 col-lg-6 col-sm-12">
+                                                    <label>Ürün Resmi</label>
+                                                    <input type="file" name="urunResim_@urun.urunId" id="urunResim_@urun.urunId"  accept="image/*" reject="*/*" runat="server"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                                            <label>Ürün Açıklaması</label>
+                                            <textarea name="urunAciklama_@urun.urunId" type="text" id="urunAciklama_@urun.urunId" class="form-control" style="resize:none;" rows="10" placeholder="Ürün Açıklamasını Girin">@urun.urunAciklama</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- \\ URUN DÜZENLEME // -->
+
+                <!-- // URUN STOKLARI \\ -->
+                <div class="modal fade bd-example-modal-lg" id="UrunStok_@urun.urunId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_UrunStok_@urun.urunId">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_UrunStok_@urun.urunId">@urun.urunAd Ürününün Stok Bilgisi</h4>
+                            </div>
+                            <div class="modal-body">
+                                @foreach(var urunStok in urun.UrunStoklar)
+                                {
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-xs-12 col-lg-3 col-sm-12">
+                                                <input name="urunStokId" required type="text" id="urunStokId_@urunStok.urunStokId" hidden="hidden" value="@urunStok.urunStokId">
+                                                <input name="urunStokGirdiAdet_@urunStok.urunStokId" type="number" id="urunStokGirdiAdet_@urunStok.urunStokId" class="form-control" placeholder="Stok Adedi">
+                                            </div>
+                                            <div class="col-md-2 col-xs-12 col-lg-3 col-sm-12">
+                                                <button class="btn btn-sm btn-info btnStokEkle" name="@urunStok.urunStokId" onclick="">Stok Ekle</button>
+                                            </div><!-- urunStokGirdiEkle(@urunStok.urunStokId) -->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <hr>
+                                    </div>
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="container-fluid">
+                                            <table id="tableUrunStokGirdi_@urunStok.urunStokId" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Adet</th>
+                                                        <th>Tarih</th>
+                                                        <th>İşlem</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbodyUrunStokGirdi_@urunStok.urunStokId">
+                                                    @foreach (var urunStokGirdi in urunStok.UrunStokGirdiler.OrderByDescending(x=>x.urunStokGirdiTarih))
+                                                    {
+                                                        <tr id="tr_urunStokGirdiler_@urunStokGirdi.urunStokGirdiId">
+                                                            <td>@urunStokGirdi.urunStokGirdiAdet</td>
+                                                            <td>@urunStokGirdi.urunStokGirdiTarih</td>
+                                                            <td><button type="button" name="@urunStokGirdi.urunStokGirdiId" class="btn btn-danger fa fa-trash btnStokSil"></button></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                }
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- \\ URUN STOKLARI // -->
+
+                <!-- // URUN OZELLIK DÜZENLEME \\ -->
+                <div class="modal fade bd-example-modal-lg" id="OzellikDuzenle_@urun.urunId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_OzellikDuzenle_@urun.urunId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_OzellikDuzenle_@urun.urunId">@urun.urunAd için Özellik Ekle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                <label>Özellik Adı</label>
+                                                <input name="urunOzellikAd_@urun.urunId"    required type="text" id="urunOzellikAd_@urun.urunId" class="form-control" placeholder="Adını Girin">
+                                            </div>
+                                            <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                <label>Özellik Fiyatı</label>
+                                                <input name="urunOzellikFiyat_@urun.urunId" required type="text" id="urunOzellikFiyat_@urun.urunId" class="form-control" placeholder="Fiyatını Girin">
+                                            </div>
+                                            <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                <label>İşlem</label>
+                                                <button type="button" onclick="urunOzellikEkle(this.name)" name="@urun.urunId" class="btn btn-warning btn-md btn-grad form-control">Ekle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabelOzellikListele">@urun.urunAd Ürününe Ait Özelliki Listele</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <table id="example3" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Özellik Adı</th>
+                                                <th>Özellik Fiyatı</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var urunOzellik in Model.UrunOzellikler.Where(x => x.urunId == urun.urunId))
+                                            {
+                                                <tr>
+                                                    <td>@urunOzellik.urunOzellikAd</td>
+                                                    <td>@urunOzellik.urunOzellikFiyat</td>
+                                                    <td><a href="#" name="@urunOzellik.urunOzellikId" onclick="urunOzellikSil(this.name)" class="btn btn-danger fa fa-trash"></a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- \\ URUN OZELLIK DÜZENLEME // -->
+
+                <!-- // URUN EKSTRA DÜZENLEME \\ -->
+                <div class="modal fade bd-example-modal-lg" id="EkstraDuzenle_@urun.urunId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_EkstraDuzenle_@urun.urunId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_EkstraDuzenle_@urun.urunId">@urun.urunAd için Ekstra Ekle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                    <label>Ekstra Adı</label>
+                                                    <input name="urunEkstraAd_@urun.urunId"      required type="text" id="urunEkstraAd_@urun.urunId" class="form-control" placeholder="Adını Girin">
+                                                    <input name="urunId_@urun.urunId"         required type="text" id="urunId_@urun.urunId" hidden="hidden" value="@urun.urunId">
+                                                </div>
+                                                <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                    <label>Ekstra Fiyatı</label>
+                                                    <input name="urunEkstraFiyat_@urun.urunId"   required type="text" id="urunEkstraFiyat_@urun.urunId" class="form-control" placeholder="Fiyatını Girin">
+                                                </div>
+                                                <div class="col-md-4 col-xs-12 col-lg-4 col-sm-12">
+                                                    <label>İşlem</label>
+                                                    <button type="button" onclick="urunEkstraEkle(this.name)" name="@urun.urunId" class="btn btn-warning btn-md btn-grad form-control">Ekle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabelEkstraListele">Ekstra Listele</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <table id="example4" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Ekstra Adı</th>
+                                                <th>Ekstra Fiyatı</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var urunEkstra in Model.UrunEkstralar.Where(x => x.urunId == urun.urunId))
+                                            {
+                                                <tr>
+                                                    <td>@urunEkstra.urunEkstraAd</td>
+                                                    <td>@urunEkstra.urunEkstraFiyat</td>
+                                                    <td><a href="#" name="@urunEkstra.urunEkstraId" onclick="urunEkstralarSil(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- \\ URUN EKSTRA DÜZENLEME // -->
+            } 
+        </div>
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.table').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            "autoWidth": true
+        });
+    });
+    /*
+    $(function () {
+        $('.table-nosearchbar').DataTable({
+            "searching": false
+        });
+    });
+    */
+</script>
+<script>
+
+
+
+
+//URUN DUZENLEME FONKSİYONU
+    function urunDuzenle(urunId) {
+        var formData = new FormData();
+        var urunAd = $('#urunAd_' + urunId).val();
+        var urunId = $('#urunId_' + urunId).val();
+        var urunKategoriId = $('#urunKategoriId_' + urunId).val();
+        var urunFiyat = $('#urunFiyat_' + urunId).val();
+        var urunAciklama = $('#urunAciklama_' + urunId).val();
+        var urunYapimSuresi = $('#urunYapimSuresi_' + urunId).val();
+        var yayinda = $('#yayinda_' + urunId).is(":checked");;
+        var urunStokAlarmAdet = $('#urunStokAlarmAdet_' + urunId).val();;
+        var urunResim = $('#urunResim_' + urunId)[0].files[0];
+
+        if (urunAd != "" && urunKategoriId != "" && urunFiyat != "" && urunStokAlarmAdet !="") {
+            formData.append("urunAd", urunAd);
+            formData.append("urunId", urunId);
+            formData.append("urunKategoriId", urunKategoriId);
+            formData.append("urunFiyat", urunFiyat);
+            formData.append("yayinda", yayinda);
+            formData.append("urunStokAlarmAdet", urunStokAlarmAdet);
+            formData.append("urunAciklama", urunAciklama);
+            formData.append("urunYapimSuresi", urunYapimSuresi);
+            formData.append("urunResimFile", urunResim);
+            formData.append("subeId", subeId);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/SubeYonetim/UrunGuncelle", true);
+            xhr.addEventListener("load",
+                function (data) {
+                    if (data.target.response == 0) {
+                        location.reload(true);
+                    }
+                    else if (data.target.response == 1) {
+                        alertHata();
+                    }
+                    else if (data.target.response == 2) {
+                        alert("Güncellemeye çalıştığınız ürün veritabanımızda bulunmuyor.");
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                },
+                false);
+            xhr.addEventListener("error", function (data) { alertHata(); }, false);
+            xhr.send(formData);
+        }
+        else {
+            alert("Lütfen ürün adı, kategorisi ve fiyatını belirleyiniz.");
+        }
+
+    }
+
+//EKLEME FONKSİYONLARI
+    function urunEkle() {
+        var urunAd = $('#urunAd').val();
+        var urunKategoriId = $('#urunKategoriId').val();
+        var urunFiyat = $('#urunFiyat').val();
+        var urunAciklama = $('#urunAciklama').val();
+        var urunYapimSuresi = $('#urunYapimSuresi').val();
+        var yayinda = $('#yayinda').is(":checked");
+        var urunStokAlarmAdet = $('#urunStokAlarmAdet').val();
+        var urunResim = $('#urunResim')[0].files[0];
+
+        if (urunAd != "" && urunKategoriId != "" && urunFiyat != "") {
+
+            var formData = new FormData();
+            formData.append("urunAd", urunAd);
+            formData.append("urunKategoriId", urunKategoriId);
+            formData.append("urunFiyat", urunFiyat);
+            formData.append("urunAciklama", urunAciklama);
+            formData.append("yayinda", yayinda);
+            formData.append("urunStokAlarmAdet", urunStokAlarmAdet);
+            formData.append("urunYapimSuresi", urunYapimSuresi);
+            formData.append("urunResimFile", urunResim);
+            formData.append("subeId", subeId);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/SubeYonetim/UrunEkle", true);
+            xhr.addEventListener("load",
+                function (data) {
+                    if (data.target.response == 0) {
+                        location.reload(true);
+                    }
+                    else if (data.target.response == 1) {
+                        alertHata();
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                },
+                false);
+            xhr.addEventListener("error", function (data) { alertHata(); }, false);
+            xhr.send(formData);
+        }
+        else {
+            alert("Lütfen ürün adı, kategorisi ve fiyatını belirleyiniz.");
+        }
+
+    }
+
+    function urunOzellikEkle(urunId) {
+        var urunOzellikAd = $('#urunOzellikAd_' + urunId).val();
+        var urunOzellikFiyat = $('#urunOzellikFiyat_' + urunId).val();
+        if (urunOzellikAd != "" && urunOzellikFiyat != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/OzellikEkle/',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ urunOzellikAd: urunOzellikAd, urunOzellikFiyat: urunOzellikFiyat, urunId: urunId, subeId: subeId }),
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+    }
+
+    function urunEkstraEkle(urunId) {
+        var urunEkstraAd = $('#urunEkstraAd_' + urunId).val();
+        var urunEkstraFiyat = $('#urunEkstraFiyat_' + urunId).val();
+        if (urunEkstraAd != "" && urunEkstraFiyat != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/EkstraEkle/',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ urunId: urunId, urunEkstraAd: urunEkstraAd, urunEkstraFiyat: urunEkstraFiyat, subeId: subeId }),
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        else {
+            alertAlanDoldur();
+        }
+
+        }
+
+    $(document).ready(function () {
+        
+
+        $('.btnStokEkle').on('click', function () {
+            var urunStokId = this.name;
+            
+            var urunStokGirdiAdet = $('#urunStokGirdiAdet_' + urunStokId).val();
+            /*
+            var tableUrunStokGirdi = $('#tableUrunStokGirdi_' + urunStokId);
+            var tbodyUrunStokGirdi = $('#tbodyUrunStokGirdi_' + urunStokId);
+            */
+            if (urunStokGirdiAdet > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/SubeYonetim/UrunStokGirdiEkle/',
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ urunStokGirdiAdet: urunStokGirdiAdet, urunStokId: urunStokId, subeId: subeId }),
+                    success: function (data) {
+                        var data2 = JSON.parse(data);
+                        if (data == -1) {
+                            alertLoginHatasi();
+                        }
+                        else if (data == 1) {
+                            alertHata();
+                        }
+                        else {
+                            location.reload(true);
+                            /*
+                            tableUrunStokGirdi.row.add([
+                                data2.urunStokGirdiAdet,
+                                data2.urunStokGirdiTarih,
+                                '<button type="button" name="' + data2.urunStokGirdiId + '" onclick="urunStokGirdiSil(this.name)" class="btn btn-danger fa fa-trash"></button>'
+                            ]).draw();
+                            */
+                        }
+                    }
+                });
+            }
+            else {
+                alert("Lütfen 0'dan büyük bir sayı girin.");
+            }
+
+            
+            
+            
+        });
+        $('.btnStokSil').on('click', function () {
+            urunStokGirdiSil(this);
+        });
+
+        // Automatically add a first row of data
+        
+    });
+    
+
+    function urunStokGirdiEkle(urunStokId) {
+        var urunStokGirdiAdet = $('#urunStokGirdiAdet_' + urunStokId).val();
+        var tableUrunStokGirdi = $('#tableUrunStokGirdi_' + urunStokId);
+        var tbodyUrunStokGirdi = $('#tbodyUrunStokGirdi_' + urunStokId);
+        
+        if (urunStokGirdiAdet > 0) {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/UrunStokGirdiEkle/',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ urunStokGirdiAdet: urunStokGirdiAdet, urunStokId: urunStokId, subeId: subeId }),
+                success: function (data) {
+                    var data2 = JSON.parse(data);
+                    if (data == -1) {
+                        alertLoginHatasi();
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else {
+                        return data2;
+                        /*
+                        tbodyUrunStokGirdi.html(
+                            tbodyUrunStokGirdi.html() +
+                            '<tr><td>' + data2.urunStokGirdiAdet + '</td><td>' + data2.urunStokGirdiTarih + '</td><td><button type="button" name="' + data2.urunStokGirdiId + '" onclick="urunStokGirdiSil(this.name)" class="btn btn-danger fa fa-trash"></button></td></tr>'
+                        );
+                        */
+                        //location.reload(true);
+                    }
+                }
+            });
+        }
+        else {
+            alert("Lütfen 0'dan büyük bir sayı girin.");
+        }
+    }
+
+//SİLME FONKSİYONLARI
+    function urunOzellikSil(urunOzellikId) {
+        if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/OzellikSil/',
+                dataType: 'json',
+                data: { urunOzellikId: urunOzellikId, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else if(data == 2){
+                        alert("Her ürün en az 1 adet Özellik içermek zorundadır. Lütfen en az 1 adet özellik ekleyin, daha sonra bu özelliği silin.");
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        }
+
+    function urunEkstralarSil(urunEkstraId) {
+        if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/EkstraSil/',
+                dataType: 'json',
+                data: { urunEkstraId: urunEkstraId, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+    }
+
+    function urunStokGirdiSil(gelenSilButon) {
+        var urunStokGirdiId = gelenSilButon.name;
+        if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+            var tr_urunStokGirdi = $('#tr_urunStokGirdiler_' + urunStokGirdiId);
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/UrunStokGirdiSil/',
+                dataType: 'json',
+                data: { urunStokGirdiId: urunStokGirdiId, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        //location.reload(true);
+                        //tr_urunStokGirdi.delete();
+                        
+                        tr_urunStokGirdi.empty();
+                        tr_urunStokGirdi.remove();
+                        //tr_urunStokGirdi.detach();
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else if(data == 2){
+                        alert("İşlem yaptığınız ürün stok bilgisi sistemde bulunamıyor.");
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+        }
+
+    function urunlerSil(urunId) {
+        if (confirm('İçeriği silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/SubeYonetim/UrunSil/',
+                dataType: 'json',
+                data: { urunId: urunId, subeId: subeId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertHata();
+                    }
+                    else {
+                        alertLoginHatasi();
+                    }
+                }
+            });
+        }
+    }
+</script>
