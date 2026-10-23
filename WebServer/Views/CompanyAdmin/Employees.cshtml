@@ -1,0 +1,305 @@
+﻿@{
+    ViewBag.Title = "Employees";
+    Layout = "~/Views/Shared/companyAdmin_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+<div id="content">
+    <script>
+        document.getElementById("employees").className = "active";
+    </script>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Employees
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="#">Employees</a></li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <div class="box box-default collapsed-box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">
+                                            <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                                <i class="fa fa-plus"></i> &nbsp;&nbsp; Add New Branch Manager
+                                            </button>
+                                        </h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Branch Manager Name</label>
+                                                    <input name="employeeName"        required type="text" id="employeeName" class="form-control" placeholder="Enter name">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Branch Manager Password</label>
+                                                    <input name="employeePassword"    required type="password" id="employeePassword" class="form-control" placeholder="Enter password">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Branch Manager Email</label>
+                                                    <input name="employeeEmail"     required type="email" id="employeeEmail" class="form-control" placeholder="Enter email">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Branch Manager Phone</label>
+                                                    <input name="employeePhone"   required type="tel" id="employeePhone" class="form-control" placeholder="Enter phone number">
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Branch</label>
+                                                    <select id="branchId" name="branchId" class="select2 form-control" style="width:100% !important;">
+                                                        @foreach (var branch in Model.Branches.ToList())
+                                                        {
+                                                            <option value="@branch.branchId">@branch.branchName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                    <label>Actions</label>
+                                                    <button type="button" onclick="addEmployee()" class="btn btn-primary form-control">Add Branch Manager</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Branch</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var a in Model.Employees.Where(x=>x.isManager==true))
+                                    {
+                                        <tr>
+                                            <td>@a.employeeId</td>
+                                            <td>@a.employeeName</td>
+                                            <td>@a.employeeEmail</td>
+                                            <td>@a.employeePhone</td>
+                                            <td>@a.Branches.branchName - @a.Branches.Districts.districtName / @a.Branches.Districts.Provinces.provinceName</td>
+                                            <td>
+                                                <span class="button-group">
+                                                    <button type="button" class="btn btn-warning fa fa-pencil" data-toggle="modal" data-target="#myModalId_@a.employeeId"></button>
+                                                    <a href="#" name="@a.employeeId" onclick="deleteEmployee(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @foreach (var employee in Model.Employees)
+                        {
+                        <!-- Edit employee -->
+                            <div class="modal fade bs-example-modal-lg" id="myModalId_@employee.employeeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Edit Branch Manager</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Branch Manager Full Name</label>
+                                                        <input name="employeeName_@employee.employeeId" required type="text" id="employeeName_@employee.employeeId" class="form-control" placeholder="Enter name" value="@employee.employeeName">
+                                                        <input name="employeeId_@employee.employeeId" type="text" id="employeeId_@employee.employeeId" hidden="hidden" value="@employee.employeeId">
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Branch Manager Email</label>
+                                                        <input name="employeeEmail_@employee.employeeId" required type="email" id="employeeEmail_@employee.employeeId" class="form-control" placeholder="Enter email" value="@employee.employeeEmail">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Branch Manager Password</label>
+                                                        <input name="employeePassword_@employee.employeeId" required type="password" id="employeePassword_@employee.employeeId" class="form-control" placeholder="Enter password">
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Branch Manager Phone</label>
+                                                        <input name="employeePhone_@employee.employeeId" required type="tel" id="employeePhone_@employee.employeeId" class="form-control" placeholder="Enter phone number" value="@employee.employeePhone">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                        <label>Branch</label>
+                                                        <select id="branchId_@employee.employeeId" name="branchId_@employee.employeeId" class="select2 form-control" style="width:100% !important;">
+                                                            <option selected="selected" value="@employee.branchId">@employee.Branches.branchName - @employee.Branches.Districts.districtName / @employee.Branches.Districts.Provinces.provinceName</option>
+                                                            @foreach (var branch in Model.Branches.Where(x=>x.branchId != employee.branchId).ToList())
+                                                            {
+                                                                <option value="@branch.branchId">@branch.branchName - @branch.Districts.districtName / @branch.Districts.Provinces.provinceName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                        <label>Actions</label>
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                <button type="button" class="btn btn-default btn-md btn-grad form-control " data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                <button type="button" name="@employee.employeeId" onclick="editEmployee(this.name)" class="btn btn-warning btn-md btn-grad form-control">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    function addEmployee() {
+        var employeeName = $('#employeeName').val();
+        var employeeEmail = $('#employeeEmail').val();
+        var employeePassword = $('#employeePassword').val();
+        var employeePhone = $('#employeePhone').val();
+        var branchId = $('#branchId').val();
+        if (employeeName != "" && employeeEmail != "" && employeePassword != "" && employeePhone != "" && branchId != "") {
+            if (employeePassword.length >= 6 && employeePassword.length <= 12) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/CompanyAdmin/AddEmployee/',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify({ employeeName: employeeName, employeeEmail: employeeEmail, employeePassword: employeePassword, employeePhone: employeePhone, isManager: true, branchId: branchId, companyId: companyId }),
+                    success: function (data) {
+                        if (data == 0) {
+                            location.reload(true);
+                        }
+                        else if (data == 1) {
+                            alertError();
+                        }
+                        else if (data == 2) {
+                            alert("The password must be between 6 and 12 characters long.");
+                        }
+                        else {
+                            alertLoginError();
+                        }
+                    }
+                });
+            }
+            else {
+                alert("The password must be between 6 and 12 characters long.");
+            }
+        }
+        else {
+            alertFillFields();
+        }
+    }
+    function editEmployee(employeeId) {
+        var employeeName = $('#employeeName_' + employeeId).val();
+        var employeeEmail = $('#employeeEmail_' + employeeId).val();
+        var employeePassword = $('#employeePassword_' + employeeId).val();
+        var employeePhone = $('#employeePhone_' + employeeId).val();
+        var branchId = $('#branchId_' + employeeId).val();
+        if (employeeName != "" && employeeEmail != "" && employeePhone != "" && branchId != "") {
+            if (employeePassword != null) {
+                if (employeePassword.length >= 6 && employeePassword.length <= 12) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/CompanyAdmin/UpdateEmployee/',
+                        dataType: 'json',
+                        data: { employeeName: employeeName, employeeEmail: employeeEmail, employeeId: employeeId, employeePassword: employeePassword, employeePhone: employeePhone, isManager: true, branchId: branchId, companyId: companyId },
+                        success: function (data) {
+                            if (data == 0) {
+                                location.reload(true);
+                            }
+                            else if (data == 1) {
+                                alertError();
+                            }
+                            else if (data == 2) {
+                                alert("The password must be between 6 and 12 characters long.");
+                            }
+                            else {
+                                alertLoginError();
+                            }
+                        }
+                    });
+                }
+                else {
+                    alert("The password must be between 6 and 12 characters long.");
+                }
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/CompanyAdmin/UpdateEmployee/',
+                    dataType: 'json',
+                    data: { employeeName: employeeName, employeeEmail: employeeEmail, employeeId: employeeId, employeePassword: employeePassword, employeePhone: employeePhone, isManager: true, branchId: branchId, companyId: companyId },
+                    success: function (data) {
+                        if (data == 0) {
+                            location.reload(true);
+                        }
+                        else if (data == 1) {
+                            alertError();
+                        }
+                        else if (data == 2) {
+                            alert("The password must be between 6 and 12 characters long.");
+                        }
+                        else {
+                            alertLoginError();
+                        }
+                    }
+                });
+            }
+            
+        }
+        else {
+            alertFillFields();
+        }
+    }
+    function deleteEmployee(employeeId) {
+        if (confirm('Are you sure you want to remove this branch manager?')) {
+            $.ajax({
+                type: 'POST',
+                url: '/CompanyAdmin/DeleteEmployee/',
+                dataType: 'json',
+                data: { employeeId: employeeId, companyId: companyId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertError();
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertOperationCancelled();
+        }
+    }
+</script>
+

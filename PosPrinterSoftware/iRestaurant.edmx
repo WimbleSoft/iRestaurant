@@ -1,0 +1,3298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="iRestaurantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="departmentId" />
+          </Key>
+          <Property Name="departmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="departmentName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="departmentIp" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Announcements">
+          <Key>
+            <PropertyRef Name="announcementId" />
+          </Key>
+          <Property Name="announcementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="announcementTitle" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="announcementDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="announcementImage" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isPublished" Type="bit" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoiceServices">
+          <Key>
+            <PropertyRef Name="invoiceServiceId" />
+          </Key>
+          <Property Name="invoiceServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serviceId" Type="int" Nullable="false" />
+          <Property Name="invoiceId" Type="int" Nullable="false" />
+          <Property Name="currencyId" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="isYearly" Type="bit" Nullable="false" />
+          <Property Name="serviceCampaignId" Type="int" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="invoiceId" />
+          </Key>
+          <Property Name="invoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="invoiceDate" Type="datetime" Nullable="false" />
+          <Property Name="isPaid" Type="bit" Nullable="false" />
+          <Property Name="companyId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoicePayments">
+          <Key>
+            <PropertyRef Name="invoicePaymentId" />
+          </Key>
+          <Property Name="invoicePaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="invoicePaymentDate" Type="datetime" Nullable="false" />
+          <Property Name="invoicePaymentAmount" Type="float" Nullable="false" />
+          <Property Name="currencyId" Type="int" Nullable="false" />
+          <Property Name="invoiceId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceCampaignServices">
+          <Key>
+            <PropertyRef Name="serviceCampaignServiceId" />
+          </Key>
+          <Property Name="serviceCampaignServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serviceId" Type="int" Nullable="false" />
+          <Property Name="serviceCampaignId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceCampaigns">
+          <Key>
+            <PropertyRef Name="serviceCampaignId" />
+          </Key>
+          <Property Name="serviceCampaignId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serviceCampaignName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="serviceCampaignPrice" Type="float" Nullable="false" />
+          <Property Name="currencyId" Type="int" Nullable="false" />
+          <Property Name="isYearly" Type="bit" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="serviceId" />
+          </Key>
+          <Property Name="serviceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serviceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="serviceMonthlyFee" Type="float" Nullable="false" />
+          <Property Name="currencyId" Type="int" Nullable="false" />
+          <Property Name="serviceType" Type="smallint" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceLicenses">
+          <Key>
+            <PropertyRef Name="serviceLicenseId" />
+          </Key>
+          <Property Name="serviceLicenseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serviceLicenseStartDate" Type="datetime" Nullable="false" />
+          <Property Name="serviceLicenseEndDate" Type="datetime" Nullable="false" />
+          <Property Name="serviceId" Type="int" Nullable="false" />
+          <Property Name="branchId" Type="int" />
+          <Property Name="invoiceId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Districts">
+          <Key>
+            <PropertyRef Name="districtId" />
+          </Key>
+          <Property Name="districtId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="districtName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="provinceId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Provinces">
+          <Key>
+            <PropertyRef Name="provinceId" />
+          </Key>
+          <Property Name="provinceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="provinceName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="countryId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Campaigns">
+          <Key>
+            <PropertyRef Name="campaignId" />
+          </Key>
+          <Property Name="campaignId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="campaignName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="campaignPrice" Type="float" Nullable="false" />
+          <Property Name="campaignImage" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="campaignDescription" Type="varchar(max)" Nullable="false" />
+          <Property Name="isPublished" Type="bit" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="menuId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CampaignProducts">
+          <Key>
+            <PropertyRef Name="campaignProductId" />
+          </Key>
+          <Property Name="campaignProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="campaignId" Type="int" Nullable="false" />
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Floors">
+          <Key>
+            <PropertyRef Name="floorId" />
+          </Key>
+          <Property Name="floorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="floorName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tables">
+          <Key>
+            <PropertyRef Name="tableId" />
+          </Key>
+          <Property Name="tableId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="floorId" Type="int" Nullable="false" />
+          <Property Name="tableName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="menuId" />
+          </Key>
+          <Property Name="menuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="menuName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="currencyId" Type="int" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="paymentId" />
+          </Key>
+          <Property Name="paymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tableSessionId" Type="int" Nullable="false" />
+          <Property Name="paymentTypeId" Type="int" Nullable="false" />
+          <Property Name="paymentAmount" Type="float" Nullable="false" />
+          <Property Name="paymentDate" Type="datetime" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentTypes">
+          <Key>
+            <PropertyRef Name="paymentTypeId" />
+          </Key>
+          <Property Name="paymentTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paymentTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="currencyId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TableSessionCampaigns">
+          <Key>
+            <PropertyRef Name="tableSessionCampaignId" />
+          </Key>
+          <Property Name="tableSessionCampaignId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="campaignId" Type="int" Nullable="false" />
+          <Property Name="tableSessionId" Type="int" Nullable="false" />
+          <Property Name="isPaid" Type="bit" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TableSessions">
+          <Key>
+            <PropertyRef Name="tableSessionId" />
+          </Key>
+          <Property Name="tableSessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tableId" Type="int" Nullable="false" />
+          <Property Name="tableSessionOpeningDate" Type="datetime" Nullable="false" />
+          <Property Name="tableSessionClosingDate" Type="datetime" />
+          <Property Name="kilitlendi" Type="bit" />
+          <Property Name="isPaid" Type="bit" />
+          <Property Name="waiterRequested" Type="bit" Nullable="false" />
+          <Property Name="billRequested" Type="bit" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Currencies">
+          <Key>
+            <PropertyRef Name="currencyId" />
+          </Key>
+          <Property Name="currencyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="currencyName" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="employeeId" />
+          </Key>
+          <Property Name="employeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employeeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="employeePassword" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="employeeEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="employeePhone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isManager" Type="bit" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+          <Property Name="isTableMode" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="orderId" />
+          </Key>
+          <Property Name="orderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderDate" Type="datetime" Nullable="false" />
+          <Property Name="orderStatus" Type="bit" Nullable="false" />
+          <Property Name="note" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="tableSessionId" Type="int" Nullable="false" />
+          <Property Name="employeeId" Type="int" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderProducts">
+          <Key>
+            <PropertyRef Name="orderProductId" />
+          </Key>
+          <Property Name="orderProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderId" Type="int" Nullable="false" />
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="isConfirmed" Type="bit" Nullable="false" />
+          <Property Name="isPaid" Type="bit" Nullable="false" />
+          <Property Name="productOptionId" Type="int" Nullable="false" />
+          <Property Name="tableSessionCampaignId" Type="int" />
+          <Property Name="paidDate" Type="datetime" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderProductExtras">
+          <Key>
+            <PropertyRef Name="orderProductExtraId" />
+          </Key>
+          <Property Name="orderProductExtraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productExtraId" Type="int" Nullable="false" />
+          <Property Name="orderProductId" Type="int" Nullable="false" />
+          <Property Name="isPaid" Type="bit" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="companyId" />
+          </Key>
+          <Property Name="companyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="companyName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="companyEmail" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="companyPhone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="companyPassword" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="districtId" Type="int" Nullable="false" />
+          <Property Name="isActivated" Type="bit" Nullable="false" />
+          <Property Name="activationCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Branches">
+          <Key>
+            <PropertyRef Name="branchId" />
+          </Key>
+          <Property Name="branchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branchName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="branchAddress" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="isFirstSetupDone" Type="bit" Nullable="false" />
+          <Property Name="companyId" Type="int" Nullable="false" />
+          <Property Name="districtId" Type="int" Nullable="false" />
+          <Property Name="isAnnouncementAreaActive" Type="bit" Nullable="false" />
+          <Property Name="isEmployeePrinterAutomatic" Type="bit" Nullable="false" />
+          <Property Name="cashierPrinterIp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="employeePrinterIp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cashierPrinterName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="employeePrinterName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="countryId" />
+          </Key>
+          <Property Name="countryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="countryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProductExtras">
+          <Key>
+            <PropertyRef Name="productExtraId" />
+          </Key>
+          <Property Name="productExtraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="productExtraName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="productExtraPrice" Type="float" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductCategories">
+          <Key>
+            <PropertyRef Name="productCategoryId" />
+          </Key>
+          <Property Name="productCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productCategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="departmentId" Type="int" Nullable="false" />
+          <Property Name="menuId" Type="int" Nullable="false" />
+          <Property Name="taxPercent" Type="float" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="productCategoryId" Type="int" Nullable="false" />
+          <Property Name="productName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="productPrice" Type="float" Nullable="false" />
+          <Property Name="productImage" Type="nvarchar" MaxLength="50" />
+          <Property Name="productDescription" Type="varchar(max)" />
+          <Property Name="productPreparationTime" Type="smallint" />
+          <Property Name="isPublished" Type="bit" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="productStockAlarmQuantity" Type="float" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductOptions">
+          <Key>
+            <PropertyRef Name="productOptionId" />
+          </Key>
+          <Property Name="productOptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productOptionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="productOptionPrice" Type="float" Nullable="false" />
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductStockEntries">
+          <Key>
+            <PropertyRef Name="productStockEntryId" />
+          </Key>
+          <Property Name="productStockEntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productStockId" Type="int" Nullable="false" />
+          <Property Name="productStockEntryDate" Type="datetime" Nullable="false" />
+          <Property Name="productStockEntryQuantity" Type="float" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductStocks">
+          <Key>
+            <PropertyRef Name="productStockId" />
+          </Key>
+          <Property Name="productStockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productId" Type="int" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="float" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PrintingList">
+          <Key>
+            <PropertyRef Name="printingListId" />
+          </Key>
+          <Property Name="printingListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="orderId" Type="int" Nullable="false" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Departments_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Departments" Type="Self.Departments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Departments">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Announcements_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Announcements" Type="Self.Announcements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Announcements">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="InvoiceServices" Type="Self.InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="invoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="invoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="InvoiceServices" Type="Self.InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="serviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="InvoiceServices" Type="Self.InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Companies">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="companyId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="companyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoicePayments_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="InvoicePayments" Type="Self.InvoicePayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="invoiceId" />
+            </Principal>
+            <Dependent Role="InvoicePayments">
+              <PropertyRef Name="invoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoicePayments_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="InvoicePayments" Type="Self.InvoicePayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="InvoicePayments">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceCampaignServices_ServiceCampaigns">
+          <End Role="ServiceCampaigns" Type="Self.ServiceCampaigns" Multiplicity="1" />
+          <End Role="ServiceCampaignServices" Type="Self.ServiceCampaignServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceCampaigns">
+              <PropertyRef Name="serviceCampaignId" />
+            </Principal>
+            <Dependent Role="ServiceCampaignServices">
+              <PropertyRef Name="serviceCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceCampaignServices_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="ServiceCampaignServices" Type="Self.ServiceCampaignServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="ServiceCampaignServices">
+              <PropertyRef Name="serviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceCampaigns_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="ServiceCampaigns" Type="Self.ServiceCampaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="ServiceCampaigns">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLicenses_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="ServiceLicenses" Type="Self.ServiceLicenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="invoiceId" />
+            </Principal>
+            <Dependent Role="ServiceLicenses">
+              <PropertyRef Name="invoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLicenses_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="ServiceLicenses" Type="Self.ServiceLicenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="ServiceLicenses">
+              <PropertyRef Name="serviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLicenses_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="ServiceLicenses" Type="Self.ServiceLicenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="ServiceLicenses">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Districts_Provinces">
+          <End Role="Provinces" Type="Self.Provinces" Multiplicity="1" />
+          <End Role="Districts" Type="Self.Districts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provinces">
+              <PropertyRef Name="provinceId" />
+            </Principal>
+            <Dependent Role="Districts">
+              <PropertyRef Name="provinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Provinces_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="Provinces" Type="Self.Provinces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="countryId" />
+            </Principal>
+            <Dependent Role="Provinces">
+              <PropertyRef Name="countryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Campaigns_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1" />
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="Campaigns">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Campaigns_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Campaigns">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CampaignProducts_Campaigns">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="1" />
+          <End Role="CampaignProducts" Type="Self.CampaignProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="campaignId" />
+            </Principal>
+            <Dependent Role="CampaignProducts">
+              <PropertyRef Name="campaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CampaignProducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="CampaignProducts" Type="Self.CampaignProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="CampaignProducts">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Floors_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Floors" Type="Self.Floors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Floors">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tables_Floors">
+          <End Role="Floors" Type="Self.Floors" Multiplicity="1" />
+          <End Role="Tables" Type="Self.Tables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Floors">
+              <PropertyRef Name="floorId" />
+            </Principal>
+            <Dependent Role="Tables">
+              <PropertyRef Name="floorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_PaymentTypes1">
+          <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="paymentTypeId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="paymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_TableSessions">
+          <End Role="TableSessions" Type="Self.TableSessions" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessions">
+              <PropertyRef Name="tableSessionId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="tableSessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentTypes_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="PaymentTypes">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentTypes_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="PaymentTypes">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessionCampaigns_Campaigns">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="1" />
+          <End Role="TableSessionCampaigns" Type="Self.TableSessionCampaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="campaignId" />
+            </Principal>
+            <Dependent Role="TableSessionCampaigns">
+              <PropertyRef Name="campaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessionCampaigns_TableSessions">
+          <End Role="TableSessions" Type="Self.TableSessions" Multiplicity="1" />
+          <End Role="TableSessionCampaigns" Type="Self.TableSessionCampaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessions">
+              <PropertyRef Name="tableSessionId" />
+            </Principal>
+            <Dependent Role="TableSessionCampaigns">
+              <PropertyRef Name="tableSessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessions_Tables">
+          <End Role="Tables" Type="Self.Tables" Multiplicity="1" />
+          <End Role="TableSessions" Type="Self.TableSessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tables">
+              <PropertyRef Name="tableId" />
+            </Principal>
+            <Dependent Role="TableSessions">
+              <PropertyRef Name="tableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessions_Branches1">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="TableSessions" Type="Self.TableSessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="TableSessions">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_TableSessions">
+          <End Role="TableSessions" Type="Self.TableSessions" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessions">
+              <PropertyRef Name="tableSessionId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="tableSessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Employees1">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_TableSessionCampaigns">
+          <End Role="TableSessionCampaigns" Type="Self.TableSessionCampaigns" Multiplicity="0..1" />
+          <End Role="OrderProducts" Type="Self.OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessionCampaigns">
+              <PropertyRef Name="tableSessionCampaignId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="tableSessionCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="OrderProducts" Type="Self.OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="OrderProducts" Type="Self.OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_ProductOptions">
+          <End Role="ProductOptions" Type="Self.ProductOptions" Multiplicity="1" />
+          <End Role="OrderProducts" Type="Self.OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOptions">
+              <PropertyRef Name="productOptionId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="productOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProductExtras_OrderProducts">
+          <End Role="OrderProducts" Type="Self.OrderProducts" Multiplicity="1" />
+          <End Role="OrderProductExtras" Type="Self.OrderProductExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderProducts">
+              <PropertyRef Name="orderProductId" />
+            </Principal>
+            <Dependent Role="OrderProductExtras">
+              <PropertyRef Name="orderProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProductExtras_ProductExtras">
+          <End Role="ProductExtras" Type="Self.ProductExtras" Multiplicity="1" />
+          <End Role="OrderProductExtras" Type="Self.OrderProductExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductExtras">
+              <PropertyRef Name="productExtraId" />
+            </Principal>
+            <Dependent Role="OrderProductExtras">
+              <PropertyRef Name="productExtraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Companies_Districts">
+          <End Role="Districts" Type="Self.Districts" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Districts">
+              <PropertyRef Name="districtId" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="districtId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Branches_Districts">
+          <End Role="Districts" Type="Self.Districts" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Districts">
+              <PropertyRef Name="districtId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="districtId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Branches_Companies">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="companyId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="companyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductExtras_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ProductExtras" Type="Self.ProductExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="ProductExtras">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategories_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="ProductCategories" Type="Self.ProductCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="departmentId" />
+            </Principal>
+            <Dependent Role="ProductCategories">
+              <PropertyRef Name="departmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategories_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="1" />
+          <End Role="ProductCategories" Type="Self.ProductCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="ProductCategories">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_ProductCategories">
+          <End Role="ProductCategories" Type="Self.ProductCategories" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategories">
+              <PropertyRef Name="productCategoryId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="productCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOptions_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ProductOptions" Type="Self.ProductOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="ProductOptions">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStockEntries_ProductStocks">
+          <End Role="ProductStocks" Type="Self.ProductStocks" Multiplicity="1" />
+          <End Role="ProductStockEntries" Type="Self.ProductStockEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductStocks">
+              <PropertyRef Name="productStockId" />
+            </Principal>
+            <Dependent Role="ProductStockEntries">
+              <PropertyRef Name="productStockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStocks_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="ProductStocks" Type="Self.ProductStocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="ProductStocks">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStocks_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ProductStocks" Type="Self.ProductStocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="ProductStocks">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrintingList_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="PrintingList" Type="Self.PrintingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="PrintingList">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrintingList_Branches">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="PrintingList" Type="Self.PrintingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="PrintingList">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="iRestaurantModelStoreContainer">
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceServices" EntityType="Self.InvoiceServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoicePayments" EntityType="Self.InvoicePayments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceCampaignServices" EntityType="Self.ServiceCampaignServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceCampaigns" EntityType="Self.ServiceCampaigns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceLicenses" EntityType="Self.ServiceLicenses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Districts" EntityType="Self.Districts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provinces" EntityType="Self.Provinces" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Campaigns" EntityType="Self.Campaigns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CampaignProducts" EntityType="Self.CampaignProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Floors" EntityType="Self.Floors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tables" EntityType="Self.Tables" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableSessionCampaigns" EntityType="Self.TableSessionCampaigns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableSessions" EntityType="Self.TableSessions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currencies" EntityType="Self.Currencies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderProducts" EntityType="Self.OrderProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderProductExtras" EntityType="Self.OrderProductExtras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Branches" EntityType="Self.Branches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductExtras" EntityType="Self.ProductExtras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductCategories" EntityType="Self.ProductCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductOptions" EntityType="Self.ProductOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductStockEntries" EntityType="Self.ProductStockEntries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductStocks" EntityType="Self.ProductStocks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrintingList" EntityType="Self.PrintingList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Departments_Branches" Association="Self.FK_Departments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Departments" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Announcements_Branches" Association="Self.FK_Announcements_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Announcements" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Invoices" Association="Self.FK_InvoiceServices_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Services" Association="Self.FK_InvoiceServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Currencies" Association="Self.FK_InvoiceServices_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Companies" Association="Self.FK_Invoices_Companies">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoicePayments_Invoices" Association="Self.FK_InvoicePayments_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoicePayments" EntitySet="InvoicePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoicePayments_Currencies" Association="Self.FK_InvoicePayments_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="InvoicePayments" EntitySet="InvoicePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceCampaignServices_ServiceCampaigns" Association="Self.FK_ServiceCampaignServices_ServiceCampaigns">
+            <End Role="ServiceCampaigns" EntitySet="ServiceCampaigns" />
+            <End Role="ServiceCampaignServices" EntitySet="ServiceCampaignServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceCampaignServices_Services" Association="Self.FK_ServiceCampaignServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceCampaignServices" EntitySet="ServiceCampaignServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceCampaigns_Currencies" Association="Self.FK_ServiceCampaigns_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="ServiceCampaigns" EntitySet="ServiceCampaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Currencies" Association="Self.FK_Services_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLicenses_Invoices" Association="Self.FK_ServiceLicenses_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="ServiceLicenses" EntitySet="ServiceLicenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLicenses_Services" Association="Self.FK_ServiceLicenses_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceLicenses" EntitySet="ServiceLicenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLicenses_Branches" Association="Self.FK_ServiceLicenses_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="ServiceLicenses" EntitySet="ServiceLicenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Districts_Provinces" Association="Self.FK_Districts_Provinces">
+            <End Role="Provinces" EntitySet="Provinces" />
+            <End Role="Districts" EntitySet="Districts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Provinces_Countries" Association="Self.FK_Provinces_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Provinces" EntitySet="Provinces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Campaigns_Menus" Association="Self.FK_Campaigns_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Campaigns" EntitySet="Campaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Campaigns_Branches" Association="Self.FK_Campaigns_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Campaigns" EntitySet="Campaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CampaignProducts_Campaigns" Association="Self.FK_CampaignProducts_Campaigns">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="CampaignProducts" EntitySet="CampaignProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CampaignProducts_Products" Association="Self.FK_CampaignProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="CampaignProducts" EntitySet="CampaignProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Floors_Branches" Association="Self.FK_Floors_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Floors" EntitySet="Floors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tables_Floors" Association="Self.FK_Tables_Floors">
+            <End Role="Floors" EntitySet="Floors" />
+            <End Role="Tables" EntitySet="Tables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Currencies" Association="Self.FK_Menus_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Branches" Association="Self.FK_Menus_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_PaymentTypes1" Association="Self.FK_Payments_PaymentTypes1">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_TableSessions" Association="Self.FK_Payments_TableSessions">
+            <End Role="TableSessions" EntitySet="TableSessions" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Branches" Association="Self.FK_Payments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentTypes_Currencies" Association="Self.FK_PaymentTypes_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentTypes_Branches" Association="Self.FK_PaymentTypes_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessionCampaigns_Campaigns" Association="Self.FK_TableSessionCampaigns_Campaigns">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="TableSessionCampaigns" EntitySet="TableSessionCampaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessionCampaigns_TableSessions" Association="Self.FK_TableSessionCampaigns_TableSessions">
+            <End Role="TableSessions" EntitySet="TableSessions" />
+            <End Role="TableSessionCampaigns" EntitySet="TableSessionCampaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessions_Tables" Association="Self.FK_TableSessions_Tables">
+            <End Role="Tables" EntitySet="Tables" />
+            <End Role="TableSessions" EntitySet="TableSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessions_Branches1" Association="Self.FK_TableSessions_Branches1">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="TableSessions" EntitySet="TableSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Branches" Association="Self.FK_Employees_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_TableSessions" Association="Self.FK_Orders_TableSessions">
+            <End Role="TableSessions" EntitySet="TableSessions" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees1" Association="Self.FK_Orders_Employees1">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Branches" Association="Self.FK_Orders_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_TableSessionCampaigns" Association="Self.FK_OrderProducts_TableSessionCampaigns">
+            <End Role="TableSessionCampaigns" EntitySet="TableSessionCampaigns" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_Orders" Association="Self.FK_OrderProducts_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_Products" Association="Self.FK_OrderProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_ProductOptions" Association="Self.FK_OrderProducts_ProductOptions">
+            <End Role="ProductOptions" EntitySet="ProductOptions" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProductExtras_OrderProducts" Association="Self.FK_OrderProductExtras_OrderProducts">
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+            <End Role="OrderProductExtras" EntitySet="OrderProductExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProductExtras_ProductExtras" Association="Self.FK_OrderProductExtras_ProductExtras">
+            <End Role="ProductExtras" EntitySet="ProductExtras" />
+            <End Role="OrderProductExtras" EntitySet="OrderProductExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Companies_Districts" Association="Self.FK_Companies_Districts">
+            <End Role="Districts" EntitySet="Districts" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Branches_Districts" Association="Self.FK_Branches_Districts">
+            <End Role="Districts" EntitySet="Districts" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Branches_Companies" Association="Self.FK_Branches_Companies">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductExtras_Products" Association="Self.FK_ProductExtras_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductExtras" EntitySet="ProductExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategories_Departments" Association="Self.FK_ProductCategories_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="ProductCategories" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategories_Menus" Association="Self.FK_ProductCategories_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="ProductCategories" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Branches" Association="Self.FK_Products_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_ProductCategories" Association="Self.FK_Products_ProductCategories">
+            <End Role="ProductCategories" EntitySet="ProductCategories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOptions_Products" Association="Self.FK_ProductOptions_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductOptions" EntitySet="ProductOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStockEntries_ProductStocks" Association="Self.FK_ProductStockEntries_ProductStocks">
+            <End Role="ProductStocks" EntitySet="ProductStocks" />
+            <End Role="ProductStockEntries" EntitySet="ProductStockEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStocks_Branches" Association="Self.FK_ProductStocks_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="ProductStocks" EntitySet="ProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStocks_Products" Association="Self.FK_ProductStocks_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductStocks" EntitySet="ProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrintingList_Orders" Association="Self.FK_PrintingList_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="PrintingList" EntitySet="PrintingList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrintingList_Branches" Association="Self.FK_PrintingList_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="PrintingList" EntitySet="PrintingList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="iRestaurantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="iRestaurantEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="iRestaurantModel.Departments" />
+          <EntitySet Name="Announcements" EntityType="iRestaurantModel.Announcements" />
+          <EntitySet Name="InvoiceServices" EntityType="iRestaurantModel.InvoiceServices" />
+          <EntitySet Name="Invoices" EntityType="iRestaurantModel.Invoices" />
+          <EntitySet Name="InvoicePayments" EntityType="iRestaurantModel.InvoicePayments" />
+          <EntitySet Name="ServiceCampaignServices" EntityType="iRestaurantModel.ServiceCampaignServices" />
+          <EntitySet Name="ServiceCampaigns" EntityType="iRestaurantModel.ServiceCampaigns" />
+          <EntitySet Name="Services" EntityType="iRestaurantModel.Services" />
+          <EntitySet Name="ServiceLicenses" EntityType="iRestaurantModel.ServiceLicenses" />
+          <EntitySet Name="Districts" EntityType="iRestaurantModel.Districts" />
+          <EntitySet Name="Provinces" EntityType="iRestaurantModel.Provinces" />
+          <EntitySet Name="Campaigns" EntityType="iRestaurantModel.Campaigns" />
+          <EntitySet Name="CampaignProducts" EntityType="iRestaurantModel.CampaignProducts" />
+          <EntitySet Name="Floors" EntityType="iRestaurantModel.Floors" />
+          <EntitySet Name="Tables" EntityType="iRestaurantModel.Tables" />
+          <EntitySet Name="Menus" EntityType="iRestaurantModel.Menus" />
+          <EntitySet Name="Payments" EntityType="iRestaurantModel.Payments" />
+          <EntitySet Name="PaymentTypes" EntityType="iRestaurantModel.PaymentTypes" />
+          <EntitySet Name="TableSessionCampaigns" EntityType="iRestaurantModel.TableSessionCampaigns" />
+          <EntitySet Name="TableSessions" EntityType="iRestaurantModel.TableSessions" />
+          <EntitySet Name="Currencies" EntityType="iRestaurantModel.Currencies" />
+          <EntitySet Name="Employees" EntityType="iRestaurantModel.Employees" />
+          <EntitySet Name="Orders" EntityType="iRestaurantModel.Orders" />
+          <EntitySet Name="OrderProducts" EntityType="iRestaurantModel.OrderProducts" />
+          <EntitySet Name="OrderProductExtras" EntityType="iRestaurantModel.OrderProductExtras" />
+          <EntitySet Name="Companies" EntityType="iRestaurantModel.Companies" />
+          <EntitySet Name="Branches" EntityType="iRestaurantModel.Branches" />
+          <EntitySet Name="Countries" EntityType="iRestaurantModel.Countries" />
+          <EntitySet Name="ProductExtras" EntityType="iRestaurantModel.ProductExtras" />
+          <EntitySet Name="ProductCategories" EntityType="iRestaurantModel.ProductCategories" />
+          <EntitySet Name="Products" EntityType="iRestaurantModel.Products" />
+          <EntitySet Name="ProductOptions" EntityType="iRestaurantModel.ProductOptions" />
+          <EntitySet Name="ProductStockEntries" EntityType="iRestaurantModel.ProductStockEntries" />
+          <EntitySet Name="ProductStocks" EntityType="iRestaurantModel.ProductStocks" />
+          <EntitySet Name="PrintingList" EntityType="iRestaurantModel.PrintingList" />
+          <AssociationSet Name="FK_Departments_Branches" Association="iRestaurantModel.FK_Departments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Departments" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategories_Departments" Association="iRestaurantModel.FK_ProductCategories_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="ProductCategories" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Announcements_Branches" Association="iRestaurantModel.FK_Announcements_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Announcements" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Invoices" Association="iRestaurantModel.FK_InvoiceServices_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Services" Association="iRestaurantModel.FK_InvoiceServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceServices_Currencies" Association="iRestaurantModel.FK_InvoiceServices_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="InvoiceServices" EntitySet="InvoiceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Companies" Association="iRestaurantModel.FK_Invoices_Companies">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoicePayments_Invoices" Association="iRestaurantModel.FK_InvoicePayments_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoicePayments" EntitySet="InvoicePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLicenses_Invoices" Association="iRestaurantModel.FK_ServiceLicenses_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="ServiceLicenses" EntitySet="ServiceLicenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoicePayments_Currencies" Association="iRestaurantModel.FK_InvoicePayments_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="InvoicePayments" EntitySet="InvoicePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceCampaignServices_ServiceCampaigns" Association="iRestaurantModel.FK_ServiceCampaignServices_ServiceCampaigns">
+            <End Role="ServiceCampaigns" EntitySet="ServiceCampaigns" />
+            <End Role="ServiceCampaignServices" EntitySet="ServiceCampaignServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceCampaignServices_Services" Association="iRestaurantModel.FK_ServiceCampaignServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceCampaignServices" EntitySet="ServiceCampaignServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceCampaigns_Currencies" Association="iRestaurantModel.FK_ServiceCampaigns_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="ServiceCampaigns" EntitySet="ServiceCampaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Currencies" Association="iRestaurantModel.FK_Services_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLicenses_Services" Association="iRestaurantModel.FK_ServiceLicenses_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceLicenses" EntitySet="ServiceLicenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLicenses_Branches" Association="iRestaurantModel.FK_ServiceLicenses_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="ServiceLicenses" EntitySet="ServiceLicenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Districts_Provinces" Association="iRestaurantModel.FK_Districts_Provinces">
+            <End Role="Provinces" EntitySet="Provinces" />
+            <End Role="Districts" EntitySet="Districts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Companies_Districts" Association="iRestaurantModel.FK_Companies_Districts">
+            <End Role="Districts" EntitySet="Districts" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Branches_Districts" Association="iRestaurantModel.FK_Branches_Districts">
+            <End Role="Districts" EntitySet="Districts" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Provinces_Countries" Association="iRestaurantModel.FK_Provinces_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Provinces" EntitySet="Provinces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Campaigns_Menus" Association="iRestaurantModel.FK_Campaigns_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Campaigns" EntitySet="Campaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Campaigns_Branches" Association="iRestaurantModel.FK_Campaigns_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Campaigns" EntitySet="Campaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CampaignProducts_Campaigns" Association="iRestaurantModel.FK_CampaignProducts_Campaigns">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="CampaignProducts" EntitySet="CampaignProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessionCampaigns_Campaigns" Association="iRestaurantModel.FK_TableSessionCampaigns_Campaigns">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="TableSessionCampaigns" EntitySet="TableSessionCampaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CampaignProducts_Products" Association="iRestaurantModel.FK_CampaignProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="CampaignProducts" EntitySet="CampaignProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Floors_Branches" Association="iRestaurantModel.FK_Floors_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Floors" EntitySet="Floors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tables_Floors" Association="iRestaurantModel.FK_Tables_Floors">
+            <End Role="Floors" EntitySet="Floors" />
+            <End Role="Tables" EntitySet="Tables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessions_Tables" Association="iRestaurantModel.FK_TableSessions_Tables">
+            <End Role="Tables" EntitySet="Tables" />
+            <End Role="TableSessions" EntitySet="TableSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Currencies" Association="iRestaurantModel.FK_Menus_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Branches" Association="iRestaurantModel.FK_Menus_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategories_Menus" Association="iRestaurantModel.FK_ProductCategories_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="ProductCategories" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_PaymentTypes1" Association="iRestaurantModel.FK_Payments_PaymentTypes1">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_TableSessions" Association="iRestaurantModel.FK_Payments_TableSessions">
+            <End Role="TableSessions" EntitySet="TableSessions" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Branches" Association="iRestaurantModel.FK_Payments_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentTypes_Currencies" Association="iRestaurantModel.FK_PaymentTypes_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentTypes_Branches" Association="iRestaurantModel.FK_PaymentTypes_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessionCampaigns_TableSessions" Association="iRestaurantModel.FK_TableSessionCampaigns_TableSessions">
+            <End Role="TableSessions" EntitySet="TableSessions" />
+            <End Role="TableSessionCampaigns" EntitySet="TableSessionCampaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_TableSessionCampaigns" Association="iRestaurantModel.FK_OrderProducts_TableSessionCampaigns">
+            <End Role="TableSessionCampaigns" EntitySet="TableSessionCampaigns" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableSessions_Branches1" Association="iRestaurantModel.FK_TableSessions_Branches1">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="TableSessions" EntitySet="TableSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_TableSessions" Association="iRestaurantModel.FK_Orders_TableSessions">
+            <End Role="TableSessions" EntitySet="TableSessions" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Branches" Association="iRestaurantModel.FK_Employees_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees1" Association="iRestaurantModel.FK_Orders_Employees1">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Branches" Association="iRestaurantModel.FK_Orders_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_Orders" Association="iRestaurantModel.FK_OrderProducts_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrintingList_Orders" Association="iRestaurantModel.FK_PrintingList_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="PrintingList" EntitySet="PrintingList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_Products" Association="iRestaurantModel.FK_OrderProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProducts_ProductOptions" Association="iRestaurantModel.FK_OrderProducts_ProductOptions">
+            <End Role="ProductOptions" EntitySet="ProductOptions" />
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProductExtras_OrderProducts" Association="iRestaurantModel.FK_OrderProductExtras_OrderProducts">
+            <End Role="OrderProducts" EntitySet="OrderProducts" />
+            <End Role="OrderProductExtras" EntitySet="OrderProductExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProductExtras_ProductExtras" Association="iRestaurantModel.FK_OrderProductExtras_ProductExtras">
+            <End Role="ProductExtras" EntitySet="ProductExtras" />
+            <End Role="OrderProductExtras" EntitySet="OrderProductExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Branches_Companies" Association="iRestaurantModel.FK_Branches_Companies">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Branches" Association="iRestaurantModel.FK_Products_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStocks_Branches" Association="iRestaurantModel.FK_ProductStocks_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="ProductStocks" EntitySet="ProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrintingList_Branches" Association="iRestaurantModel.FK_PrintingList_Branches">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="PrintingList" EntitySet="PrintingList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductExtras_Products" Association="iRestaurantModel.FK_ProductExtras_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductExtras" EntitySet="ProductExtras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_ProductCategories" Association="iRestaurantModel.FK_Products_ProductCategories">
+            <End Role="ProductCategories" EntitySet="ProductCategories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOptions_Products" Association="iRestaurantModel.FK_ProductOptions_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductOptions" EntitySet="ProductOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStocks_Products" Association="iRestaurantModel.FK_ProductStocks_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductStocks" EntitySet="ProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductStockEntries_ProductStocks" Association="iRestaurantModel.FK_ProductStockEntries_ProductStocks">
+            <End Role="ProductStocks" EntitySet="ProductStocks" />
+            <End Role="ProductStockEntries" EntitySet="ProductStockEntries" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="departmentId" />
+          </Key>
+          <Property Name="departmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="departmentName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="departmentIp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Departments_Branches" FromRole="Departments" ToRole="Branches" />
+          <NavigationProperty Name="ProductCategories" Relationship="iRestaurantModel.FK_ProductCategories_Departments" FromRole="Departments" ToRole="ProductCategories" />
+        </EntityType>
+        <EntityType Name="Announcements">
+          <Key>
+            <PropertyRef Name="announcementId" />
+          </Key>
+          <Property Name="announcementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="announcementTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="announcementDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="announcementImage" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isPublished" Type="Boolean" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Announcements_Branches" FromRole="Announcements" ToRole="Branches" />
+        </EntityType>
+        <EntityType Name="InvoiceServices">
+          <Key>
+            <PropertyRef Name="invoiceServiceId" />
+          </Key>
+          <Property Name="invoiceServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serviceId" Type="Int32" Nullable="false" />
+          <Property Name="invoiceId" Type="Int32" Nullable="false" />
+          <Property Name="currencyId" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="isYearly" Type="Boolean" Nullable="false" />
+          <Property Name="serviceCampaignId" Type="Int32" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="iRestaurantModel.FK_InvoiceServices_Invoices" FromRole="InvoiceServices" ToRole="Invoices" />
+          <NavigationProperty Name="Services" Relationship="iRestaurantModel.FK_InvoiceServices_Services" FromRole="InvoiceServices" ToRole="Services" />
+          <NavigationProperty Name="Currencies" Relationship="iRestaurantModel.FK_InvoiceServices_Currencies" FromRole="InvoiceServices" ToRole="Currencies" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="invoiceId" />
+          </Key>
+          <Property Name="invoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="invoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isPaid" Type="Boolean" Nullable="false" />
+          <Property Name="companyId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="InvoiceServices" Relationship="iRestaurantModel.FK_InvoiceServices_Invoices" FromRole="Invoices" ToRole="InvoiceServices" />
+          <NavigationProperty Name="Companies" Relationship="iRestaurantModel.FK_Invoices_Companies" FromRole="Invoices" ToRole="Companies" />
+          <NavigationProperty Name="InvoicePayments" Relationship="iRestaurantModel.FK_InvoicePayments_Invoices" FromRole="Invoices" ToRole="InvoicePayments" />
+          <NavigationProperty Name="ServiceLicenses" Relationship="iRestaurantModel.FK_ServiceLicenses_Invoices" FromRole="Invoices" ToRole="ServiceLicenses" />
+        </EntityType>
+        <EntityType Name="InvoicePayments">
+          <Key>
+            <PropertyRef Name="invoicePaymentId" />
+          </Key>
+          <Property Name="invoicePaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="invoicePaymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="invoicePaymentAmount" Type="Double" Nullable="false" />
+          <Property Name="currencyId" Type="Int32" Nullable="false" />
+          <Property Name="invoiceId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="iRestaurantModel.FK_InvoicePayments_Invoices" FromRole="InvoicePayments" ToRole="Invoices" />
+          <NavigationProperty Name="Currencies" Relationship="iRestaurantModel.FK_InvoicePayments_Currencies" FromRole="InvoicePayments" ToRole="Currencies" />
+        </EntityType>
+        <EntityType Name="ServiceCampaignServices">
+          <Key>
+            <PropertyRef Name="serviceCampaignServiceId" />
+          </Key>
+          <Property Name="serviceCampaignServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serviceId" Type="Int32" Nullable="false" />
+          <Property Name="serviceCampaignId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ServiceCampaigns" Relationship="iRestaurantModel.FK_ServiceCampaignServices_ServiceCampaigns" FromRole="ServiceCampaignServices" ToRole="ServiceCampaigns" />
+          <NavigationProperty Name="Services" Relationship="iRestaurantModel.FK_ServiceCampaignServices_Services" FromRole="ServiceCampaignServices" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="ServiceCampaigns">
+          <Key>
+            <PropertyRef Name="serviceCampaignId" />
+          </Key>
+          <Property Name="serviceCampaignId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serviceCampaignName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="serviceCampaignPrice" Type="Double" Nullable="false" />
+          <Property Name="currencyId" Type="Int32" Nullable="false" />
+          <Property Name="isYearly" Type="Boolean" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ServiceCampaignServices" Relationship="iRestaurantModel.FK_ServiceCampaignServices_ServiceCampaigns" FromRole="ServiceCampaigns" ToRole="ServiceCampaignServices" />
+          <NavigationProperty Name="Currencies" Relationship="iRestaurantModel.FK_ServiceCampaigns_Currencies" FromRole="ServiceCampaigns" ToRole="Currencies" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="serviceId" />
+          </Key>
+          <Property Name="serviceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serviceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="serviceMonthlyFee" Type="Double" Nullable="false" />
+          <Property Name="currencyId" Type="Int32" Nullable="false" />
+          <Property Name="serviceType" Type="Int16" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="InvoiceServices" Relationship="iRestaurantModel.FK_InvoiceServices_Services" FromRole="Services" ToRole="InvoiceServices" />
+          <NavigationProperty Name="ServiceCampaignServices" Relationship="iRestaurantModel.FK_ServiceCampaignServices_Services" FromRole="Services" ToRole="ServiceCampaignServices" />
+          <NavigationProperty Name="Currencies" Relationship="iRestaurantModel.FK_Services_Currencies" FromRole="Services" ToRole="Currencies" />
+          <NavigationProperty Name="ServiceLicenses" Relationship="iRestaurantModel.FK_ServiceLicenses_Services" FromRole="Services" ToRole="ServiceLicenses" />
+        </EntityType>
+        <EntityType Name="ServiceLicenses">
+          <Key>
+            <PropertyRef Name="serviceLicenseId" />
+          </Key>
+          <Property Name="serviceLicenseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serviceLicenseStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="serviceLicenseEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="serviceId" Type="Int32" Nullable="false" />
+          <Property Name="branchId" Type="Int32" />
+          <Property Name="invoiceId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="iRestaurantModel.FK_ServiceLicenses_Invoices" FromRole="ServiceLicenses" ToRole="Invoices" />
+          <NavigationProperty Name="Services" Relationship="iRestaurantModel.FK_ServiceLicenses_Services" FromRole="ServiceLicenses" ToRole="Services" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_ServiceLicenses_Branches" FromRole="ServiceLicenses" ToRole="Branches" />
+        </EntityType>
+        <EntityType Name="Districts">
+          <Key>
+            <PropertyRef Name="districtId" />
+          </Key>
+          <Property Name="districtId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="districtName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="provinceId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" />
+          <NavigationProperty Name="Provinces" Relationship="iRestaurantModel.FK_Districts_Provinces" FromRole="Districts" ToRole="Provinces" />
+          <NavigationProperty Name="Companies" Relationship="iRestaurantModel.FK_Companies_Districts" FromRole="Districts" ToRole="Companies" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Branches_Districts" FromRole="Districts" ToRole="Branches" />
+        </EntityType>
+        <EntityType Name="Provinces">
+          <Key>
+            <PropertyRef Name="provinceId" />
+          </Key>
+          <Property Name="provinceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="provinceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="countryId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" />
+          <NavigationProperty Name="Districts" Relationship="iRestaurantModel.FK_Districts_Provinces" FromRole="Provinces" ToRole="Districts" />
+          <NavigationProperty Name="Countries" Relationship="iRestaurantModel.FK_Provinces_Countries" FromRole="Provinces" ToRole="Countries" />
+        </EntityType>
+        <EntityType Name="Campaigns">
+          <Key>
+            <PropertyRef Name="campaignId" />
+          </Key>
+          <Property Name="campaignId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="campaignName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="campaignPrice" Type="Double" Nullable="false" />
+          <Property Name="campaignImage" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="campaignDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="isPublished" Type="Boolean" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="menuId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Menus" Relationship="iRestaurantModel.FK_Campaigns_Menus" FromRole="Campaigns" ToRole="Menus" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Campaigns_Branches" FromRole="Campaigns" ToRole="Branches" />
+          <NavigationProperty Name="CampaignProducts" Relationship="iRestaurantModel.FK_CampaignProducts_Campaigns" FromRole="Campaigns" ToRole="CampaignProducts" />
+          <NavigationProperty Name="TableSessionCampaigns" Relationship="iRestaurantModel.FK_TableSessionCampaigns_Campaigns" FromRole="Campaigns" ToRole="TableSessionCampaigns" />
+        </EntityType>
+        <EntityType Name="CampaignProducts">
+          <Key>
+            <PropertyRef Name="campaignProductId" />
+          </Key>
+          <Property Name="campaignProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="campaignId" Type="Int32" Nullable="false" />
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Campaigns" Relationship="iRestaurantModel.FK_CampaignProducts_Campaigns" FromRole="CampaignProducts" ToRole="Campaigns" />
+          <NavigationProperty Name="Products" Relationship="iRestaurantModel.FK_CampaignProducts_Products" FromRole="CampaignProducts" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Floors">
+          <Key>
+            <PropertyRef Name="floorId" />
+          </Key>
+          <Property Name="floorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="floorName" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Floors_Branches" FromRole="Floors" ToRole="Branches" />
+          <NavigationProperty Name="Tables" Relationship="iRestaurantModel.FK_Tables_Floors" FromRole="Floors" ToRole="Tables" />
+        </EntityType>
+        <EntityType Name="Tables">
+          <Key>
+            <PropertyRef Name="tableId" />
+          </Key>
+          <Property Name="tableId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="floorId" Type="Int32" Nullable="false" />
+          <Property Name="tableName" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Floors" Relationship="iRestaurantModel.FK_Tables_Floors" FromRole="Tables" ToRole="Floors" />
+          <NavigationProperty Name="TableSessions" Relationship="iRestaurantModel.FK_TableSessions_Tables" FromRole="Tables" ToRole="TableSessions" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="menuId" />
+          </Key>
+          <Property Name="menuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="menuName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="currencyId" Type="Int32" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Campaigns" Relationship="iRestaurantModel.FK_Campaigns_Menus" FromRole="Menus" ToRole="Campaigns" />
+          <NavigationProperty Name="Currencies" Relationship="iRestaurantModel.FK_Menus_Currencies" FromRole="Menus" ToRole="Currencies" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Menus_Branches" FromRole="Menus" ToRole="Branches" />
+          <NavigationProperty Name="ProductCategories" Relationship="iRestaurantModel.FK_ProductCategories_Menus" FromRole="Menus" ToRole="ProductCategories" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="paymentId" />
+          </Key>
+          <Property Name="paymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tableSessionId" Type="Int32" Nullable="false" />
+          <Property Name="paymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="paymentAmount" Type="Double" Nullable="false" />
+          <Property Name="paymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PaymentTypes" Relationship="iRestaurantModel.FK_Payments_PaymentTypes1" FromRole="Payments" ToRole="PaymentTypes" />
+          <NavigationProperty Name="TableSessions" Relationship="iRestaurantModel.FK_Payments_TableSessions" FromRole="Payments" ToRole="TableSessions" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Payments_Branches" FromRole="Payments" ToRole="Branches" />
+        </EntityType>
+        <EntityType Name="PaymentTypes">
+          <Key>
+            <PropertyRef Name="paymentTypeId" />
+          </Key>
+          <Property Name="paymentTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paymentTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="currencyId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Payments" Relationship="iRestaurantModel.FK_Payments_PaymentTypes1" FromRole="PaymentTypes" ToRole="Payments" />
+          <NavigationProperty Name="Currencies" Relationship="iRestaurantModel.FK_PaymentTypes_Currencies" FromRole="PaymentTypes" ToRole="Currencies" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_PaymentTypes_Branches" FromRole="PaymentTypes" ToRole="Branches" />
+        </EntityType>
+        <EntityType Name="TableSessionCampaigns">
+          <Key>
+            <PropertyRef Name="tableSessionCampaignId" />
+          </Key>
+          <Property Name="tableSessionCampaignId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="campaignId" Type="Int32" Nullable="false" />
+          <Property Name="tableSessionId" Type="Int32" Nullable="false" />
+          <Property Name="isPaid" Type="Boolean" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Campaigns" Relationship="iRestaurantModel.FK_TableSessionCampaigns_Campaigns" FromRole="TableSessionCampaigns" ToRole="Campaigns" />
+          <NavigationProperty Name="TableSessions" Relationship="iRestaurantModel.FK_TableSessionCampaigns_TableSessions" FromRole="TableSessionCampaigns" ToRole="TableSessions" />
+          <NavigationProperty Name="OrderProducts" Relationship="iRestaurantModel.FK_OrderProducts_TableSessionCampaigns" FromRole="TableSessionCampaigns" ToRole="OrderProducts" />
+        </EntityType>
+        <EntityType Name="TableSessions">
+          <Key>
+            <PropertyRef Name="tableSessionId" />
+          </Key>
+          <Property Name="tableSessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tableId" Type="Int32" Nullable="false" />
+          <Property Name="tableSessionOpeningDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="tableSessionClosingDate" Type="DateTime" Precision="3" />
+          <Property Name="kilitlendi" Type="Boolean" />
+          <Property Name="isPaid" Type="Boolean" />
+          <Property Name="waiterRequested" Type="Boolean" Nullable="false" />
+          <Property Name="billRequested" Type="Boolean" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tables" Relationship="iRestaurantModel.FK_TableSessions_Tables" FromRole="TableSessions" ToRole="Tables" />
+          <NavigationProperty Name="Payments" Relationship="iRestaurantModel.FK_Payments_TableSessions" FromRole="TableSessions" ToRole="Payments" />
+          <NavigationProperty Name="TableSessionCampaigns" Relationship="iRestaurantModel.FK_TableSessionCampaigns_TableSessions" FromRole="TableSessions" ToRole="TableSessionCampaigns" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_TableSessions_Branches1" FromRole="TableSessions" ToRole="Branches" />
+          <NavigationProperty Name="Orders" Relationship="iRestaurantModel.FK_Orders_TableSessions" FromRole="TableSessions" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Currencies">
+          <Key>
+            <PropertyRef Name="currencyId" />
+          </Key>
+          <Property Name="currencyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="currencyName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="InvoiceServices" Relationship="iRestaurantModel.FK_InvoiceServices_Currencies" FromRole="Currencies" ToRole="InvoiceServices" />
+          <NavigationProperty Name="InvoicePayments" Relationship="iRestaurantModel.FK_InvoicePayments_Currencies" FromRole="Currencies" ToRole="InvoicePayments" />
+          <NavigationProperty Name="ServiceCampaigns" Relationship="iRestaurantModel.FK_ServiceCampaigns_Currencies" FromRole="Currencies" ToRole="ServiceCampaigns" />
+          <NavigationProperty Name="Services" Relationship="iRestaurantModel.FK_Services_Currencies" FromRole="Currencies" ToRole="Services" />
+          <NavigationProperty Name="Menus" Relationship="iRestaurantModel.FK_Menus_Currencies" FromRole="Currencies" ToRole="Menus" />
+          <NavigationProperty Name="PaymentTypes" Relationship="iRestaurantModel.FK_PaymentTypes_Currencies" FromRole="Currencies" ToRole="PaymentTypes" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="employeeId" />
+          </Key>
+          <Property Name="employeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employeeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="employeePassword" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="employeeEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="employeePhone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isManager" Type="Boolean" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="isTableMode" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Employees_Branches" FromRole="Employees" ToRole="Branches" />
+          <NavigationProperty Name="Orders" Relationship="iRestaurantModel.FK_Orders_Employees1" FromRole="Employees" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="orderId" />
+          </Key>
+          <Property Name="orderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="orderStatus" Type="Boolean" Nullable="false" />
+          <Property Name="note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="tableSessionId" Type="Int32" Nullable="false" />
+          <Property Name="employeeId" Type="Int32" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TableSessions" Relationship="iRestaurantModel.FK_Orders_TableSessions" FromRole="Orders" ToRole="TableSessions" />
+          <NavigationProperty Name="Employees" Relationship="iRestaurantModel.FK_Orders_Employees1" FromRole="Orders" ToRole="Employees" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Orders_Branches" FromRole="Orders" ToRole="Branches" />
+          <NavigationProperty Name="OrderProducts" Relationship="iRestaurantModel.FK_OrderProducts_Orders" FromRole="Orders" ToRole="OrderProducts" />
+          <NavigationProperty Name="PrintingList" Relationship="iRestaurantModel.FK_PrintingList_Orders" FromRole="Orders" ToRole="PrintingList" />
+        </EntityType>
+        <EntityType Name="OrderProducts">
+          <Key>
+            <PropertyRef Name="orderProductId" />
+          </Key>
+          <Property Name="orderProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderId" Type="Int32" Nullable="false" />
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="isConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="isPaid" Type="Boolean" Nullable="false" />
+          <Property Name="productOptionId" Type="Int32" Nullable="false" />
+          <Property Name="tableSessionCampaignId" Type="Int32" />
+          <Property Name="paidDate" Type="DateTime" Precision="3" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TableSessionCampaigns" Relationship="iRestaurantModel.FK_OrderProducts_TableSessionCampaigns" FromRole="OrderProducts" ToRole="TableSessionCampaigns" />
+          <NavigationProperty Name="Orders" Relationship="iRestaurantModel.FK_OrderProducts_Orders" FromRole="OrderProducts" ToRole="Orders" />
+          <NavigationProperty Name="Products" Relationship="iRestaurantModel.FK_OrderProducts_Products" FromRole="OrderProducts" ToRole="Products" />
+          <NavigationProperty Name="ProductOptions" Relationship="iRestaurantModel.FK_OrderProducts_ProductOptions" FromRole="OrderProducts" ToRole="ProductOptions" />
+          <NavigationProperty Name="OrderProductExtras" Relationship="iRestaurantModel.FK_OrderProductExtras_OrderProducts" FromRole="OrderProducts" ToRole="OrderProductExtras" />
+        </EntityType>
+        <EntityType Name="OrderProductExtras">
+          <Key>
+            <PropertyRef Name="orderProductExtraId" />
+          </Key>
+          <Property Name="orderProductExtraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productExtraId" Type="Int32" Nullable="false" />
+          <Property Name="orderProductId" Type="Int32" Nullable="false" />
+          <Property Name="isPaid" Type="Boolean" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrderProducts" Relationship="iRestaurantModel.FK_OrderProductExtras_OrderProducts" FromRole="OrderProductExtras" ToRole="OrderProducts" />
+          <NavigationProperty Name="ProductExtras" Relationship="iRestaurantModel.FK_OrderProductExtras_ProductExtras" FromRole="OrderProductExtras" ToRole="ProductExtras" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="companyId" />
+          </Key>
+          <Property Name="companyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="companyName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="companyEmail" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="companyPhone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="companyPassword" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="districtId" Type="Int32" Nullable="false" />
+          <Property Name="isActivated" Type="Boolean" Nullable="false" />
+          <Property Name="activationCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Invoices" Relationship="iRestaurantModel.FK_Invoices_Companies" FromRole="Companies" ToRole="Invoices" />
+          <NavigationProperty Name="Districts" Relationship="iRestaurantModel.FK_Companies_Districts" FromRole="Companies" ToRole="Districts" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Branches_Companies" FromRole="Companies" ToRole="Branches" />
+        </EntityType>
+        <EntityType Name="Branches">
+          <Key>
+            <PropertyRef Name="branchId" />
+          </Key>
+          <Property Name="branchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branchName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="branchAddress" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="isFirstSetupDone" Type="Boolean" Nullable="false" />
+          <Property Name="companyId" Type="Int32" Nullable="false" />
+          <Property Name="districtId" Type="Int32" Nullable="false" />
+          <Property Name="isAnnouncementAreaActive" Type="Boolean" Nullable="false" />
+          <Property Name="isEmployeePrinterAutomatic" Type="Boolean" Nullable="false" />
+          <Property Name="cashierPrinterIp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="employeePrinterIp" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cashierPrinterName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="employeePrinterName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Departments" Relationship="iRestaurantModel.FK_Departments_Branches" FromRole="Branches" ToRole="Departments" />
+          <NavigationProperty Name="Announcements" Relationship="iRestaurantModel.FK_Announcements_Branches" FromRole="Branches" ToRole="Announcements" />
+          <NavigationProperty Name="ServiceLicenses" Relationship="iRestaurantModel.FK_ServiceLicenses_Branches" FromRole="Branches" ToRole="ServiceLicenses" />
+          <NavigationProperty Name="Districts" Relationship="iRestaurantModel.FK_Branches_Districts" FromRole="Branches" ToRole="Districts" />
+          <NavigationProperty Name="Campaigns" Relationship="iRestaurantModel.FK_Campaigns_Branches" FromRole="Branches" ToRole="Campaigns" />
+          <NavigationProperty Name="Floors" Relationship="iRestaurantModel.FK_Floors_Branches" FromRole="Branches" ToRole="Floors" />
+          <NavigationProperty Name="Menus" Relationship="iRestaurantModel.FK_Menus_Branches" FromRole="Branches" ToRole="Menus" />
+          <NavigationProperty Name="Payments" Relationship="iRestaurantModel.FK_Payments_Branches" FromRole="Branches" ToRole="Payments" />
+          <NavigationProperty Name="PaymentTypes" Relationship="iRestaurantModel.FK_PaymentTypes_Branches" FromRole="Branches" ToRole="PaymentTypes" />
+          <NavigationProperty Name="TableSessions" Relationship="iRestaurantModel.FK_TableSessions_Branches1" FromRole="Branches" ToRole="TableSessions" />
+          <NavigationProperty Name="Employees" Relationship="iRestaurantModel.FK_Employees_Branches" FromRole="Branches" ToRole="Employees" />
+          <NavigationProperty Name="Orders" Relationship="iRestaurantModel.FK_Orders_Branches" FromRole="Branches" ToRole="Orders" />
+          <NavigationProperty Name="Companies" Relationship="iRestaurantModel.FK_Branches_Companies" FromRole="Branches" ToRole="Companies" />
+          <NavigationProperty Name="Products" Relationship="iRestaurantModel.FK_Products_Branches" FromRole="Branches" ToRole="Products" />
+          <NavigationProperty Name="ProductStocks" Relationship="iRestaurantModel.FK_ProductStocks_Branches" FromRole="Branches" ToRole="ProductStocks" />
+          <NavigationProperty Name="PrintingList" Relationship="iRestaurantModel.FK_PrintingList_Branches" FromRole="Branches" ToRole="PrintingList" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="countryId" />
+          </Key>
+          <Property Name="countryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="countryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isDeleted" Type="Boolean" />
+          <NavigationProperty Name="Provinces" Relationship="iRestaurantModel.FK_Provinces_Countries" FromRole="Countries" ToRole="Provinces" />
+        </EntityType>
+        <EntityType Name="ProductExtras">
+          <Key>
+            <PropertyRef Name="productExtraId" />
+          </Key>
+          <Property Name="productExtraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="productExtraName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="productExtraPrice" Type="Double" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrderProductExtras" Relationship="iRestaurantModel.FK_OrderProductExtras_ProductExtras" FromRole="ProductExtras" ToRole="OrderProductExtras" />
+          <NavigationProperty Name="Products" Relationship="iRestaurantModel.FK_ProductExtras_Products" FromRole="ProductExtras" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="ProductCategories">
+          <Key>
+            <PropertyRef Name="productCategoryId" />
+          </Key>
+          <Property Name="productCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productCategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="departmentId" Type="Int32" Nullable="false" />
+          <Property Name="menuId" Type="Int32" Nullable="false" />
+          <Property Name="taxPercent" Type="Double" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Departments" Relationship="iRestaurantModel.FK_ProductCategories_Departments" FromRole="ProductCategories" ToRole="Departments" />
+          <NavigationProperty Name="Menus" Relationship="iRestaurantModel.FK_ProductCategories_Menus" FromRole="ProductCategories" ToRole="Menus" />
+          <NavigationProperty Name="Products" Relationship="iRestaurantModel.FK_Products_ProductCategories" FromRole="ProductCategories" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="productCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="productName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="productPrice" Type="Double" Nullable="false" />
+          <Property Name="productImage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="productDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="productPreparationTime" Type="Int16" />
+          <Property Name="isPublished" Type="Boolean" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="productStockAlarmQuantity" Type="Double" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CampaignProducts" Relationship="iRestaurantModel.FK_CampaignProducts_Products" FromRole="Products" ToRole="CampaignProducts" />
+          <NavigationProperty Name="OrderProducts" Relationship="iRestaurantModel.FK_OrderProducts_Products" FromRole="Products" ToRole="OrderProducts" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_Products_Branches" FromRole="Products" ToRole="Branches" />
+          <NavigationProperty Name="ProductExtras" Relationship="iRestaurantModel.FK_ProductExtras_Products" FromRole="Products" ToRole="ProductExtras" />
+          <NavigationProperty Name="ProductCategories" Relationship="iRestaurantModel.FK_Products_ProductCategories" FromRole="Products" ToRole="ProductCategories" />
+          <NavigationProperty Name="ProductOptions" Relationship="iRestaurantModel.FK_ProductOptions_Products" FromRole="Products" ToRole="ProductOptions" />
+          <NavigationProperty Name="ProductStocks" Relationship="iRestaurantModel.FK_ProductStocks_Products" FromRole="Products" ToRole="ProductStocks" />
+        </EntityType>
+        <EntityType Name="ProductOptions">
+          <Key>
+            <PropertyRef Name="productOptionId" />
+          </Key>
+          <Property Name="productOptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productOptionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="productOptionPrice" Type="Double" Nullable="false" />
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="OrderProducts" Relationship="iRestaurantModel.FK_OrderProducts_ProductOptions" FromRole="ProductOptions" ToRole="OrderProducts" />
+          <NavigationProperty Name="Products" Relationship="iRestaurantModel.FK_ProductOptions_Products" FromRole="ProductOptions" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="ProductStockEntries">
+          <Key>
+            <PropertyRef Name="productStockEntryId" />
+          </Key>
+          <Property Name="productStockEntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productStockId" Type="Int32" Nullable="false" />
+          <Property Name="productStockEntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="productStockEntryQuantity" Type="Double" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProductStocks" Relationship="iRestaurantModel.FK_ProductStockEntries_ProductStocks" FromRole="ProductStockEntries" ToRole="ProductStocks" />
+        </EntityType>
+        <EntityType Name="ProductStocks">
+          <Key>
+            <PropertyRef Name="productStockId" />
+          </Key>
+          <Property Name="productStockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productId" Type="Int32" Nullable="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Double" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_ProductStocks_Branches" FromRole="ProductStocks" ToRole="Branches" />
+          <NavigationProperty Name="Products" Relationship="iRestaurantModel.FK_ProductStocks_Products" FromRole="ProductStocks" ToRole="Products" />
+          <NavigationProperty Name="ProductStockEntries" Relationship="iRestaurantModel.FK_ProductStockEntries_ProductStocks" FromRole="ProductStocks" ToRole="ProductStockEntries" />
+        </EntityType>
+        <EntityType Name="PrintingList">
+          <Key>
+            <PropertyRef Name="printingListId" />
+          </Key>
+          <Property Name="printingListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="orderId" Type="Int32" Nullable="false" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="iRestaurantModel.FK_PrintingList_Orders" FromRole="PrintingList" ToRole="Orders" />
+          <NavigationProperty Name="Branches" Relationship="iRestaurantModel.FK_PrintingList_Branches" FromRole="PrintingList" ToRole="Branches" />
+        </EntityType>
+        <Association Name="FK_Departments_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Departments" Role="Departments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Departments">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategories_Departments">
+          <End Type="iRestaurantModel.Departments" Role="Departments" Multiplicity="1" />
+          <End Type="iRestaurantModel.ProductCategories" Role="ProductCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="departmentId" />
+            </Principal>
+            <Dependent Role="ProductCategories">
+              <PropertyRef Name="departmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Announcements_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Announcements" Role="Announcements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Announcements">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Invoices">
+          <End Type="iRestaurantModel.Invoices" Role="Invoices" Multiplicity="1" />
+          <End Type="iRestaurantModel.InvoiceServices" Role="InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="invoiceId" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="invoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Services">
+          <End Type="iRestaurantModel.Services" Role="Services" Multiplicity="1" />
+          <End Type="iRestaurantModel.InvoiceServices" Role="InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="serviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceServices_Currencies">
+          <End Type="iRestaurantModel.Currencies" Role="Currencies" Multiplicity="1" />
+          <End Type="iRestaurantModel.InvoiceServices" Role="InvoiceServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="InvoiceServices">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Companies">
+          <End Type="iRestaurantModel.Companies" Role="Companies" Multiplicity="1" />
+          <End Type="iRestaurantModel.Invoices" Role="Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="companyId" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="companyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoicePayments_Invoices">
+          <End Type="iRestaurantModel.Invoices" Role="Invoices" Multiplicity="1" />
+          <End Type="iRestaurantModel.InvoicePayments" Role="InvoicePayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="invoiceId" />
+            </Principal>
+            <Dependent Role="InvoicePayments">
+              <PropertyRef Name="invoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLicenses_Invoices">
+          <End Type="iRestaurantModel.Invoices" Role="Invoices" Multiplicity="1" />
+          <End Type="iRestaurantModel.ServiceLicenses" Role="ServiceLicenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="invoiceId" />
+            </Principal>
+            <Dependent Role="ServiceLicenses">
+              <PropertyRef Name="invoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoicePayments_Currencies">
+          <End Type="iRestaurantModel.Currencies" Role="Currencies" Multiplicity="1" />
+          <End Type="iRestaurantModel.InvoicePayments" Role="InvoicePayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="InvoicePayments">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceCampaignServices_ServiceCampaigns">
+          <End Type="iRestaurantModel.ServiceCampaigns" Role="ServiceCampaigns" Multiplicity="1" />
+          <End Type="iRestaurantModel.ServiceCampaignServices" Role="ServiceCampaignServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceCampaigns">
+              <PropertyRef Name="serviceCampaignId" />
+            </Principal>
+            <Dependent Role="ServiceCampaignServices">
+              <PropertyRef Name="serviceCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceCampaignServices_Services">
+          <End Type="iRestaurantModel.Services" Role="Services" Multiplicity="1" />
+          <End Type="iRestaurantModel.ServiceCampaignServices" Role="ServiceCampaignServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="ServiceCampaignServices">
+              <PropertyRef Name="serviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceCampaigns_Currencies">
+          <End Type="iRestaurantModel.Currencies" Role="Currencies" Multiplicity="1" />
+          <End Type="iRestaurantModel.ServiceCampaigns" Role="ServiceCampaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="ServiceCampaigns">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Currencies">
+          <End Type="iRestaurantModel.Currencies" Role="Currencies" Multiplicity="1" />
+          <End Type="iRestaurantModel.Services" Role="Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLicenses_Services">
+          <End Type="iRestaurantModel.Services" Role="Services" Multiplicity="1" />
+          <End Type="iRestaurantModel.ServiceLicenses" Role="ServiceLicenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="serviceId" />
+            </Principal>
+            <Dependent Role="ServiceLicenses">
+              <PropertyRef Name="serviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLicenses_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="0..1" />
+          <End Type="iRestaurantModel.ServiceLicenses" Role="ServiceLicenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="ServiceLicenses">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Districts_Provinces">
+          <End Type="iRestaurantModel.Provinces" Role="Provinces" Multiplicity="1" />
+          <End Type="iRestaurantModel.Districts" Role="Districts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provinces">
+              <PropertyRef Name="provinceId" />
+            </Principal>
+            <Dependent Role="Districts">
+              <PropertyRef Name="provinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Companies_Districts">
+          <End Type="iRestaurantModel.Districts" Role="Districts" Multiplicity="1" />
+          <End Type="iRestaurantModel.Companies" Role="Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Districts">
+              <PropertyRef Name="districtId" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="districtId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Branches_Districts">
+          <End Type="iRestaurantModel.Districts" Role="Districts" Multiplicity="1" />
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Districts">
+              <PropertyRef Name="districtId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="districtId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Provinces_Countries">
+          <End Type="iRestaurantModel.Countries" Role="Countries" Multiplicity="1" />
+          <End Type="iRestaurantModel.Provinces" Role="Provinces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="countryId" />
+            </Principal>
+            <Dependent Role="Provinces">
+              <PropertyRef Name="countryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Campaigns_Menus">
+          <End Type="iRestaurantModel.Menus" Role="Menus" Multiplicity="1" />
+          <End Type="iRestaurantModel.Campaigns" Role="Campaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="Campaigns">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Campaigns_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Campaigns" Role="Campaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Campaigns">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CampaignProducts_Campaigns">
+          <End Type="iRestaurantModel.Campaigns" Role="Campaigns" Multiplicity="1" />
+          <End Type="iRestaurantModel.CampaignProducts" Role="CampaignProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="campaignId" />
+            </Principal>
+            <Dependent Role="CampaignProducts">
+              <PropertyRef Name="campaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessionCampaigns_Campaigns">
+          <End Type="iRestaurantModel.Campaigns" Role="Campaigns" Multiplicity="1" />
+          <End Type="iRestaurantModel.TableSessionCampaigns" Role="TableSessionCampaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="campaignId" />
+            </Principal>
+            <Dependent Role="TableSessionCampaigns">
+              <PropertyRef Name="campaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CampaignProducts_Products">
+          <End Type="iRestaurantModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="iRestaurantModel.CampaignProducts" Role="CampaignProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="CampaignProducts">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Floors_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Floors" Role="Floors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Floors">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tables_Floors">
+          <End Type="iRestaurantModel.Floors" Role="Floors" Multiplicity="1" />
+          <End Type="iRestaurantModel.Tables" Role="Tables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Floors">
+              <PropertyRef Name="floorId" />
+            </Principal>
+            <Dependent Role="Tables">
+              <PropertyRef Name="floorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessions_Tables">
+          <End Type="iRestaurantModel.Tables" Role="Tables" Multiplicity="1" />
+          <End Type="iRestaurantModel.TableSessions" Role="TableSessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tables">
+              <PropertyRef Name="tableId" />
+            </Principal>
+            <Dependent Role="TableSessions">
+              <PropertyRef Name="tableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Currencies">
+          <End Type="iRestaurantModel.Currencies" Role="Currencies" Multiplicity="1" />
+          <End Type="iRestaurantModel.Menus" Role="Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Menus" Role="Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategories_Menus">
+          <End Type="iRestaurantModel.Menus" Role="Menus" Multiplicity="1" />
+          <End Type="iRestaurantModel.ProductCategories" Role="ProductCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="menuId" />
+            </Principal>
+            <Dependent Role="ProductCategories">
+              <PropertyRef Name="menuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_PaymentTypes1">
+          <End Type="iRestaurantModel.PaymentTypes" Role="PaymentTypes" Multiplicity="1" />
+          <End Type="iRestaurantModel.Payments" Role="Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="paymentTypeId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="paymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_TableSessions">
+          <End Type="iRestaurantModel.TableSessions" Role="TableSessions" Multiplicity="1" />
+          <End Type="iRestaurantModel.Payments" Role="Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessions">
+              <PropertyRef Name="tableSessionId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="tableSessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Payments" Role="Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentTypes_Currencies">
+          <End Type="iRestaurantModel.Currencies" Role="Currencies" Multiplicity="1" />
+          <End Type="iRestaurantModel.PaymentTypes" Role="PaymentTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="currencyId" />
+            </Principal>
+            <Dependent Role="PaymentTypes">
+              <PropertyRef Name="currencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentTypes_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.PaymentTypes" Role="PaymentTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="PaymentTypes">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessionCampaigns_TableSessions">
+          <End Type="iRestaurantModel.TableSessions" Role="TableSessions" Multiplicity="1" />
+          <End Type="iRestaurantModel.TableSessionCampaigns" Role="TableSessionCampaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessions">
+              <PropertyRef Name="tableSessionId" />
+            </Principal>
+            <Dependent Role="TableSessionCampaigns">
+              <PropertyRef Name="tableSessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_TableSessionCampaigns">
+          <End Type="iRestaurantModel.TableSessionCampaigns" Role="TableSessionCampaigns" Multiplicity="0..1" />
+          <End Type="iRestaurantModel.OrderProducts" Role="OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessionCampaigns">
+              <PropertyRef Name="tableSessionCampaignId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="tableSessionCampaignId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableSessions_Branches1">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.TableSessions" Role="TableSessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="TableSessions">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_TableSessions">
+          <End Type="iRestaurantModel.TableSessions" Role="TableSessions" Multiplicity="1" />
+          <End Type="iRestaurantModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSessions">
+              <PropertyRef Name="tableSessionId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="tableSessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Employees" Role="Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Employees1">
+          <End Type="iRestaurantModel.Employees" Role="Employees" Multiplicity="1" />
+          <End Type="iRestaurantModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_Orders">
+          <End Type="iRestaurantModel.Orders" Role="Orders" Multiplicity="1" />
+          <End Type="iRestaurantModel.OrderProducts" Role="OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrintingList_Orders">
+          <End Type="iRestaurantModel.Orders" Role="Orders" Multiplicity="1" />
+          <End Type="iRestaurantModel.PrintingList" Role="PrintingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="PrintingList">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_Products">
+          <End Type="iRestaurantModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="iRestaurantModel.OrderProducts" Role="OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProducts_ProductOptions">
+          <End Type="iRestaurantModel.ProductOptions" Role="ProductOptions" Multiplicity="1" />
+          <End Type="iRestaurantModel.OrderProducts" Role="OrderProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOptions">
+              <PropertyRef Name="productOptionId" />
+            </Principal>
+            <Dependent Role="OrderProducts">
+              <PropertyRef Name="productOptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProductExtras_OrderProducts">
+          <End Type="iRestaurantModel.OrderProducts" Role="OrderProducts" Multiplicity="1" />
+          <End Type="iRestaurantModel.OrderProductExtras" Role="OrderProductExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderProducts">
+              <PropertyRef Name="orderProductId" />
+            </Principal>
+            <Dependent Role="OrderProductExtras">
+              <PropertyRef Name="orderProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProductExtras_ProductExtras">
+          <End Type="iRestaurantModel.ProductExtras" Role="ProductExtras" Multiplicity="1" />
+          <End Type="iRestaurantModel.OrderProductExtras" Role="OrderProductExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductExtras">
+              <PropertyRef Name="productExtraId" />
+            </Principal>
+            <Dependent Role="OrderProductExtras">
+              <PropertyRef Name="productExtraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Branches_Companies">
+          <End Type="iRestaurantModel.Companies" Role="Companies" Multiplicity="1" />
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="companyId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="companyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStocks_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.ProductStocks" Role="ProductStocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="ProductStocks">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrintingList_Branches">
+          <End Type="iRestaurantModel.Branches" Role="Branches" Multiplicity="1" />
+          <End Type="iRestaurantModel.PrintingList" Role="PrintingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="PrintingList">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductExtras_Products">
+          <End Type="iRestaurantModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="iRestaurantModel.ProductExtras" Role="ProductExtras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="ProductExtras">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_ProductCategories">
+          <End Type="iRestaurantModel.ProductCategories" Role="ProductCategories" Multiplicity="1" />
+          <End Type="iRestaurantModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategories">
+              <PropertyRef Name="productCategoryId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="productCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOptions_Products">
+          <End Type="iRestaurantModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="iRestaurantModel.ProductOptions" Role="ProductOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="ProductOptions">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStocks_Products">
+          <End Type="iRestaurantModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="iRestaurantModel.ProductStocks" Role="ProductStocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="productId" />
+            </Principal>
+            <Dependent Role="ProductStocks">
+              <PropertyRef Name="productId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductStockEntries_ProductStocks">
+          <End Type="iRestaurantModel.ProductStocks" Role="ProductStocks" Multiplicity="1" />
+          <End Type="iRestaurantModel.ProductStockEntries" Role="ProductStockEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductStocks">
+              <PropertyRef Name="productStockId" />
+            </Principal>
+            <Dependent Role="ProductStockEntries">
+              <PropertyRef Name="productStockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="iRestaurantModelStoreContainer" CdmEntityContainer="iRestaurantEntities">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="iRestaurantModel.Departments">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="departmentIp" ColumnName="departmentIp" />
+                <ScalarProperty Name="departmentName" ColumnName="departmentName" />
+                <ScalarProperty Name="departmentId" ColumnName="departmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Announcements">
+            <EntityTypeMapping TypeName="iRestaurantModel.Announcements">
+              <MappingFragment StoreEntitySet="Announcements">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
+                <ScalarProperty Name="announcementImage" ColumnName="announcementImage" />
+                <ScalarProperty Name="announcementDescription" ColumnName="announcementDescription" />
+                <ScalarProperty Name="announcementTitle" ColumnName="announcementTitle" />
+                <ScalarProperty Name="announcementId" ColumnName="announcementId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceServices">
+            <EntityTypeMapping TypeName="iRestaurantModel.InvoiceServices">
+              <MappingFragment StoreEntitySet="InvoiceServices">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="serviceCampaignId" ColumnName="serviceCampaignId" />
+                <ScalarProperty Name="isYearly" ColumnName="isYearly" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="currencyId" ColumnName="currencyId" />
+                <ScalarProperty Name="invoiceId" ColumnName="invoiceId" />
+                <ScalarProperty Name="serviceId" ColumnName="serviceId" />
+                <ScalarProperty Name="invoiceServiceId" ColumnName="invoiceServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="iRestaurantModel.Invoices">
+              <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="companyId" ColumnName="companyId" />
+                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
+                <ScalarProperty Name="invoiceDate" ColumnName="invoiceDate" />
+                <ScalarProperty Name="invoiceId" ColumnName="invoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoicePayments">
+            <EntityTypeMapping TypeName="iRestaurantModel.InvoicePayments">
+              <MappingFragment StoreEntitySet="InvoicePayments">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="invoiceId" ColumnName="invoiceId" />
+                <ScalarProperty Name="currencyId" ColumnName="currencyId" />
+                <ScalarProperty Name="invoicePaymentAmount" ColumnName="invoicePaymentAmount" />
+                <ScalarProperty Name="invoicePaymentDate" ColumnName="invoicePaymentDate" />
+                <ScalarProperty Name="invoicePaymentId" ColumnName="invoicePaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceCampaignServices">
+            <EntityTypeMapping TypeName="iRestaurantModel.ServiceCampaignServices">
+              <MappingFragment StoreEntitySet="ServiceCampaignServices">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="serviceCampaignId" ColumnName="serviceCampaignId" />
+                <ScalarProperty Name="serviceId" ColumnName="serviceId" />
+                <ScalarProperty Name="serviceCampaignServiceId" ColumnName="serviceCampaignServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceCampaigns">
+            <EntityTypeMapping TypeName="iRestaurantModel.ServiceCampaigns">
+              <MappingFragment StoreEntitySet="ServiceCampaigns">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="isYearly" ColumnName="isYearly" />
+                <ScalarProperty Name="currencyId" ColumnName="currencyId" />
+                <ScalarProperty Name="serviceCampaignPrice" ColumnName="serviceCampaignPrice" />
+                <ScalarProperty Name="serviceCampaignName" ColumnName="serviceCampaignName" />
+                <ScalarProperty Name="serviceCampaignId" ColumnName="serviceCampaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="iRestaurantModel.Services">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="serviceType" ColumnName="serviceType" />
+                <ScalarProperty Name="currencyId" ColumnName="currencyId" />
+                <ScalarProperty Name="serviceMonthlyFee" ColumnName="serviceMonthlyFee" />
+                <ScalarProperty Name="serviceName" ColumnName="serviceName" />
+                <ScalarProperty Name="serviceId" ColumnName="serviceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceLicenses">
+            <EntityTypeMapping TypeName="iRestaurantModel.ServiceLicenses">
+              <MappingFragment StoreEntitySet="ServiceLicenses">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="invoiceId" ColumnName="invoiceId" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="serviceId" ColumnName="serviceId" />
+                <ScalarProperty Name="serviceLicenseEndDate" ColumnName="serviceLicenseEndDate" />
+                <ScalarProperty Name="serviceLicenseStartDate" ColumnName="serviceLicenseStartDate" />
+                <ScalarProperty Name="serviceLicenseId" ColumnName="serviceLicenseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="iRestaurantModel.Districts">
+              <MappingFragment StoreEntitySet="Districts">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="provinceId" ColumnName="provinceId" />
+                <ScalarProperty Name="districtName" ColumnName="districtName" />
+                <ScalarProperty Name="districtId" ColumnName="districtId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provinces">
+            <EntityTypeMapping TypeName="iRestaurantModel.Provinces">
+              <MappingFragment StoreEntitySet="Provinces">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="countryId" ColumnName="countryId" />
+                <ScalarProperty Name="provinceName" ColumnName="provinceName" />
+                <ScalarProperty Name="provinceId" ColumnName="provinceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Campaigns">
+            <EntityTypeMapping TypeName="iRestaurantModel.Campaigns">
+              <MappingFragment StoreEntitySet="Campaigns">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
+                <ScalarProperty Name="campaignDescription" ColumnName="campaignDescription" />
+                <ScalarProperty Name="campaignImage" ColumnName="campaignImage" />
+                <ScalarProperty Name="campaignPrice" ColumnName="campaignPrice" />
+                <ScalarProperty Name="campaignName" ColumnName="campaignName" />
+                <ScalarProperty Name="campaignId" ColumnName="campaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignProducts">
+            <EntityTypeMapping TypeName="iRestaurantModel.CampaignProducts">
+              <MappingFragment StoreEntitySet="CampaignProducts">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="campaignId" ColumnName="campaignId" />
+                <ScalarProperty Name="campaignProductId" ColumnName="campaignProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Floors">
+            <EntityTypeMapping TypeName="iRestaurantModel.Floors">
+              <MappingFragment StoreEntitySet="Floors">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="floorName" ColumnName="floorName" />
+                <ScalarProperty Name="floorId" ColumnName="floorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tables">
+            <EntityTypeMapping TypeName="iRestaurantModel.Tables">
+              <MappingFragment StoreEntitySet="Tables">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="tableName" ColumnName="tableName" />
+                <ScalarProperty Name="floorId" ColumnName="floorId" />
+                <ScalarProperty Name="tableId" ColumnName="tableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="iRestaurantModel.Menus">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="currencyId" ColumnName="currencyId" />
+                <ScalarProperty Name="menuName" ColumnName="menuName" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="iRestaurantModel.Payments">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="paymentDate" ColumnName="paymentDate" />
+                <ScalarProperty Name="paymentAmount" ColumnName="paymentAmount" />
+                <ScalarProperty Name="paymentTypeId" ColumnName="paymentTypeId" />
+                <ScalarProperty Name="tableSessionId" ColumnName="tableSessionId" />
+                <ScalarProperty Name="paymentId" ColumnName="paymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="iRestaurantModel.PaymentTypes">
+              <MappingFragment StoreEntitySet="PaymentTypes">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="currencyId" ColumnName="currencyId" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="paymentTypeName" ColumnName="paymentTypeName" />
+                <ScalarProperty Name="paymentTypeId" ColumnName="paymentTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableSessionCampaigns">
+            <EntityTypeMapping TypeName="iRestaurantModel.TableSessionCampaigns">
+              <MappingFragment StoreEntitySet="TableSessionCampaigns">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
+                <ScalarProperty Name="tableSessionId" ColumnName="tableSessionId" />
+                <ScalarProperty Name="campaignId" ColumnName="campaignId" />
+                <ScalarProperty Name="tableSessionCampaignId" ColumnName="tableSessionCampaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableSessions">
+            <EntityTypeMapping TypeName="iRestaurantModel.TableSessions">
+              <MappingFragment StoreEntitySet="TableSessions">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="billRequested" ColumnName="billRequested" />
+                <ScalarProperty Name="waiterRequested" ColumnName="waiterRequested" />
+                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
+                <ScalarProperty Name="kilitlendi" ColumnName="kilitlendi" />
+                <ScalarProperty Name="tableSessionClosingDate" ColumnName="tableSessionClosingDate" />
+                <ScalarProperty Name="tableSessionOpeningDate" ColumnName="tableSessionOpeningDate" />
+                <ScalarProperty Name="tableId" ColumnName="tableId" />
+                <ScalarProperty Name="tableSessionId" ColumnName="tableSessionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="iRestaurantModel.Currencies">
+              <MappingFragment StoreEntitySet="Currencies">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="currencyName" ColumnName="currencyName" />
+                <ScalarProperty Name="currencyId" ColumnName="currencyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="iRestaurantModel.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="isTableMode" ColumnName="isTableMode" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="isManager" ColumnName="isManager" />
+                <ScalarProperty Name="employeePhone" ColumnName="employeePhone" />
+                <ScalarProperty Name="employeeEmail" ColumnName="employeeEmail" />
+                <ScalarProperty Name="employeePassword" ColumnName="employeePassword" />
+                <ScalarProperty Name="employeeName" ColumnName="employeeName" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="iRestaurantModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="tableSessionId" ColumnName="tableSessionId" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="orderStatus" ColumnName="orderStatus" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderProducts">
+            <EntityTypeMapping TypeName="iRestaurantModel.OrderProducts">
+              <MappingFragment StoreEntitySet="OrderProducts">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="paidDate" ColumnName="paidDate" />
+                <ScalarProperty Name="tableSessionCampaignId" ColumnName="tableSessionCampaignId" />
+                <ScalarProperty Name="productOptionId" ColumnName="productOptionId" />
+                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
+                <ScalarProperty Name="isConfirmed" ColumnName="isConfirmed" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="orderProductId" ColumnName="orderProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderProductExtras">
+            <EntityTypeMapping TypeName="iRestaurantModel.OrderProductExtras">
+              <MappingFragment StoreEntitySet="OrderProductExtras">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="isPaid" ColumnName="isPaid" />
+                <ScalarProperty Name="orderProductId" ColumnName="orderProductId" />
+                <ScalarProperty Name="productExtraId" ColumnName="productExtraId" />
+                <ScalarProperty Name="orderProductExtraId" ColumnName="orderProductExtraId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="iRestaurantModel.Companies">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="activationCode" ColumnName="activationCode" />
+                <ScalarProperty Name="isActivated" ColumnName="isActivated" />
+                <ScalarProperty Name="districtId" ColumnName="districtId" />
+                <ScalarProperty Name="companyPassword" ColumnName="companyPassword" />
+                <ScalarProperty Name="companyPhone" ColumnName="companyPhone" />
+                <ScalarProperty Name="companyEmail" ColumnName="companyEmail" />
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+                <ScalarProperty Name="companyId" ColumnName="companyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="iRestaurantModel.Branches">
+              <MappingFragment StoreEntitySet="Branches">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="employeePrinterName" ColumnName="employeePrinterName" />
+                <ScalarProperty Name="cashierPrinterName" ColumnName="cashierPrinterName" />
+                <ScalarProperty Name="employeePrinterIp" ColumnName="employeePrinterIp" />
+                <ScalarProperty Name="cashierPrinterIp" ColumnName="cashierPrinterIp" />
+                <ScalarProperty Name="isEmployeePrinterAutomatic" ColumnName="isEmployeePrinterAutomatic" />
+                <ScalarProperty Name="isAnnouncementAreaActive" ColumnName="isAnnouncementAreaActive" />
+                <ScalarProperty Name="districtId" ColumnName="districtId" />
+                <ScalarProperty Name="companyId" ColumnName="companyId" />
+                <ScalarProperty Name="isFirstSetupDone" ColumnName="isFirstSetupDone" />
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="iRestaurantModel.Countries">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="countryName" ColumnName="countryName" />
+                <ScalarProperty Name="countryId" ColumnName="countryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductExtras">
+            <EntityTypeMapping TypeName="iRestaurantModel.ProductExtras">
+              <MappingFragment StoreEntitySet="ProductExtras">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="productExtraPrice" ColumnName="productExtraPrice" />
+                <ScalarProperty Name="productExtraName" ColumnName="productExtraName" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="productExtraId" ColumnName="productExtraId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategories">
+            <EntityTypeMapping TypeName="iRestaurantModel.ProductCategories">
+              <MappingFragment StoreEntitySet="ProductCategories">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="taxPercent" ColumnName="taxPercent" />
+                <ScalarProperty Name="menuId" ColumnName="menuId" />
+                <ScalarProperty Name="departmentId" ColumnName="departmentId" />
+                <ScalarProperty Name="productCategoryName" ColumnName="productCategoryName" />
+                <ScalarProperty Name="productCategoryId" ColumnName="productCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="iRestaurantModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="productStockAlarmQuantity" ColumnName="productStockAlarmQuantity" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
+                <ScalarProperty Name="productPreparationTime" ColumnName="productPreparationTime" />
+                <ScalarProperty Name="productDescription" ColumnName="productDescription" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productCategoryId" ColumnName="productCategoryId" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductOptions">
+            <EntityTypeMapping TypeName="iRestaurantModel.ProductOptions">
+              <MappingFragment StoreEntitySet="ProductOptions">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="productOptionPrice" ColumnName="productOptionPrice" />
+                <ScalarProperty Name="productOptionName" ColumnName="productOptionName" />
+                <ScalarProperty Name="productOptionId" ColumnName="productOptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductStockEntries">
+            <EntityTypeMapping TypeName="iRestaurantModel.ProductStockEntries">
+              <MappingFragment StoreEntitySet="ProductStockEntries">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="productStockEntryQuantity" ColumnName="productStockEntryQuantity" />
+                <ScalarProperty Name="productStockEntryDate" ColumnName="productStockEntryDate" />
+                <ScalarProperty Name="productStockId" ColumnName="productStockId" />
+                <ScalarProperty Name="productStockEntryId" ColumnName="productStockEntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductStocks">
+            <EntityTypeMapping TypeName="iRestaurantModel.ProductStocks">
+              <MappingFragment StoreEntitySet="ProductStocks">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="productStockId" ColumnName="productStockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrintingList">
+            <EntityTypeMapping TypeName="iRestaurantModel.PrintingList">
+              <MappingFragment StoreEntitySet="PrintingList">
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="printingListId" ColumnName="printingListId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

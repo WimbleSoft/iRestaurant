@@ -1,0 +1,134 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Register";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>@ViewBag.Title</title>
+    <!-- Styles -->
+    <link href="../Content/Home/assets/css/page.min.css" rel="stylesheet">
+    <link href="../Content/Home/assets/css/style.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+    <link rel="icon" href="../assets/img/favicon.png">
+</head>
+<body class="layout-centered bg-img" style="background-image: url(../Content/Home/assets/img/bg/4.jpg);">
+    @Html.Partial("_AntiForgery")
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="bg-white rounded shadow-7 w-400 mw-100 p-6">
+            <h5 class="mb-7">Register Your Company</h5>
+            <form action="/Home/Register" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="form-group">
+                    @ViewBag.message
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="companyName" placeholder="Company name">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="companyEmail" placeholder="Company email address">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="companyPassword" placeholder="Company password">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="companyPasswordRepeat" placeholder="Company password (again)">
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" name="companyPhone" placeholder="Company phone number">
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <select id="countryId" name="countryId" onchange="getProvinces(this.value)" class="form-control select2" style="width: 100%;">
+                        <option>Select Country</option>
+                        @foreach (var country in Model.Countries)
+                {
+                    <option value="@country.countryId">@country.countryName</option>
+        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Province</label>
+                    <select id="provinceId" name="provinceId" onchange="getDistricts(this.value)" class="form-control select2" style="width: 100%;"></select>
+                </div>
+                <div class="form-group">
+                    <label>District</label>
+                    <select id="districtId" name="districtId" class="form-control select2" style="width: 100%;"></select>
+                </div>
+                <script>
+                    $(function () {
+                        var countrySelector = $("#countryId");
+                        getProvinces(countrySelector[0].value);
+                    });
+                    function getProvinces(countryId) {
+                        $.ajax({
+                            url: '/CompanyAdmin/GetProvinces',
+                            type: 'POST',
+                            dataType: 'json',
+                            contentType: "application/json",
+                            data: JSON.stringify({ countryId: countryId }),
+                            traditional: true,
+                            success: function (incomingProvinces) {
+                                var provinceId = $("#provinceId");
+                                provinceId.empty();
+                                //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                $.each(incomingProvinces, function () {
+                                    provinceId.append($("<option />").val(this.provinceId).text(this.provinceName));
+                                });
+                                getDistricts(provinceId.val());
+                            }
+                        });
+                    }
+                    function getDistricts(provinceId) {
+                        $.ajax({
+                            url: '/CompanyAdmin/GetDistricts',
+                            type: 'POST',
+                            dataType: 'json',
+                            contentType: "application/json",
+                            data: JSON.stringify({ provinceId: provinceId }),
+                            traditional: true,
+                            success: function (incomingDistricts) {
+                                var districtId = $("#districtId");
+                                districtId.empty();
+                                //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                $.each(incomingDistricts, function () {
+                                    districtId.append($("<option />").val(this.districtId).text(this.districtName));
+                                });
+                            }
+                        });
+                    }
+                </script>
+                <div class="form-group py-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="terms" id="terms" class="">
+                        I accept the <a class="ml-1" target="_blank" data-toggle="modal" href="/Home/Terms">Terms of Use</a>.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-block btn-primary" type="submit">Sign Up</button>
+                </div>
+            </form>
+            <p class="text-center text-muted small-2">Already have an account? <a href="/Home/Login">Log in here</a></p>
+            <div class="divider">Follow us</div>
+            <div class="text-center">
+                <a class="btn btn-circle btn-sm btn-facebook mr-2" href="http://www.facebook.com/SirusSoftware"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-circle btn-sm btn-google mr-2" href="http://www.instagram.com/SirusSoftware"><i class="fa fa-instagram"></i></a>
+                <a class="btn btn-circle btn-sm btn-twitter" href="http://www.twitter.com/SirusSoftware"><i class="fa fa-twitter"></i></a>
+            </div>
+            <hr class="w-30">
+
+        </div>
+    </main><!-- /.main-content -->
+    <!-- Scripts -->
+    <script src="../../Content/Home/assets/js/page.min.js"></script>
+    <script src="../../Content/Home/assets/js/script.js"></script>
+</body>
+</html>

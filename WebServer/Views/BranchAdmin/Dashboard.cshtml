@@ -1,0 +1,935 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/branchAdmin_Layout.cshtml";
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Employees.Where(x => x.employeeId == (int)Session["loggedInEmployeeId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="updateSettingsModal_@a.employeeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Name</label>
+                                <input name="employeeName" type="text" id="employeeName_id_@a.employeeId" class="form-control" placeholder="Enter employee name" value="@a.employeeName">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Password</label>
+                                <input name="employeePassword" type="password" required min="8" max="20" id="employeePassword_id_@a.employeeId" class="form-control" placeholder="Enter employee password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Email</label>
+                                <input name="employeeEmail" type="text" id="employeeEmail_id_@a.employeeId" @if (a.isManager == false) { <text> disabled="disabled" readonly="readonly" </text> } class="form-control" placeholder="Enter employee email" value="@a.employeeEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Phone</label>
+                                <input name="employeePhone" type="text" id="employeePhone_id_@a.employeeId" class="form-control" placeholder="Enter employee phone" value="@a.employeePhone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row" style="margin:unset !important;">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <label> </label>
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <label> </label>
+                                    <button type="button" onclick="updateSettings(this.id)" id="updateSettings_id_@a.employeeId" class="btn btn-warning btn-md btn-grad form-control">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    document.getElementById("dashboard").className = "active";
+</script>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#"><i class="fa fa-dashboard"></i> Dashboard</a>
+            </li>
+        </ol>
+    </section>
+    @{
+        DateTime morningDateTime = DateTime.Now.Date.AddHours(3);// Start of the business day as shown at the register
+        DateTime nightDateTime = DateTime.Now.Date.AddDays(1).AddHours(3);// End of the business day: until 3 hours past midnight
+        if (DateTime.Now.TimeOfDay <= new TimeSpan(3, 0, 0) && DateTime.Now.TimeOfDay >= new TimeSpan(0, 0, 0))
+        {
+            morningDateTime = DateTime.Now.Subtract(new TimeSpan(24, 0, 0));
+            nightDateTime = DateTime.Now.Subtract(new TimeSpan(24, 0, 0));
+        }
+    }
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>@Model.Tables.Where(x => x.status == true).Count()</h3>
+                        <p>Occupied tables</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-tablet"></i>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- small box -->
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h3>
+                            @{
+                                int quantity = 0;
+                                string productsName = "None";
+                            }
+                            @{
+                                var orderData = (from sue in Model.OrderProductExtras
+                                                   join su in Model.OrderProducts on sue.orderProductId equals su.orderProductId
+                                                   join s in Model.Orders.Where(x => x.orderDate.Year == DateTime.Now.Year && x.orderDate.Month == DateTime.Now.Month)
+                                                   on su.orderId equals s.orderId
+                                                   group sue.OrderProducts.Orders by su.Products.productName into g
+                                                   orderby g.Count() descending
+                                                   select new { productsName = g.Key, quantity = g.Count() }
+                                );
+                                if (orderData.Count() != 0)
+                                {
+                                    quantity = orderData.FirstOrDefault().quantity;
+                                }
+                                if (orderData.Count() != 0)
+                                {
+                                    productsName = orderData.FirstOrDefault().productsName;
+                                }
+                            }
+                            @quantity pcs @productsName
+
+
+
+                            <sup style="font-size: 25px">
+                            </sup>
+                        </h3>
+                        <p>Most ordered product this month and quantity</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-cart"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- small box -->
+                <div class="small-box bg-blue">
+                    <div class="inner">
+
+                        <h3>
+                            @{
+                                var orderData2 = (from u in Model.Products
+                                                    join sue in Model.OrderProductExtras on u.productId equals sue.OrderProducts.productId
+                                                    join su in Model.OrderProducts on sue.orderProductId equals su.orderProductId
+                                                    join s in Model.Orders.Where(x => x.orderDate.Year == DateTime.Now.Year && x.orderDate.Month == DateTime.Now.Month)
+                                                    on su.orderId equals s.orderId
+                                                    group sue.OrderProducts.Orders by su.Products.ProductCategories.productCategoryName into g
+                                                    orderby g.Count() descending
+                                                    select new { productCategoryName = g.Key, quantity = Model.OrderProducts.Where(x => x.Products.ProductCategories.productCategoryName == g.Key).Count() }
+                                                    ).Take(1).ToList();
+
+                                int quantity2 = 0;
+                                string productCategoryName = "None";
+                                if (orderData2.Count() != 0)
+                                {
+                                    quantity2 = orderData2.FirstOrDefault().quantity;
+                                }
+                                if (orderData2.Count() != 0)
+                                {
+                                    productCategoryName = orderData2.FirstOrDefault().productCategoryName;
+                                }
+                            }
+                            @quantity2
+                            pcs
+                            @productCategoryName
+
+                            <sup style="font-size: 25px"></sup>
+                        </h3>
+
+                        <p>Best-selling category and quantity sold</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>
+                            @Model.Products.Count()
+                            <sup style="font-size: 25px"></sup>
+                        </h3>
+                        <p>Total number of products</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-home"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>
+                            @{
+                                double? productsTotal = Model.Products.Sum(x => x.productPrice);
+                                double? productOptionsTotal = Model.ProductOptions.Sum(x => x.productOptionPrice);
+                                double? productExtrasTotal = Model.ProductExtras.Sum(x => x.productExtraPrice);
+                            }
+                            @(productsTotal + productOptionsTotal + productExtrasTotal)
+                            <i class="fa fa-try"></i>
+                            <sup style="font-size: 25px"></sup>
+                        </h3>
+                        <p>Total value of products</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-card"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="info-box bg-red">
+                    <span class="info-box-icon"><i class="fa fa-try"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">MONTHLY REVENUE</span>
+                        <span class="info-box-number">
+                            @{
+                                var orderData3 = (from u in Model.Products
+                                                    join sue in Model.OrderProductExtras on u.productId equals sue.OrderProducts.productId
+                                                    join su in Model.OrderProducts on sue.orderProductId equals su.orderProductId
+                                                    join s in Model.Orders.Where(x => x.orderDate.Year == DateTime.Now.Year && x.orderDate.Month == DateTime.Now.Month)
+                                                                                on su.orderId equals s.orderId
+                                                    select new { u, sue, su, s }
+                                ).ToList();
+                            }
+                            @(orderData3.Sum(x => x.su.ProductOptions.productOptionPrice) + orderData3.Sum(x => x.sue.ProductExtras.productExtraPrice) + orderData3.Sum(x => x.su.Products.productPrice))
+                            <!--@(Model.OrderProducts.Sum(x => x.ProductOptions.productOptionPrice) + Model.OrderProductExtras.Sum(x => x.ProductExtras.productExtraPrice) + Model.OrderProducts.Sum(x => x.Products.productPrice)  )-->
+                            <i class="fa fa-try"></i>
+                        </span>
+
+                        <div class="progress">
+                            <div class="progress-bar" style="width:100%"></div>
+                        </div>
+                        <span class="progress-description">
+                            Today's total:
+                            <!--(Model.OrderProducts.Where(x => /*x.Orders.orderDate.Date == DateTime.Now.Date*/ x.Orders.orderDate >= morningDateTime && x.Orders.orderDate <= nightDateTime).Sum(x => x.ProductOptions.productOptionPrice) + Model.OrderProductExtras.Where(x => x.OrderProducts.Orders.orderDate >= morningDateTime && x.OrderProducts.Orders.orderDate <= nightDateTime /*x.OrderProducts.Orders.orderDate.Date == DateTime.Now.Date*/).Sum(x => x.ProductExtras.productExtraPrice) + Model.OrderProducts.Where(x => /*x.Orders.orderDate.Date == DateTime.Now.Date*/ x.Orders.orderDate >= morningDateTime && x.Orders.orderDate <= nightDateTime).Sum(x => x.Products.productPrice))-->
+                            @Model.Payments.Where(x => x.paymentDate >= morningDateTime && x.paymentDate <= nightDateTime).Sum(x => x.paymentAmount)
+                            <i class="fa fa-try"></i>
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- Employee performance chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Orders by employee</h3>
+                        <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="Employees set to table mode are not included in this chart.">?</span>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="employeePerformanceBarChart" style="height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- Weekly traffic distribution chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Traffic by day of week</h3>
+                        <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="Based on data from the current week.">?</span>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="weeklyDensityDistributionBarChart" style="height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- Monthly revenue chart -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Revenue by Month</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart">
+                            <canvas id="monthlyRevenueLineChart" style="height:250px"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- Daily most ordered products chart -->
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Most Ordered Products Today</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <canvas id="dailyMostOrderedProductsPieChart" style="height:250px"></canvas>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- Monthly most ordered products chart -->
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Most Ordered Products This Month</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <canvas id="monthlyMostOrderedProductsPieChart" style="height:250px"></canvas>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- Monthly and yearly sales by category -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Monthly and Yearly Sales by Category</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart">
+                            <canvas id="categoryMonthlyYearlyChart" style="height:230px"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ui-sortable">
+                <!-- Yearly, monthly and daily payment type amounts -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Payment Type Amounts (Day / Month / Year)</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart">
+                            <canvas id="paymentMethodsChart" style="height:230px"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+
+        //-------------
+        //- Daily most ordered products -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas = $("#dailyMostOrderedProductsPieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas);
+        var PieData = [
+            @{ int counter = 0;}
+            @foreach (var a in Model.OrderProducts.Where(x=>x.Orders.orderDate.Date==DateTime.Now.Date).GroupBy(x => x.Products.productName).Take(5))
+            {
+                counter++;
+                <text>
+                        {
+                            value: @a.Count(),
+                            @{
+                                if      (counter == 1) { <text>color: "#f56954", highlight: "#f56954",</text>}
+                                else if (counter == 2) { <text>color: "#00a65a", highlight: "#00a65a",</text>}
+                                else if (counter == 3) { <text>color: "#f39c12", highlight: "#f39c12",</text>}
+                                else if (counter == 4) { <text>color: "#00c0ef", highlight: "#00c0ef",</text>}
+                                else if (counter == 5) { <text>color: "#3c8dbc", highlight: "#3c8dbc",</text>}
+                            }
+
+                            label: "@a.Key.Replace('ç', 'c').Replace('Ç', 'C').Replace('İ', 'I').Replace('ı', 'i').Replace('Ö', 'O').Replace('ö', 'o').Replace('Ü', 'U').Replace('ü', 'u').Replace('Ş', 'S').Replace('ş', 's')"
+                        },
+                </text>
+            }
+        ];
+        var pieOptions = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: "#fff",
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: "easeOutBounce",
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //String - A legend template
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+        };
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart.Doughnut(PieData, pieOptions);
+
+</script>
+<script>
+        //-------------
+        //- Monthly most ordered products -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas2 = $("#monthlyMostOrderedProductsPieChart").get(0).getContext("2d");
+        var pieChart2 = new Chart(pieChartCanvas2);
+        var PieData2 = [
+            @foreach (var a in Model.OrderProducts.Where(x=>x.Orders.orderDate.Date.Month == DateTime.Now.Date.Month && x.Orders.orderDate.Date.Year == DateTime.Now.Date.Year).GroupBy(x => x.Products.productName).Take(5))
+            {
+
+                    <text>
+                        {
+                            value: @a.Count(),
+                            label: "@a.Key.Replace('ç', 'c').Replace('Ç', 'C').Replace('İ', 'I').Replace('ı', 'i').Replace('Ö', 'O').Replace('ö', 'o').Replace('Ü', 'U').Replace('ü', 'u').Replace('Ş', 'S').Replace('ş', 's')"
+                        },
+                    </text>
+                }
+        ];
+        var pieOptions2 = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: "#fff",
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: "easeOutBounce",
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //String - A legend template
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+        };
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart2.Doughnut(PieData2, pieOptions2);
+</script>
+<script>
+        //--------------
+        //- Start: revenue by month -
+        //--------------
+
+        var areaChartData = {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: [
+              {
+                  label: "This Year",
+                  fillColor: "rgba(60,141,188,0.9)",
+                  strokeColor: "rgba(60,141,188,0.8)",
+                  pointColor: "#3b8bba",
+                  pointStrokeColor: "rgba(60,141,188,1)",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(60,141,188,1)",
+                  data: [
+                          @for(int i=1; i <= 12; i++)
+                          {
+                              <text>
+                              @Convert.ToInt32(Model.OrderProducts.Where(x => x.Orders.orderDate.Month == i && x.Orders.orderDate.Year == DateTime.Now.Year).Sum(x => x.Products.productPrice) + Model.OrderProducts.Where(x => x.Orders.orderDate.Month == i && x.Orders.orderDate.Year == DateTime.Now.Year).Select(y => y.ProductOptions.productOptionPrice).Sum() + Model.OrderProductExtras.Where(x => x.OrderProducts.Orders.orderDate.Month == i && x.OrderProducts.Orders.orderDate.Year == DateTime.Now.Year).Sum(x => x.ProductExtras.productExtraPrice)),
+                              </text>
+                          }
+                  ]
+              },
+              {
+                  label: "Last Year",
+                  fillColor: "rgba(210, 214, 222, 1)",
+                  strokeColor: "rgba(210, 214, 222, 1)",
+                  pointColor: "rgba(210, 214, 222, 1)",
+                  pointStrokeColor: "#c1c7d1",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data: [
+                            @for(int i=1; i <= 12; i++)
+                            {
+                                <text>
+                                @Convert.ToInt32(Model.OrderProducts.Where(x => x.Orders.orderDate.Month == i && x.Orders.orderDate.AddYears(1).Year == DateTime.Now.Year).Sum(x => x.Products.productPrice) + Model.OrderProducts.Where(x => x.Orders.orderDate.Month == i && x.Orders.orderDate.AddYears(1).Year == DateTime.Now.Year).Select(y => y.ProductOptions.productOptionPrice).Sum() + Model.OrderProductExtras.Where(x => x.OrderProducts.Orders.orderDate.Month == i && x.OrderProducts.Orders.orderDate.AddYears(1).Year == DateTime.Now.Year).Sum(x => x.ProductExtras.productExtraPrice)),
+                                </text>
+                            }
+                  ]
+              }
+            ]
+        };
+
+        var areaChartOptions = {
+            //Boolean - If we should show the scale at all
+            showScale: true,
+            //Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines: false,
+            //String - Colour of the grid lines
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            //Number - Width of the grid lines
+            scaleGridLineWidth: 1,
+            //Boolean - Whether to show horizontal lines (except X axis)
+            scaleShowHorizontalLines: true,
+            //Boolean - Whether to show vertical lines (except Y axis)
+            scaleShowVerticalLines: true,
+            //Boolean - Whether the line is curved between points
+            bezierCurve: true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension: 0.3,
+            //Boolean - Whether to show a dot for each point
+            pointDot: false,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius: 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth: 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius: 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke: true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth: 2,
+            //Boolean - Whether to fill the dataset with a color
+            datasetFill: true,
+            //String - A legend template
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+            //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true
+        };
+
+        //Create the line chart
+        //areaChart.Line(areaChartData, areaChartOptions);
+
+
+        var lineChartCanvas = $("#monthlyRevenueLineChart").get(0).getContext("2d");
+        var lineChart = new Chart(lineChartCanvas);
+        var lineChartOptions = areaChartOptions;
+        lineChartOptions.datasetFill = false;
+        lineChart.Line(areaChartData, lineChartOptions);
+        //-------------
+        //- End: revenue by month -
+        //--------------
+
+
+
+</script>
+<script>
+
+
+
+        /*
+         * Start: employee performance
+         * ---------
+         */
+
+        var bar_data = {
+            data: [
+                @foreach (var a in Model.Orders.Where(x=>x.Employees.isTableMode==false && x.Employees.isDeleted==false && x.orderDate.Month ==DateTime.Now.Month && x.orderDate.Year==DateTime.Now.Year).GroupBy(x => x.Employees.employeeName))
+                {
+                    <text>["@a.Key - %@(Convert.ToDecimal(a.Count() * 100 / Model.Orders.Count))", @(Convert.ToDecimal(a.Count() * 100 / Model.Orders.Count))],</text>
+                }
+                ["Deleted Employee", @Model.Orders.Where(x=>x.Employees.isTableMode==false && x.Employees.isDeleted== true && x.orderDate.Month == DateTime.Now.Month && x.orderDate.Year == DateTime.Now.Year).Count()]
+            ],
+            color: "#3c8dbc"
+        };
+        $.plot("#employeePerformanceBarChart", [bar_data], {
+            grid: {
+                borderWidth: 1,
+                borderColor: "#f3f3f3",
+                tickColor: "#f3f3f3"
+            },
+            series: {
+                bars: {
+                    show: true,
+                    barWidth: 0.5,
+                    align: "center"
+                }
+            },
+            xaxis: {
+                mode: "categories",
+                tickLength: 0
+            }
+        });
+        /* End: employee performance */
+
+
+
+
+
+
+
+    });
+</script>
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        /*
+         * Start: weekly traffic distribution
+         * ---------
+         */
+        var bar_data2 = {
+            data: [
+                @{
+                    int mondayCount = ViewBag.mondayCount;
+                    int tuesdayCount = ViewBag.tuesdayCount;
+                    int wednesdayCount = ViewBag.wednesdayCount;
+                    int thursdayCount = ViewBag.thursdayCount;
+                    int fridayCount = ViewBag.fridayCount;
+                    int saturdayCount = ViewBag.saturdayCount;
+                    int sundayCount = ViewBag.sundayCount;
+                    int totalCount = (int)ViewBag.totalCount == 0 ? 1 : ViewBag.totalCount;
+                }
+
+                [
+                    "Monday - @(mondayCount * 100 / totalCount)", @(mondayCount * 100 / totalCount)
+                ],
+                [
+                    "Tuesday - @(tuesdayCount * 100 / totalCount)",@(tuesdayCount * 100 / totalCount)
+                ],
+                [
+                    "Wednesday - @(wednesdayCount * 100 / totalCount)", @(wednesdayCount * 100 / totalCount)
+                ],
+                [
+                    "Thursday - @(thursdayCount * 100 / totalCount)", @(thursdayCount * 100 / totalCount)
+                ],
+                [
+                    "Friday - @(fridayCount * 100 / totalCount)", @(fridayCount * 100 / totalCount)
+                ],
+                [
+                    "Saturday - @(saturdayCount * 100 / totalCount)", @(saturdayCount * 100 / totalCount)
+                ],
+                [
+                    "Sunday - @(sundayCount * 100 / totalCount)", @(sundayCount * 100 / totalCount)
+                ]
+
+
+
+
+
+
+            ],
+            color: "#3c8dbc"
+        };
+        $.plot("#weeklyDensityDistributionBarChart", [bar_data2], {
+            grid: {
+                borderWidth: 1,
+                borderColor: "#f3f3f3",
+                tickColor: "#f3f3f3"
+            },
+            series: {
+                bars: {
+                    show: true,
+                    barWidth: 0.5,
+                    align: "center"
+                }
+            },
+            xaxis: {
+                mode: "categories",
+                tickLength: 0
+            }
+        });
+        /* End: weekly traffic distribution */
+
+
+
+    });
+</script>
+<script type="text/javascript" charset="utf-8">
+
+    /*
+     * Custom Label formatter
+     * ----------------------
+     */
+    function labelFormatter(label, series) {
+        return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
+            + label
+            + "<br>"
+            + Math.round(series.percent) + "%</div>";
+    }
+    //-------------
+    //- Monthly and yearly sales by category chart -
+    //-------------
+    var categoryMonthlyYearlyChartCanvas = $("#categoryMonthlyYearlyChart").get(0).getContext("2d");
+    var categoryMonthlyYearlyChart = new Chart(categoryMonthlyYearlyChartCanvas);
+    var categoryMonthlyYearlyChartData = {
+        labels: [
+            @foreach (var category in Model.ProductCategories) {
+
+            <text>'@category.productCategoryName.Replace('ç', 'c').Replace('Ç', 'C').Replace('İ', 'I').Replace('ı', 'i').Replace('Ö', 'O').Replace('ö', 'o').Replace('Ü', 'U').Replace('ü', 'u').Replace('Ş', 'S').Replace('ş', 's')',</text>
+            }
+
+        ],
+        datasets: [
+                      {
+                          label: "This Month",
+                          fillColor: "rgba(60,141,188,0.9)",
+                          strokeColor: "rgba(60,141,188,0.8)",
+                          pointColor: "#3b8bba",
+                          pointStrokeColor: "rgba(60,141,188,1)",
+                          pointHighlightFill: "#fff",
+                          pointHighlightStroke: "rgba(60,141,188,1)",
+                          data:     [
+                                  @foreach(var i in Model.ProductCategories)
+                                    {
+                                        <text>
+                                      @(
+                                          Convert.ToInt32
+                                          (
+                                            Model.OrderProducts.Where(x => x.Products.productCategoryId == i.productCategoryId && x.Orders.orderDate.Month == DateTime.Now.Month && x.Orders.orderDate.Year == DateTime.Now.Year).Sum(x => x.Products.productPrice) +
+                                            Model.OrderProducts.Where(x => x.Products.productCategoryId == i.productCategoryId && x.Orders.orderDate.Month == DateTime.Now.Month && x.Orders.orderDate.Year == DateTime.Now.Year).Sum(x=>x.ProductOptions.productOptionPrice) +
+                                            Model.OrderProductExtras.Where(x => x.OrderProducts.Products.productCategoryId == i.productCategoryId && x.OrderProducts.Orders.orderDate.Month == DateTime.Now.Month && x.OrderProducts.Orders.orderDate.Year == DateTime.Now.Year).Sum(x => x.ProductExtras.productExtraPrice)
+                                          )
+                                        ),
+                                      </text>
+                                    }
+                          ]
+                      },
+                        {
+                            label: "This Year",
+                            fillColor: "rgba(210, 214, 222, 1)",
+                            strokeColor: "rgba(210, 214, 222, 1)",
+                            pointColor: "rgba(210, 214, 222, 1)",
+                            pointStrokeColor: "#c1c7d1",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data:   [
+                                        @foreach(var i in Model.ProductCategories)
+                                        {
+                                            <text>
+                                            @Convert.ToInt32(Model.OrderProducts.Where(x => x.Products.productCategoryId == i.productCategoryId && x.Orders.orderDate.Year == DateTime.Now.Year).Sum(x => x.Products.productPrice) + Model.OrderProducts.Where(x => x.Products.productCategoryId == i.productCategoryId && x.Orders.orderDate.Year == DateTime.Now.Year).Select(y => y.ProductOptions.productOptionPrice).Sum() + Model.OrderProductExtras.Where(x => x.OrderProducts.Products.productCategoryId == i.productCategoryId && x.OrderProducts.Orders.orderDate.Year == DateTime.Now.Year).Sum(x => x.ProductExtras.productExtraPrice)),
+                                            </text>
+                                        }
+                            ]
+                        }
+        ]
+    };
+    categoryMonthlyYearlyChartData.datasets[1].fillColor = "#00a65a";
+    categoryMonthlyYearlyChartData.datasets[1].strokeColor = "#00a65a";
+    categoryMonthlyYearlyChartData.datasets[1].pointColor = "#00a65a";
+    var categoryMonthlyYearlyChartOptions = {
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero: true,
+        //Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines: true,
+        //Boolean - If there is a stroke on each bar
+        barShowStroke: true,
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth: 2,
+        //Number - Spacing between each of the X value sets
+        barValueSpacing: 5,
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing: 1,
+        //String - A legend template
+        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+        //Boolean - whether to make the chart responsive
+        responsive: true,
+        maintainAspectRatio: true
+    };
+
+    categoryMonthlyYearlyChartOptions.datasetFill = false;
+    categoryMonthlyYearlyChart.Bar(categoryMonthlyYearlyChartData, categoryMonthlyYearlyChartOptions);
+
+</script>
+<script type="text/javascript" charset="utf-8">
+
+    //-------------
+    //- Payment types chart -
+    //-------------
+    var paymentMethodsChartCanvas = $("#paymentMethodsChart").get(0).getContext("2d");
+    var paymentMethodsChart = new Chart(paymentMethodsChartCanvas);
+    var paymentMethodsChartData = {
+        labels: [
+            @foreach(var paymentType in Model.PaymentTypes)
+            {
+                <text>
+                "@paymentType.paymentTypeName",
+                </text>
+            }
+
+    ],
+    datasets: [
+                  {
+                      label: "Today",
+                      fillColor: "rgba(60,141,188,0.9)",
+                      strokeColor: "rgba(60,141,188,0.8)",
+                      pointColor: "#3b8bba",
+                      pointStrokeColor: "rgba(60,141,188,1)",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "rgba(60,141,188,1)",
+                      data: [
+                                @foreach(var paymentType in Model.PaymentTypes)
+                                {
+                                    <text>
+                                    @paymentType.Payments.Where(x=>x.paymentDate >= morningDateTime && x.paymentDate <= nightDateTime).Sum(x=>x.paymentAmount),
+                                    </text>
+                                }
+                            ]
+                    },{
+                      label: "This Month",
+                      fillColor: "rgba(60,141,188,0.9)",
+                      strokeColor: "rgba(60,141,188,0.8)",
+                      pointColor: "#3b8bba",
+                      pointStrokeColor: "rgba(60,141,188,1)",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "rgba(60,141,188,1)",
+                      data: [
+
+                                @foreach(var paymentType in Model.PaymentTypes)
+                                {
+                                    <text>
+                                    @paymentType.Payments.Where(x=>x.paymentDate.Year == DateTime.Now.Year && x.paymentDate.Month == DateTime.Now.Month).Sum(x=>x.paymentAmount),
+                                    </text>
+                                }
+                            ]
+                    },
+                    {
+                        label: "This Year",
+                        fillColor: "rgba(210, 214, 222, 1)",
+                        strokeColor: "rgba(210, 214, 222, 1)",
+                        pointColor: "rgba(210, 214, 222, 1)",
+                        pointStrokeColor: "#c1c7d1",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data:   [
+
+                                @foreach(var paymentType in Model.PaymentTypes)
+                                {
+                                    <text>
+                                    @paymentType.Payments.Where(x=>x.paymentDate.Year == DateTime.Now.Year).Sum(x=>x.paymentAmount),
+                                    </text>
+                                }
+                            ]
+                    }
+            ]
+    };
+    paymentMethodsChartData.datasets[1].fillColor = "#00a65a";
+    paymentMethodsChartData.datasets[1].strokeColor = "#00a65a";
+    paymentMethodsChartData.datasets[1].pointColor = "#00a65a";
+    var paymentMethodsChartOptions = {
+        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero: true,
+        //Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines: true,
+        //Boolean - If there is a stroke on each bar
+        barShowStroke: true,
+        //Number - Pixel width of the bar stroke
+        barStrokeWidth: 2,
+        //Number - Spacing between each of the X value sets
+        barValueSpacing: 5,
+        //Number - Spacing between data sets within X values
+        barDatasetSpacing: 1,
+        //String - A legend template
+        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+        //Boolean - whether to make the chart responsive
+        responsive: true,
+        maintainAspectRatio: true
+    };
+
+    paymentMethodsChartOptions.datasetFill = false;
+    paymentMethodsChart.Bar(paymentMethodsChartData, paymentMethodsChartOptions);
+</script>

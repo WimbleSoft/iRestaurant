@@ -1,0 +1,68 @@
+﻿@{
+                Layout = null;
+}
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Recover Password</title>
+    <!-- Styles -->
+    <link href="../Content/Home/assets/css/page.min.css" rel="stylesheet">
+    <link href="../Content/Home/assets/css/style.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="../Content/Home/assets/img/apple-touch-icon.png">
+    <link rel="icon" href="../Content/Home/assets/img/favicon.png">
+</head>
+<body class="layout-centered bg-img" style="background-image: url(../assets/img/bg/4.jpg);">
+    @Html.Partial("_AntiForgery")
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="bg-white rounded shadow-7 w-400 mw-100 p-6">
+            <h5 class="mb-6">Recover Your Password</h5>
+            <form class="input-line1" action="/Home/Recover" method="post" enctype="application/x-www-form-urlencoded">
+                @if (ViewBag.isPasswordEntryRequired == null)
+    {
+
+            <div class="form-group">
+                @ViewBag.message
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" name="companyEmail" placeholder="Email address">
+            </div>
+            <button class="btn btn-lg btn-block btn-primary" type="submit">Reset Password</button>
+}
+else
+{
+if (ViewBag.isPasswordEntryRequired == true)
+{
+            <div class="form-group">
+                @ViewBag.message
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="companyPassword" placeholder="New password">
+                <input type="password" class="form-control" name="companyPasswordRepeat" placeholder="New password (again)">
+                <input type="text" class="" hidden="hidden" name="companyEmail" value="@ViewBag.companyEmail">
+                <input type="text" class="" hidden="hidden" name="activationCode" value="@ViewBag.activationCode">
+            </div>
+            <button class="btn btn-lg btn-block btn-primary" type="submit">Change Password</button>
+}
+else
+{
+            @ViewBag.message
+
+}
+}
+
+            </form>
+        </div>
+    </main><!-- /.main-content -->
+    <!-- Scripts -->
+    <script src="../Content/Home/assets/js/page.min.js"></script>
+    <script src="../Content/Home/assets/js/script.js"></script>
+</body>
+</html>

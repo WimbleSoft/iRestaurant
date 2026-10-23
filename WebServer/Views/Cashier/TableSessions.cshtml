@@ -1,0 +1,282 @@
+﻿@model iRestaurant.Controllers.ViewModelDemoVM
+@{
+    //if (Session["login"] == null /*HttpContext.Current.Session["login"] == null*/)
+    /*{
+        Response.Redirect("/Cashier/Login");
+    }*/
+    int counter = 0;
+    int counter3 = 0;
+}
+@foreach (var tableSession in Model.TableSessions.Where(x => x.isPaid == false).OrderBy(x => x.Tables.tableName))
+{
+        <div class="modal-header" style="padding:0px !important;">
+            <div class="col-lg-12 col-xs-12 col-md-12 col-sm-12" style="padding:0px !important;">
+                <div class="col-lg-5 col-md-12 col-xs-12 col-lg-12" style="text-align:center !important;">
+                    <div class="btn-group">
+                        <span class="btn btn-transparent btn-md">MOVE TABLE</span>
+                        <select class="form-control select2" style="display:unset !important; width:unset !important; float: left;" id="targetTable_@tableSession.tableSessionId">
+                            @foreach (var floor in Model.Floors.ToList())
+                            {
+                                <optgroup label="@floor.floorName">
+
+                                    @foreach (var table in Model.Tables.Where(x => x.floorId == floor.floorId && x.status == false).ToList())
+                                    {
+                                        <option value="@table.tableId">@table.tableName</option>
+                                    }
+                                </optgroup>
+                            }
+                        </select>
+                        <a class="btn btn-info btn-md btn-grad" onclick="changeTable(@tableSession.tableSessionId)">CHANGE TABLE</a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-12 col-xs-12 col-lg-12" style="text-align:center !important;">
+                    <div class="btn-group">
+                        <a class="btn btn-transparent btn-md btn-grad">CASH REGISTER</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-xs-12 col-lg-12" style="text-align:center !important;">
+                    <div class="btn-group">
+                        @if (Session["webView"].ToString() != "True")
+                        {
+                            <a class="btn btn-warning     btn-md btn-grad" onclick="printBillReceipt(@tableSession.tableSessionId)">BILL RECEIPT</a>
+                        }
+                        <a class="btn btn-success     btn-md btn-grad" onclick="selectAll(@tableSession.tableSessionId)">SELECT ALL</a>
+                        <a class="btn btn-primary     btn-md btn-grad" onclick="closeTableSession(@tableSession.tableSessionId)">CLOSE SESSION</a>
+                        <a class="btn btn-danger      btn-md btn-grad" style="float:right !important;" id="cancel" name="@tableSession.tableSessionId" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#helpModal"><i style="font-size: 20px !important;" class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body" style="padding:0px !important; background-color:#222222 !important;">
+            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                <div class="col-lg-12" style="background-color:#222222;">
+                    <table style="background-color:#222222;">
+                        <tbody>
+                            <tr>
+                                <td style="color:white"><i>A receipt will be issued for the following items:</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                <div class="col-lg-6" style="background-color:#222222;">
+                    <!-- Items without extras: start -->
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">Without Extras</div>
+                    @foreach (var order2 in Model.OrderProducts.Where(x => x.Orders.tableSessionId == tableSession.tableSessionId && x.isPaid == false && x.tableSessionCampaignId == null && x.OrderProductExtras.Where(y => y.orderProductId == x.orderProductId && y.isPaid == false).Count() == 0).GroupBy(x => x.productOptionId))
+                    {
+                        if (order2.Count() > 0)
+                        {
+                            counter3++;
+                            <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                    <!-- orderProductId value -->
+                                    <input hidden="hidden" name="WithoutExtras_@(tableSession.tableSessionId)_orderProductId" value="@(Model.OrderProducts.Where(x=>x.productOptionId==order2.Key && x.isPaid==false).First().orderProductId)">
+                                    <input hidden="hidden" name="WithoutExtras_@(tableSession.tableSessionId)_productOptionId_" value="@(order2.Key)">
+                                    @Model.ProductOptions.Where(x => x.productOptionId == order2.Key).FirstOrDefault().Products.productName - @Model.ProductOptions.Where(x => x.productOptionId == order2.Key).Take(1).SingleOrDefault().productOptionName
+                                </div>
+                                <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                    <!-- Maximum ordered quantity of this item -->
+                                    <input type="text" readonly="readonly" hidden="hidden" id="WithoutExtras_@(tableSession.tableSessionId)_productOptionId_@(order2.Key)_maxQuantity" value="@order2.Count()">
+                                    <!-- Unit price of this item -->
+                                    <input type="text" disabled="disabled" readonly="readonly" style="width:50px; text-align:right;" id="WithoutExtras_@(tableSession.tableSessionId)_productOptionId_@(order2.Key)_productPrice" value="@(Model.ProductOptions.Where(x => x.productOptionId == order2.Key).FirstOrDefault().Products.productPrice + Model.ProductOptions.Where(x => x.productOptionId == order2.Key).FirstOrDefault().productOptionPrice)"><i class="fa fa-try"></i>
+                                    <!-- Order quantity, changed by script via the selector -->
+                                    X
+                                </div>
+                                <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                    <select style="color:black !important;" id="WithoutExtras_@(tableSession.tableSessionId)_productOptionId_@(order2.Key)_quantity" maxQuantity="@order2.Count()" orderProductIds="@(Model.OrderProducts.Where(x=>x.productOptionId==order2.Key && x.isPaid==false && x.OrderProductExtras.Where(y=>y.orderProductId==x.orderProductId).Count() == 0).First().productOptionId)" name="WithoutExtras_@(tableSession.tableSessionId)_quantity" onchange="increaseDecrease(this),calculate(@tableSession.tableSessionId)">
+                                        <option style="color:black !important;" value="0" selected="selected">0</option>
+                                        @for (int quantity = 1; quantity <= order2.Count(); quantity++)
+                                        {
+                                            <option style="color:black !important;" value="@quantity">@quantity</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+                                    <a onclick="cancelWithoutExtrasProduct(this,@tableSession.tableSessionId),calculate(@tableSession.tableSessionId)" name="WithoutExtras_cancel_@(tableSession.tableSessionId)_productOptionId_@order2.Key" class="btn btn-metis-1 btn-sm btn-circle btn-line"><i class="fa fa-times"></i></a>
+                                </div>
+                                <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                    <!-- Subtotal, recalculated by script -->
+                                    <input type="text" disabled="disabled" readonly="readonly" style="width:80px; text-align:right;" id="WithoutExtras_@(tableSession.tableSessionId)_productOptionId_@(order2.Key)_subtotal" class="WithoutExtras_@(tableSession.tableSessionId)" name="WithoutExtras_@(tableSession.tableSessionId)_productOptionId_@(order2.Key)_subtotal" value="0" /><i class="fa fa-try"></i>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <!-- Items without extras: end -->
+                    <!-- Items with extras: start -->
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">With Extras</div>
+                    @foreach (var order3 in Model.OrderProducts.Where(x => x.Orders.tableSessionId == tableSession.tableSessionId && x.isPaid == false && x.tableSessionCampaignId == null && x.OrderProductExtras.Count() != 0))
+                    {
+                        counter3++;
+                        <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                @Model.ProductOptions.Where(x => x.productOptionId == order3.productOptionId).First().Products.productName - @Model.ProductOptions.Where(x => x.productOptionId == order3.productOptionId).First().productOptionName
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                <input readonly="readonly" disabled="disabled" type="text" style="text-align:right; width:50px;" value="@(Model.ProductOptions.Where(x => x.productOptionId == order3.productOptionId).FirstOrDefault().Products.productPrice + Model.ProductOptions.Where(x => x.productOptionId == order3.productOptionId).FirstOrDefault().productOptionPrice)" /><i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <input name="WithExtras_check_@tableSession.tableSessionId" class="withExtras_subtotal_@tableSession.tableSessionId" id="tableSessionId_@(tableSession.tableSessionId)_orderProductId_@(order3.orderProductId)" onchange="calculate(@tableSession.tableSessionId)" type="checkbox" value="tableSessionId_@(order3.Orders.tableSessionId)_orderProductId_@(order3.orderProductId)" />
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <a onclick="cancelWithExtrasProduct(this,@tableSession.tableSessionId),calculate(@tableSession.tableSessionId)" name="tableSessionId_@(tableSession.tableSessionId)_orderProductId_@(order3.orderProductId)" class="btn btn-metis-1 btn-sm btn-circle btn-line"><i class="fa fa-times"></i></a>
+                            </div>
+                            <!-- Extras total and show/hide button -->
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px; text-align:right !important;">
+                                <a href="#div-1_@order3.orderProductId" data-toggle="collapse" class="btn btn-sm @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}">
+                                    <i class="fa fa-plus"></i>
+                                    Extras -
+                                    @Model.OrderProductExtras.Where(x => x.orderProductId == order3.orderProductId && x.isPaid == false).Select(y => y.ProductExtras.productExtraPrice).Sum()
+                                    <i class="fa fa-try"></i>
+                                </a>
+                            </div>
+                            <!-- /Extras total and show/hide button -->
+                            <!-- Total price for product + option + extras -->
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px; text-align:right !important;">
+                                <input readonly="readonly" disabled="disabled" type="text" style="width:80px;" id="WithExtras_value_tableSessionId_@(tableSession.tableSessionId)_orderProductId_@(order3.orderProductId)" value="@((Model.ProductOptions.Where(x => x.productOptionId == order3.productOptionId).FirstOrDefault().Products.productPrice + Model.ProductOptions.Where(x => x.productOptionId == order3.productOptionId).FirstOrDefault().productOptionPrice) + Model.OrderProductExtras.Where(x => x.OrderProducts.orderProductId == order3.orderProductId && x.isPaid == false).Select(y => y.ProductExtras.productExtraPrice).Sum())" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                            <!-- /Total price for product + option + extras -->
+                        </div>
+							<!-- List of extras -->
+                                <div class="row @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-info</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                    <div id="div-1_@order3.orderProductId" class="body collapse col-lg-12" aria-expanded="true" style="background-color:transparent !important;">
+                                        @foreach (var productExtra in Model.OrderProductExtras.Where(x => x.orderProductId == order3.orderProductId && x.isPaid == false))
+                                        {
+                                            <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                                <div class="col-md-6 " style="padding-top:10px; padding-bottom:10px;">
+                                                    @productExtra.ProductExtras.productExtraName
+                                                </div>
+                                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px;">
+                                                    @productExtra.ProductExtras.productExtraPrice <i class="fa fa-try"></i>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+							<!-- /List of extras -->
+                    }
+                    <!-- Items with extras: end -->
+                    <!-- Campaigns: start -->
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">Campaigns</div>
+                    @foreach (var order3 in Model.TableSessionCampaigns.Where(x => x.tableSessionId == tableSession.tableSessionId && x.isPaid==false))
+                        {
+                        counter3++;
+                        <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                @order3.Campaigns.campaignName
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                <input disabled="disabled" readonly="readonly" type="text" style="text-align:right; width:50px;" value="@(order3.Campaigns.campaignPrice + Model.OrderProducts.Where(x=>x.tableSessionCampaignId==order3.tableSessionCampaignId).Sum(x=>x.ProductOptions.productOptionPrice))"/><i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <input name="Campaign_check_@tableSession.tableSessionId" type="checkbox" class="campaigns_subtotal_@tableSession.tableSessionId" id="tableSessionId_@(tableSession.tableSessionId)_tableSessionCampaignId_@(order3.tableSessionCampaignId)" onchange="calculate(@tableSession.tableSessionId)" value="tableSessionCampaignId_@(order3.tableSessionCampaignId)" />
+                            </div>
+                            <div class="col-md-1" style="padding-top:10px; padding-bottom:10px;">
+                                <a onclick="cancelCampaign(this,@tableSession.tableSessionId),calculate(@tableSession.tableSessionId)" name="tableSessionId_@(tableSession.tableSessionId)_tableSessionCampaignId_@(order3.tableSessionCampaignId)" class="btn btn-metis-1 btn-sm btn-circle btn-line"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px; text-align:right !important;">
+                                <a href="#div-1_@order3.tableSessionCampaignId" data-toggle="collapse" class="btn btn-sm @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}">
+                                    <i class="fa fa-plus"></i>
+                                    Extras -
+                                    @Model.OrderProductExtras.Where(x => x.OrderProducts.tableSessionCampaignId == order3.tableSessionCampaignId && x.isPaid == false).Select(y => y.ProductExtras.productExtraPrice).Sum()
+                                    <i class="fa fa-try"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;text-align:right !important;">
+                                <input disabled="disabled" readonly="readonly" type="text" style="width:80px;" id="Campaign_value_tableSessionId_@(tableSession.tableSessionId)_tableSessionCampaignId_@(order3.tableSessionCampaignId)" value="@(order3.Campaigns.campaignPrice + Model.OrderProducts.Where(x => x.tableSessionCampaignId == order3.tableSessionCampaignId).Sum(x => x.ProductOptions.productOptionPrice)+ Model.OrderProductExtras.Where(x => x.OrderProducts.tableSessionCampaignId == order3.tableSessionCampaignId && x.isPaid == false).Select(y => y.ProductExtras.productExtraPrice).Sum())" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                        </div>
+                        <div class="row @if(counter3 % 2 == 0){<text>btn-default</text>}else{<text>btn-info</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div id="div-1_@order3.tableSessionCampaignId" class="body collapse col-lg-12" aria-expanded="true" style="background-color:transparent !important;">
+                                @foreach (var productExtra in Model.OrderProductExtras.Where(x => x.OrderProducts.tableSessionCampaignId == order3.tableSessionCampaignId && x.isPaid == false))
+                            {
+                            <div class="row btn-grad @if(counter3 % 2 == 0){<text>btn-metis-3</text>}else{<text>btn-metis-2</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-md-6 " style="padding-top:10px; padding-bottom:10px;">
+                                    @productExtra.ProductExtras.productExtraName
+                                </div>
+                                <div class="col-md-6" style="padding-top:10px; padding-bottom:10px;">
+                                    @productExtra.ProductExtras.productExtraPrice <i class="fa fa-try"></i>
+                                </div>
+                            </div>
+                            }
+                            </div>
+                        </div>
+                        }
+                    <!-- Campaigns: end -->
+                </div>
+                <div class="col-lg-6" style="background-color:#222222;">
+                    <div class="row btn-grad btn-warning" style="margin-left:0px !important; margin-right:0px !important;">
+                    Payments
+                    </div>
+                    <div class="row btn-grad" style="padding-top:5px !important; padding-bottom:5px !important; padding-left:5px !important; padding-right:5px !important; margin-left:0px !important; margin-right:0px !important;background-color:#222222 !important;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px !important; margin:0px !important;">
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:xx-large !important; padding-left:0px !important; padding-right:0px !important; color:white !important;">
+                                PAID:
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:xx-large !important; padding-left:0px !important; padding-right:0px !important; color:white !important;">
+                                SELECTED:
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:xx-large !important; padding-left:0px !important; padding-right:0px !important; color:white !important;">
+                                SESSION:
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btn-grad" style="padding-top:5px !important;  padding-bottom:5px !important;padding-left:5px !important; padding-right:5px !important; margin-left:0px !important; margin-right:0px !important;background-color:#222222 !important;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px !important; margin:0px !important;">
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:x-large !important; padding-left:0px !important; padding-right:0px !important; background-color:white;">
+                                <input disabled="disabled" id="paidFee_@tableSession.tableSessionId" style="width:100px; text-align:right;" name="paidFee_@tableSession.tableSessionId" type="text" readonly="readonly" value="@(Model.Payments.Where(x => x.tableSessionId == tableSession.tableSessionId).Sum(x => x.paymentAmount))" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:x-large !important; padding-left:0px !important; padding-right:0px !important; background-color:white;">
+                                <input disabled="disabled" id="subtotal_@tableSession.tableSessionId" style="width:100px; text-align:right;" name="subtotal_@tableSession.tableSessionId" type="text" readonly="readonly" value="0" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4" style="font-size:x-large !important; padding-left:0px !important; padding-right:0px !important; background-color:white;">
+                                <input disabled="disabled" id="totalFee_@tableSession.tableSessionId" style="width:100px; text-align:right;" type="text" readonly="readonly" value="@(
+                                Model.OrderProducts.Where(x =>x.Orders.tableSessionId == tableSession.tableSessionId && x.tableSessionCampaignId==null ).Sum(x => x.Products.productPrice) + 
+                                Model.OrderProducts.Where(x => x.Orders.tableSessionId == tableSession.tableSessionId && x.tableSessionCampaignId==null).Sum(y => y.ProductOptions.productOptionPrice) + 
+                                Model.OrderProductExtras.Where(x => x.OrderProducts.Orders.tableSessionId == tableSession.tableSessionId && x.OrderProducts.tableSessionCampaignId ==null ).Sum(x => x.ProductExtras.productExtraPrice) +
+                                Model.TableSessionCampaigns.Where(x=>x.tableSessionId==tableSession.tableSessionId).Sum(x=>x.Campaigns.campaignPrice)
+                                )" />
+                                <i class="fa fa-try"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btn-grad btn-default" style="margin-left:0px !important; margin-right:0px !important; font-size-adjust:0.5;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ui-sortable" style="padding:0px !important;">
+                            @foreach(var paymentType in Model.PaymentTypes.Where(x=>x.isDeleted==false))
+                            {
+                                <div class="col-md-2 col-xs-2 col-lg-2 col-sm-2" style="padding: 5px !important;">
+                                    <a style="font-weight: bolder; padding:10px 0px 10px 0px; min-width:100%; min-height:100px; display:grid; align-items:center;" id="@(paymentType.paymentTypeName)_AddPayment" onclick="print(this,@paymentType.paymentTypeId)" name="@tableSession.tableSessionId" class="btn btn-success btn-grad "><span>@paymentType.paymentTypeName</span></a>
+                                </div>
+                            }
+                            
+                        </div>
+                    </div>
+                    @foreach (var payment in Model.Payments.Where(x => x.tableSessionId == tableSession.tableSessionId))
+                    {
+                        counter++;
+                        <div class="row btn-grad @if (counter % 2 == 0) {<text>btn-default</text>} else {<text>btn-metis-7</text>}" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-md-4" style="padding-top:10px; padding-bottom:10px;">
+                                @payment.paymentAmount @payment.PaymentTypes.Currencies.currencyName
+                            </div>
+                            <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+                                @payment.PaymentTypes.paymentTypeName
+                            </div>
+                            <div class="col-md-3" style="padding-top:10px; padding-bottom:10px;">
+
+                            </div>
+                            <div class="col-md-2" style="padding-top:10px; padding-bottom:10px;">
+                                <!--<a id="cancelPayment_@payment.paymentId" onclick="deletePayment(this.name,@payment.tableSessionId)" name="@payment.paymentId" class="btn btn-danger btn-grad "><i class="fa fa-trash"></i></a>-->
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding:0px !important; border-top: none !important;">
+            
+        </div>
+}

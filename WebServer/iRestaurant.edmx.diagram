@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="97517cebee68406bb513132a728765d5" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="iRestaurantModel.Departments" Width="1.5" PointX="12" PointY="47" />
+        <EntityTypeShape EntityType="iRestaurantModel.Announcements" Width="1.5" PointX="12" PointY="38.625" />
+        <EntityTypeShape EntityType="iRestaurantModel.InvoiceServices" Width="1.5" PointX="12" PointY="42.125" />
+        <EntityTypeShape EntityType="iRestaurantModel.Invoices" Width="1.5" PointX="9.75" PointY="42.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.InvoicePayments" Width="1.5" PointX="15" PointY="42.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.ServiceCampaignServices" Width="1.5" PointX="17.25" PointY="24.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.ServiceCampaigns" Width="1.5" PointX="15" PointY="19.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.Services" Width="1.5" PointX="9.75" PointY="34.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.ServiceLicenses" Width="1.5" PointX="12" PointY="34.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.Districts" Width="1.5" PointX="5.25" PointY="29" />
+        <EntityTypeShape EntityType="iRestaurantModel.Provinces" Width="1.5" PointX="3" PointY="29" />
+        <EntityTypeShape EntityType="iRestaurantModel.Campaigns" Width="1.5" PointX="17.25" PointY="28.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.CampaignProducts" Width="1.5" PointX="24.75" PointY="36" />
+        <EntityTypeShape EntityType="iRestaurantModel.Floors" Width="1.5" PointX="12" PointY="50.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.Tables" Width="1.5" PointX="14.25" PointY="50.25" />
+        <EntityTypeShape EntityType="iRestaurantModel.Menus" Width="1.5" PointX="15" PointY="28.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.Payments" Width="1.5" PointX="21.75" PointY="29.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.PaymentTypes" Width="1.5" PointX="12" PointY="28.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.TableSessionCampaigns" Width="1.5" PointX="21.75" PointY="33.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.TableSessions" Width="1.5" PointX="19.5" PointY="37.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.Currencies" Width="1.5" PointX="12.75" PointY="19.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.Employees" Width="1.5" PointX="12" PointY="23.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.Orders" Width="1.5" PointX="24.75" PointY="30.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.OrderProducts" Width="1.5" PointX="27" PointY="29.25" />
+        <EntityTypeShape EntityType="iRestaurantModel.OrderProductExtras" Width="1.5" PointX="29.25" PointY="37" />
+        <EntityTypeShape EntityType="iRestaurantModel.Companies" Width="1.5" PointX="7.5" PointY="28.5" />
+        <EntityTypeShape EntityType="iRestaurantModel.Branches" Width="1.5" PointX="9.75" PointY="26.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.Countries" Width="1.5" PointX="0.75" PointY="29.25" />
+        <EntityTypeShape EntityType="iRestaurantModel.ProductExtras" Width="1.5" PointX="21.75" PointY="44.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.ProductCategories" Width="1.5" PointX="17.25" PointY="37.75" />
+        <EntityTypeShape EntityType="iRestaurantModel.Products" Width="1.5" PointX="19.5" PointY="31.375" />
+        <EntityTypeShape EntityType="iRestaurantModel.ProductOptions" Width="1.5" PointX="21.75" PointY="25.875" />
+        <EntityTypeShape EntityType="iRestaurantModel.ProductStockEntries" Width="1.5" PointX="27" PointY="26.25" />
+        <EntityTypeShape EntityType="iRestaurantModel.ProductStocks" Width="1.5" PointX="24.75" PointY="27.125" />
+        <EntityTypeShape EntityType="iRestaurantModel.PrintingList" Width="1.5" PointX="30" PointY="29.5" />
+        <AssociationConnector Association="iRestaurantModel.FK_Departments_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_ProductCategories_Departments" />
+        <AssociationConnector Association="iRestaurantModel.FK_Announcements_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_InvoiceServices_Invoices" />
+        <AssociationConnector Association="iRestaurantModel.FK_InvoiceServices_Services" />
+        <AssociationConnector Association="iRestaurantModel.FK_InvoiceServices_Currencies" />
+        <AssociationConnector Association="iRestaurantModel.FK_Invoices_Companies" />
+        <AssociationConnector Association="iRestaurantModel.FK_InvoicePayments_Invoices" />
+        <AssociationConnector Association="iRestaurantModel.FK_ServiceLicenses_Invoices" />
+        <AssociationConnector Association="iRestaurantModel.FK_InvoicePayments_Currencies" />
+        <AssociationConnector Association="iRestaurantModel.FK_ServiceCampaignServices_ServiceCampaigns" />
+        <AssociationConnector Association="iRestaurantModel.FK_ServiceCampaignServices_Services" />
+        <AssociationConnector Association="iRestaurantModel.FK_ServiceCampaigns_Currencies" />
+        <AssociationConnector Association="iRestaurantModel.FK_Services_Currencies" />
+        <AssociationConnector Association="iRestaurantModel.FK_ServiceLicenses_Services" />
+        <AssociationConnector Association="iRestaurantModel.FK_ServiceLicenses_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_Districts_Provinces" />
+        <AssociationConnector Association="iRestaurantModel.FK_Companies_Districts" />
+        <AssociationConnector Association="iRestaurantModel.FK_Branches_Districts" />
+        <AssociationConnector Association="iRestaurantModel.FK_Provinces_Countries" />
+        <AssociationConnector Association="iRestaurantModel.FK_Campaigns_Menus" />
+        <AssociationConnector Association="iRestaurantModel.FK_Campaigns_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_CampaignProducts_Campaigns" />
+        <AssociationConnector Association="iRestaurantModel.FK_TableSessionCampaigns_Campaigns" />
+        <AssociationConnector Association="iRestaurantModel.FK_CampaignProducts_Products" />
+        <AssociationConnector Association="iRestaurantModel.FK_Floors_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_Tables_Floors" />
+        <AssociationConnector Association="iRestaurantModel.FK_TableSessions_Tables" />
+        <AssociationConnector Association="iRestaurantModel.FK_Menus_Currencies" />
+        <AssociationConnector Association="iRestaurantModel.FK_Menus_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_ProductCategories_Menus" />
+        <AssociationConnector Association="iRestaurantModel.FK_Payments_PaymentTypes1" />
+        <AssociationConnector Association="iRestaurantModel.FK_Payments_TableSessions" />
+        <AssociationConnector Association="iRestaurantModel.FK_Payments_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_PaymentTypes_Currencies" />
+        <AssociationConnector Association="iRestaurantModel.FK_PaymentTypes_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_TableSessionCampaigns_TableSessions" />
+        <AssociationConnector Association="iRestaurantModel.FK_OrderProducts_TableSessionCampaigns" />
+        <AssociationConnector Association="iRestaurantModel.FK_TableSessions_Branches1" />
+        <AssociationConnector Association="iRestaurantModel.FK_Orders_TableSessions" />
+        <AssociationConnector Association="iRestaurantModel.FK_Employees_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_Orders_Employees1" />
+        <AssociationConnector Association="iRestaurantModel.FK_Orders_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_OrderProducts_Orders" />
+        <AssociationConnector Association="iRestaurantModel.FK_PrintingList_Orders" />
+        <AssociationConnector Association="iRestaurantModel.FK_OrderProducts_Products" />
+        <AssociationConnector Association="iRestaurantModel.FK_OrderProducts_ProductOptions" />
+        <AssociationConnector Association="iRestaurantModel.FK_OrderProductExtras_OrderProducts" />
+        <AssociationConnector Association="iRestaurantModel.FK_OrderProductExtras_ProductExtras" />
+        <AssociationConnector Association="iRestaurantModel.FK_Branches_Companies" />
+        <AssociationConnector Association="iRestaurantModel.FK_Products_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_ProductStocks_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_PrintingList_Branches" />
+        <AssociationConnector Association="iRestaurantModel.FK_ProductExtras_Products" />
+        <AssociationConnector Association="iRestaurantModel.FK_Products_ProductCategories" />
+        <AssociationConnector Association="iRestaurantModel.FK_ProductOptions_Products" />
+        <AssociationConnector Association="iRestaurantModel.FK_ProductStocks_Products" />
+        <AssociationConnector Association="iRestaurantModel.FK_ProductStockEntries_ProductStocks" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

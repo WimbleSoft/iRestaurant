@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/companyAdmin_Layout.cshtml";
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+
+<script>
+    document.getElementById("settings").className = "active";
+</script>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Settings
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#"><i class="fa fa-dashboard"></i> Settings</a>
+            </li>
+        </ol>
+    </section>
+        
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ui-sortable">
+                
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ui-sortable">
+                <!-- small box -->
+                <form action="/CompanyAdmin/Settings" enctype="application/x-www-form-urlencoded" method="post">
+                        @{Companies company = Model.Companies.First(); }
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Company Name</label>
+                                <input class="form-control" type="text" name="companyName"required placeholder="Company name" value="@company.companyName">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Company Email</label>
+                                <input class="form-control" type="text" name="companyEmail"required placeholder="Company email address" value="@company.companyEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Company Phone</label>
+                                <input class="form-control" type="text" name="companyPhone"required placeholder="Company phone" value="@company.companyPhone">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Company Password</label>
+                                <input class="form-control" type="password" name="companyPassword"required placeholder="Company password">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Company Password (Repeat)</label>
+                                <input class="form-control" type="password" name="companyPasswordRepeat"required placeholder="Company password (repeat)">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Country</label>
+                                <select id="countryId" name="countryId" onchange="getProvinces(this.value)"required class="form-control select2" style="width: 100%;">
+                                    <option value="">Select country</option>
+                                    @foreach (var country in Model.Countries)
+                                    {
+                                        <option @if (country.countryId==company.Districts.Provinces.countryId) {<text> selected="selected" </text> } value="@country.countryId">@country.countryName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>Province</label>
+                                <select id="provinceId" name="provinceId" onchange="getDistricts(this.value)" required class="form-control select2" style="width: 100%;">
+                                    <option value="">Select province</option>
+                                    @foreach (var il in Model.Provinces.Where(x => x.countryId == company.Districts.Provinces.countryId))
+                                    {
+                                        <option @if (il.provinceId==company.Districts.provinceId) {<text> selected="selected" </text> } value="@il.provinceId">@il.provinceName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 form-group">
+                                <label>District</label>
+                                <select id="districtId" name="districtId" class="form-control select2" required style="width: 100%;">
+                                    <option value="">Select district</option>
+                                    @foreach (var district in Model.Districts.Where(x => x.provinceId == company.Districts.provinceId))
+                                    {
+                                        <option @if (district.districtId == company.districtId) { <text> selected="selected" </text> } value="@district.districtId">@district.districtName</option>
+                                    }
+                                </select>
+                            </div>
+                            <script>
+                                $(function () {
+                                    var countrySelector = $("#countryId");
+                                    /*
+                                    getProvinces(countrySelector[0].value);
+                                    */
+                                });
+                                function getProvinces(countryId) {
+                                    $.ajax({
+                                        url: '/CompanyAdmin/GetProvinces',
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        contentType: "application/json",
+                                        data: JSON.stringify({ countryId: countryId }),
+                                        traditional: true,
+                                        success: function (incomingProvinces) {
+                                            var provinceId = $("#provinceId");
+                                            provinceId.empty();
+                                            //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                            $.each(incomingProvinces, function () {
+                                                provinceId.append($("<option />").val(this.provinceId).text(this.provinceName));
+                                            });
+                                            getDistricts(provinceId.val());
+                                        }
+                                    });
+                                }
+                                function getDistricts(provinceId) {
+                                    $.ajax({
+                                        url: '/CompanyAdmin/GetDistricts',
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        contentType: "application/json",
+                                        data: JSON.stringify({ provinceId: provinceId }),
+                                        traditional: true,
+                                        success: function (incomingDistricts) {
+                                            var districtId = $("#districtId");
+                                            districtId.empty();
+                                            //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                            $.each(incomingDistricts, function () {
+                                                districtId.append($("<option />").val(this.districtId).text(this.districtName));
+                                            });
+                                        }
+                                    });
+                                }
+                            </script>
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <label>Actions</label>
+                                <button type="button" onclick="addEmployee()" class="btn btn-primary form-control">Save</button>
+                            </div>
+                        </div>
+                    
+                    
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ui-sortable">
+            </div>
+
+        </div>
+        
+    </section>
+</div>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>@ViewBag.Title</title>
+    <!-- Styles -->
+    <link href="../Content/Home/assets/css/page.min.css" rel="stylesheet">
+    <link href="../Content/Home/assets/css/style.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="../Content/Home/assets/img/apple-touch-icon.png">
+    <link rel="icon" href="../Content/Home/assets/img/favicon.png">
+    <script src="~/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+</head>
+<body class="demo-header">
+    @Html.Partial("_AntiForgery")
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" data-navbar="fixed">
+        <div class="container">
+            <div class="navbar-left mr-4">
+                <button class="navbar-toggler" type="button">&#9776;</button>
+                <a class="navbar-brand" href="#">
+                    <img class="logo-light" src="../Content/Home/assets/img/logo-light.png" alt="logo">
+                    <img class="logo-dark" src="../Content/Home/assets/img/logo-dark.png" alt="logo">
+                </a>
+            </div>
+            <section class="navbar-mobile">
+                <nav class="nav nav-navbar mr-auto">
+                    <a class="btn btn-round btn-outline-secondary" href="/Home/Index#home">Home</a>
+                    <a class="btn btn-round btn-outline-secondary" href="/Home/Features">Features</a>
+                    <a class="btn btn-round btn-outline-secondary" href="/Home/Pricing">Pricing</a>
+                    <a class="btn btn-round btn-outline-secondary" href="/Home/Index#contact">Contact</a>
+                </nav>
+                <div>
+                    <a class="btn btn-sm btn-light btn-round btn-outline-info" href="/Home/Cart">
+                        @if (Session["cart"] != null)
+        {
+            List<iRestaurant.Controllers.HomeController.CartService> cartService = new List<iRestaurant.Controllers.HomeController.CartService>();
+            cartService = (List<iRestaurant.Controllers.HomeController.CartService>)Session["cart"];
+
+                <i class="fa fa-shopping-cart"></i>
+                <span class="badge badge-number badge-danger">@(cartService.Where(x=>x.serviceCampaignId==null).Count() + cartService.Where(x => x.serviceCampaignId != null).GroupBy(x=>x.serviceCampaignId).Count())</span>
+}
+else
+{
+                <i class="fa fa-shopping-cart"></i>
+}
+                    </a>
+                    @if (Session["login"] != null)
+                {
+
+                    if ((bool)Session["login"] == true)
+                    {
+                <a class="btn btn-sm btn-light btn-round btn-outline-primary ml-lg-5 mr-2" href="/CompanyAdmin/Dashboard" target="_blank">Admin Panel</a>
+                <a class="btn btn-sm btn-light btn-round btn-outline-danger ml-lg-5 mr-2" href="/Home/LogOut">Log Out</a>
+                }
+                else
+                {
+
+                <a class="btn btn-sm btn-light btn-round btn-outline-primary ml-lg-5 mr-2" href="/Home/Login">Log In</a>
+                <a class="btn btn-sm btn-round btn-outline-success" href="/Home/Register">Sign Up</a>
+}
+}
+else
+{
+                <a class="btn btn-sm btn-light btn-round btn-outline-primary ml-lg-5 mr-2" href="/Home/Login">Log In</a>
+                <a class="btn btn-sm btn-round btn-outline-success" href="/Home/Register">Sign Up</a>
+}
+                </div>
+            </section>
+        </div>
+    </nav><!-- /.navbar -->
+    <!-- Header -->
+    @RenderBody()
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row gap-y align-items-center">
+                <div class="col-6 col-lg-3">
+                    <a href="/Home/Index"><img src="../Content/Home/assets/img/logo-dark.png" alt="logo"></a>
+                </div>
+                <div class="col-6 col-lg-3 text-right order-lg-last">
+                    <div class="social">
+                        <a class="social-facebook" href="https://www.facebook.com/sirusyazilim"><i class="fa fa-facebook"></i></a>
+                        <a class="social-twitter" href="https://twitter.com/sirusyazilim"><i class="fa fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="nav nav-bold nav-uppercase nav-trim justify-content-lg-center">
+                        <a class="nav-link" href="http://www.sirusyazilim.com" target="_blank">SIRUS SOFTWARE</a>
+                        <a class="nav-link" href="/Home/Terms">LEGAL</a>
+                        <a class="nav-link" href="/Home/About">ABOUT US</a>
+                        <a class="nav-link" href="/Home/Career">CAREERS</a>
+                        <a class="nav-link" href="/Home/Faq">FAQ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer><!-- /.footer -->
+    <!-- Cookie 3 -->
+    <div id="popup-cookie-3" class="popup text-white bg-dark col-10 py-4" data-position="bottom-center" data-animation="slide-up">
+        <div class="row gap-y align-items-center">
+            <div class="col-md">
+                This website uses cookies to ensure you get the best experience on our website. <a href="/Home/Terms">Learn more</a>
+            </div>
+            <div class="col-md-auto">
+                <button class="btn btn-sm btn-outline-light" onclick="setCookie('cookieAccepted',true,30)" data-dismiss="popup">OK</button>
+            </div>
+        </div>
+    </div>
+    <!-- Promotion 3 -->
+    <div id="popup-promotion-3" class="popup bg-img text-white border-0 col-10 col-md-4 p-6" data-position="top-center" data-animation="slide-down" style="background-image: url(../Content/Home/assets/img/thumb/8.jpg)" data-overlay="1">
+        <button type="button" class="close" data-dismiss="popup" aria-label="Close" onclick="setCookie('promotionAccepted',false,30)">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="text-center position-relative">
+            <h3 class="fw-200">30 days free trial</h3>
+            <p class="lead-1">We give a 30 days trial to all registrations for a limited period of time. Hurry up, this offer ends soon.</p>
+            <br>
+            <p class="mb-2"><a class="btn btn-lg btn-round btn-success px-7" onclick="setCookie('promotionAccepted',true,30)" href="/Home/Register">Register now</a></p>
+            <p class="small mb-0"><a href="#" onclick="setCookie('promotionAccepted',false,30)" data-dismiss="popup">No, Thank you!</a></p>
+        </div>
+    </div>
+
+    <div class="row" hidden>
+        <button class="btn btn-lg btn-block btn-outline-secondary" id="promotion3btn" type="button" data-toggle="popup" data-target="#popup-promotion-3">Promotion 3</button>
+        <button class="btn btn-lg btn-block btn-outline-secondary" id="cookie3btn" type="button" data-toggle="popup" data-target="#popup-cookie-3">Cookie 3</button>
+    </div>
+
+    <!-- Scripts -->
+    
+    <script src="~/Content/Home/assets/js/page.min.js"></script>
+    <script src="~/Content/Home/assets/js/script.js"></script>
+
+</body>
+
+</html>

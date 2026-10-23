@@ -1,0 +1,379 @@
+﻿@{
+    ViewBag.Title = "Licenses";
+    Layout = "~/Views/Shared/companyAdmin_Layout.cshtml";
+    int companyId = (int)Session["companyId"];
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+<div id="content">
+    <script>
+        document.getElementById("licenses").className = "active";
+    </script>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Licenses
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="#">Licenses</a></li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#unassignedActive" data-toggle="tab" aria-expanded="true">Unassigned Active Licenses</a></li>
+                            <li class=""><a href="#assignedActive" data-toggle="tab" aria-expanded="false">Assigned Active Licenses</a></li>
+                            <li class=""><a href="#pasif" data-toggle="tab" aria-expanded="false">Expired Licenses</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="unassignedActive">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>License ID</th>
+                                                    <th>Invoice</th>
+                                                    <th>License Type</th>
+                                                    <th>License Start Date</th>
+                                                    <th>License End Date</th>
+                                                    <th>Branch</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var a in Model.ServiceLicenses.Where(x => x.branchId == null && x.serviceLicenseEndDate >= DateTime.Now))
+                                                {
+                                                    <tr>
+                                                        <td>@a.serviceLicenseId</td>
+                                                        <td><a class="btn @if (a.Invoices.isPaid) { <text>btn-success</text> } else { <text>btn-danger</text>}  fa fa-cart" data-toggle="modal" data-target="#InvoiceDetail_@a.Invoices.invoiceId" href="">@a.Invoices.invoiceDate - @if (a.Invoices.isPaid){<span>Paid</span> }else{ <span>Unpaid</span>}</a></td>
+                                                        <td>@a.Services.serviceName</td>
+                                                        <td>@a.serviceLicenseStartDate</td>
+                                                        <td>@a.serviceLicenseEndDate</td>
+                                                        @if (a.branchId != null)
+                                                        {
+                                                            <td>
+                                                                @a.Branches.branchName - @a.Branches.Districts.districtName / @a.Branches.Districts.Provinces.provinceName
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                No branch assigned
+                                                            </td>
+                                                        }
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-warning fa fa-pencil" data-toggle="modal" data-target="#unassignedActiveModal_@a.serviceLicenseId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @foreach (var serviceLicense in Model.ServiceLicenses.Where(x =>x.branchId==null && x.serviceLicenseEndDate >= DateTime.Now))
+                                    {
+                                        <!-- Edit license assignment -->
+                                        <div class="modal fade bs-example-modal-lg" id="unassignedActiveModal_@serviceLicense.serviceLicenseId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Assign License</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>License Name</label>
+                                                                    <input type="text" value="@serviceLicense.Services.serviceName" class="form-control" readonly />
+                                                                    <input name="serviceLicenseId_@serviceLicense.serviceLicenseId" type="text" id="serviceLicenseId_@serviceLicense.serviceLicenseId" hidden="hidden" value="@serviceLicense.serviceLicenseId">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>License Start Date</label>
+                                                                    <input type="text" value="@serviceLicense.serviceLicenseStartDate" class="form-control" readonly />
+                                                                </div>
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>License End Date</label>
+                                                                    <input type="text" value="@serviceLicense.serviceLicenseEndDate" class="form-control" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>Branch</label>
+                                                                    <select id="branchId_@serviceLicense.serviceLicenseId" name="branchId_@serviceLicense.serviceLicenseId" class="select2 form-control" style="width:100% !important;">
+                                                                        @if (serviceLicense.branchId != null)
+                                                                        {
+                                                                            <option selected="selected" value="@serviceLicense.branchId">@serviceLicense.Branches.branchName - @serviceLicense.Branches.Districts.districtName / @serviceLicense.Branches.Districts.Provinces.provinceName</option>
+                                                                            foreach (var branch in Model.Branches.Where(x => x.companyId == companyId && x.ServiceLicenses.Where(y => y.serviceLicenseId == serviceLicense.serviceLicenseId).Count() == 0).ToList())
+                                                                            {
+                                                                                <option value="@branch.branchId">@branch.branchName - @branch.Districts.districtName / @branch.Districts.Provinces.provinceName</option>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            foreach (var branch in Model.Branches.Where(x => x.companyId == companyId).ToList())
+                                                                            {
+                                                                                <option value="@branch.branchId">@branch.branchName - @branch.Districts.districtName / @branch.Districts.Provinces.provinceName</option>
+                                                                            }
+                                                                        }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>Actions</label>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" class="btn btn-default btn-md btn-grad form-control " data-dismiss="modal">Cancel</button>
+                                                                        </div>
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" name="@serviceLicense.serviceLicenseId" onclick="editLicense(this.name)" class="btn btn-warning btn-md btn-grad form-control">Assign License</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="assignedActive">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>License ID</th>
+                                                    <th>Invoice</th>
+                                                    <th>License Type</th>
+                                                    <th>License Start Date</th>
+                                                    <th>License End Date</th>
+                                                    <th>Branch</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var a in Model.ServiceLicenses.Where(x => x.branchId != null && x.serviceLicenseEndDate >= DateTime.Now))
+                                                {
+                                                    <tr>
+                                                        <td>@a.serviceLicenseId</td>
+                                                        <td><a class="btn @if (a.Invoices.isPaid) { <text>btn-success</text> } else { <text>btn-danger</text>}  fa fa-cart" data-toggle="modal" data-target="#InvoiceDetail_@a.Invoices.invoiceId" href="">@a.Invoices.invoiceDate - @if (a.Invoices.isPaid){<span>Paid</span> }else{ <span>Unpaid</span>}</a></td>
+                                                        <td>@a.Services.serviceName</td>
+                                                        <td>@a.serviceLicenseStartDate</td>
+                                                        <td>@a.serviceLicenseEndDate</td>
+                                                        @if (a.branchId != null)
+                                                        {
+                                                            <td>
+                                                                @a.Branches.branchName - @a.Branches.Districts.districtName / @a.Branches.Districts.Provinces.provinceName
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                No branch assigned
+                                                            </td>
+                                                        }
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-warning fa fa-pencil" data-toggle="modal" data-target="#assignedActiveModal_@a.serviceLicenseId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @foreach (var serviceLicense in Model.ServiceLicenses.Where(x => x.branchId != null && x.serviceLicenseEndDate >= DateTime.Now))
+                                    {
+                                        <!-- Edit license assignment -->
+                                        <div class="modal fade bs-example-modal-lg" id="assignedActiveModal_@serviceLicense.serviceLicenseId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Assign License</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>License Name</label>
+                                                                    <input type="text" value="@serviceLicense.Services.serviceName" class="form-control" readonly />
+                                                                    <input name="serviceLicenseId_@serviceLicense.serviceLicenseId" type="text" id="serviceLicenseId_@serviceLicense.serviceLicenseId" hidden="hidden" value="@serviceLicense.serviceLicenseId">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>License Start Date</label>
+                                                                    <input type="text" value="@serviceLicense.serviceLicenseStartDate" class="form-control" readonly />
+                                                                </div>
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>License End Date</label>
+                                                                    <input type="text" value="@serviceLicense.serviceLicenseEndDate" class="form-control" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                                    <label>Branch</label>
+                                                                    <select id="branchId_@serviceLicense.serviceLicenseId" name="branchId_@serviceLicense.serviceLicenseId" class="select2 form-control" style="width:100% !important;">
+                                                                        @if (serviceLicense.branchId != null)
+                                                                        {
+                                                                            <option value="">Remove Branch Assignment</option>
+                                                                            <option selected="selected" value="@serviceLicense.branchId">@serviceLicense.Branches.branchName - @serviceLicense.Branches.Districts.districtName / @serviceLicense.Branches.Districts.Provinces.provinceName</option>
+                                                                            foreach (var branch in Model.Branches.Where(x => x.companyId == companyId && x.ServiceLicenses.Where(y => y.serviceLicenseId == serviceLicense.serviceLicenseId).Count() == 0).ToList())
+                                                                            {
+                                                                                <option value="@branch.branchId">@branch.branchName - @branch.Districts.districtName / @branch.Districts.Provinces.provinceName</option>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            foreach (var branch in Model.Branches.Where(x => x.companyId == companyId).ToList())
+                                                                            {
+                                                                                <option value="@branch.branchId">@branch.branchName - @branch.Districts.districtName / @branch.Districts.Provinces.provinceName</option>
+                                                                            }
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                                                    <label>Actions</label>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" class="btn btn-default btn-md btn-grad form-control " data-dismiss="modal">Cancel</button>
+                                                                        </div>
+                                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                                            <button type="button" name="@serviceLicense.serviceLicenseId" onclick="editLicense(this.name)" class="btn btn-warning btn-md btn-grad form-control">Assign License</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="pasif">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>License ID</th>
+                                                    <th>Invoice</th>
+                                                    <th>License Type</th>
+                                                    <th>License Start Date</th>
+                                                    <th>License End Date</th>
+                                                    <th>Branch</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var a in Model.ServiceLicenses.Where(x => x.serviceLicenseEndDate <= DateTime.Now))
+                                                {
+                                                    <tr>
+                                                        <td>@a.serviceLicenseId</td>
+                                                        <td><a class="btn @if (a.Invoices.isPaid) { <text>btn-success</text> } else { <text>btn-danger</text>}  fa fa-cart" data-toggle="modal" data-target="#InvoiceDetail_@a.Invoices.invoiceId" href="">@a.Invoices.invoiceDate - @if (a.Invoices.isPaid)
+                                                                {<span>Paid</span> }
+                                                            else
+                                                            { <span>Unpaid</span>}</a>
+                                                        </td>
+                                                        <td>@a.Services.serviceName</td>
+                                                        <td>@a.serviceLicenseStartDate</td>
+                                                        <td>@a.serviceLicenseEndDate</td>
+                                                        @if (a.branchId != null)
+                                                        {
+                                                        <td>
+                                                            @a.Branches.branchName - @a.Branches.Districts.districtName / @a.Branches.Districts.Provinces.provinceName
+                                                        </td>
+                                                        }
+                                                        else
+                                                        {
+                                                        <td>
+                                                            No branch assigned
+                                                        </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.table').DataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+            "autoWidth": false
+        });
+    });
+    function editLicense(serviceLicenseId) {
+        var branchId = $('#branchId_' + serviceLicenseId).val();
+        var companyId = "@companyId";
+        if (companyId != "" && serviceLicenseId!="") {
+            $.ajax({
+                type: 'POST',
+                url: '/CompanyAdmin/UpdateServiceLicense/',
+                dataType: 'json',
+                data: { companyId: companyId, branchId: branchId, serviceLicenseId: serviceLicenseId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertError();
+                    }
+                    else if (data == 2) {
+                        alert("This license is already assigned to this branch.");
+                    }
+                    else if (data == 3) {
+                        alert("The selected branch already has an unexpired license of this type. Please remove the active license from that branch first.");
+                    }
+                    else if (data == 4) {
+                        alert("The branch or license information you submitted is not valid.");
+                    }
+                    else if (data == 5) {
+                        alert("The license information you submitted is not valid.");
+                    }
+                    else if (data == 6) {
+                        alert("The selected branch has no active Cloud Server license. Please assign a Cloud Server license to the branch before assigning this license.");
+                    }
+                    else if (data == 7) {
+                        alert("Because you released the Cloud Server license, all unexpired licenses of that branch have been released as well.");
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertFillFields();
+        }
+    }
+</script>
+

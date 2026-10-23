@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Title = "Departments";
+    Layout = "~/Views/Shared/branchAdmin_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Employees.Where(x => x.employeeId == (int)Session["loggedInEmployeeId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="updateSettingsModal_@a.employeeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Name</label>
+                                <input name="employeeName" type="text" id="employeeName_id_@a.employeeId" class="form-control" placeholder="Enter employee name" value="@a.employeeName">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Password</label>
+                                <input name="employeePassword" type="password" required min="8" max="20" id="employeePassword_id_@a.employeeId" class="form-control" placeholder="Enter employee password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Email</label>
+                                <input name="employeeEmail" type="text" id="employeeEmail_id_@a.employeeId" @if (a.isManager == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Enter employee email" value="@a.employeeEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Phone</label>
+                                <input name="employeePhone" type="text" id="employeePhone_id_@a.employeeId" class="form-control" placeholder="Enter employee phone" value="@a.employeePhone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Actions</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="updateSettings(this.id)" id="updateSettings_id_@a.employeeId" class="btn btn-warning btn-md btn-grad form-control">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- PAGE CONTENT -->
+<script>
+    document.getElementById("departments").className = "active";
+</script>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Departments
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="#">Departments</a></li>
+        </ol>
+    </section>
+     <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Add New Department
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-2 col-lg-3 col-xs-12 col-sm-4">
+                                                <label>Department Name</label>
+                                                <input name="departmentName" required type="text" id="departmentName" class="form-control" placeholder="Enter department name">
+                                            </div>
+                                            <div class="col-md-2 col-lg-3 col-xs-12 col-sm-4">
+                                                <label>Department IP</label>
+                                                <input name="departmentIp" required type="text" id="departmentIp" class="form-control" placeholder="Enter as xxx.xxx.xxx.xxx">
+                                                <span>Please enter as xxx.xxx.xxx.xxx, e.g. 192.168.2.100</span>
+                                            </div>
+                                            <div class="col-md-2 col-lg-3 col-xs-12 col-sm-4">
+                                                <label>Actions</label>
+                                                <button type="submit" onclick="addDepartment()" class="btn btn-primary btn-md btn-grad form-control">Add Department</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Department Id</th>
+                                    <th>Department Name</th>
+                                    <th>Department IP</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var department in Model.Departments) { 
+                                <tr>
+                                    <td>@department.departmentId</td>
+                                    <td>@department.departmentName</td>
+                                    <td>@department.departmentIp</td>
+                                    <td>@if (department.isActive) { <text>Active</text>}else {<text>Inactive</text>}</td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button type="button" class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#myModalId_@department.departmentId"></button>
+                                            <a href="#" name="@department.departmentId" onclick="deleteDepartment(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                } 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- Edit department modals -->
+@foreach (var department in Model.Departments)
+{
+<div class="modal fade bs-example-modal-lg" id="myModalId_@department.departmentId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Department: @department.departmentName</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>Department Name</label>
+                            <input name="departmentName_@department.departmentName" required type="text" id="departmentName_@department.departmentId" class="form-control" placeholder="Enter department name" value="@department.departmentName">
+                            <input name="departmentId_@department.departmentId" type="text" id="departmentId_@department.departmentId" hidden="hidden" value="@department.departmentId">
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>Department IP</label>
+                            <input name="departmentIp_@department.departmentIp" required type="text" id="departmentIp_@department.departmentId" class="form-control" placeholder="Enter department IP" value="@department.departmentIp">
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>Department Active?</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="isDepartmentActive_@department.departmentIp" type="checkbox" id="isDepartmentActive_@department.departmentId" @if (department.isActive) { <text> checked</text>}>
+                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                    Initial setup completed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-6">
+                            <label>Actions</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <a class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</a>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <a onclick="updateDepartment(this.name)" name="@department.departmentId" class="btn btn-warning btn-md btn-grad form-control">Update</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<script>
+    function addDepartment() {
+        var departmentName = $('#departmentName').val();
+        var departmentIp = $('#departmentIp').val();
+        if (departmentName != "" && departmentIp != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/BranchAdmin/AddDepartment/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ departmentName: departmentName, departmentIp: departmentIp, branchId: branchId }),
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertFillFields();
+        }
+           
+    }
+    function updateDepartment(departmentId) {
+        var departmentName = $('#departmentName_' + departmentId).val();
+        var departmentId = $('#departmentId_' + departmentId).val();
+        var departmentIp = $('#departmentIp_' + departmentId).val();
+        var isDepartmentActive = $('#isDepartmentActive_' + departmentId).is(':checked');
+        if (departmentIp != "" && departmentId != "" && departmentName != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/BranchAdmin/UpdateDepartment/',
+                dataType: 'json',
+                data: { departmentName: departmentName, departmentId: departmentId, departmentIp: departmentIp, isActive: isDepartmentActive, branchId: branchId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertFillFields();
+        }
+            
+    }
+    function deleteDepartment(departmentId) {
+        if (confirm('Are you sure you want to delete this item? This cannot be undone!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/BranchAdmin/DeleteDepartment/',
+                dataType: 'json',
+                data: { departmentId: departmentId, branchId: branchId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertOperationCancelled();
+        }
+    }
+</script>

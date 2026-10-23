@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/home_Layout.cshtml";
+    ViewBag.Title = "Checkout";
+    int currencyId = 0;
+    if (Session["currencyId"] == null)
+    {
+        currencyId = 1;
+    }
+    else
+    {
+        if ((int)Session["currencyId"] > 0 && (int)Session["currencyId"] <= 4)
+        {
+            currencyId = (int)Session["currencyId"];
+        }
+        else
+        {
+            currencyId = 1;
+        }
+    }
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+<!-- Header -->
+<header class="header bg-gray">
+    <div class="container">
+        <h1 class="display-4">Checkout</h1>
+        <p class="lead-2 mt-6">Looks like you're all set! Review your details and complete your payment.</p>
+    </div>
+</header><!-- /.header -->
+<!-- Main Content -->
+<main class="main-content">
+    <section class="section">
+        <div class="container">
+    
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-lg btn-light btn-round btn-outline-success" href="/Home/Pricing">@ViewBag.message</a>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+            
+            </div>
+        </section>
+    </main>

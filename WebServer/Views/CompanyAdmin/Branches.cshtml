@@ -1,0 +1,605 @@
+﻿@{
+    ViewBag.Title = "Branches";
+    Layout = "~/Views/Shared/companyAdmin_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+
+<!-- PAGE CONTENT -->
+<script>
+document.getElementById("branches").className = "active";
+</script>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Branches
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="#">Branches</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Add New Branch
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Branch Name</label>
+                                                <input name="branchName" required type="text" id="branchName" class="form-control" placeholder="Enter branch name">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Country</label>
+                                                <select id="countryId" name="countryId" onchange="getProvinces(this.value)" class="form-control select2" style="width: 100%;">
+                                                    @foreach (var country in Model.Countries.ToList())
+                                                    {
+                                                        <option value="@country.countryId">@country.countryName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Province</label>
+                                                <select id="provinceId" name="provinceId" onchange="getDistricts(this.value)" class="form-control select2" style="width: 100%;"></select>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>District</label>
+                                                <select id="districtId" name="districtId" class="form-control select2" style="width: 100%;"></select>
+                                            </div>
+                                            <script>
+                                                $(function () {
+                                                    var countrySelector = $("#countryId");
+                                                    getProvinces(countrySelector[0].value);
+                                                });
+                                                function getProvinces(countryId) {
+                                                    $.ajax({
+                                                        url: '/CompanyAdmin/GetProvinces',
+                                                        type: 'POST',
+                                                        dataType: 'json',
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({ countryId: countryId }),
+                                                        traditional: true,
+                                                        success: function (incomingProvinces) {
+                                                            var provinceId = $("#provinceId");
+                                                            provinceId.empty();
+                                                            //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                            $.each(incomingProvinces, function () {
+                                                                provinceId.append($("<option />").val(this.provinceId).text(this.provinceName));
+                                                            });
+                                                            getDistricts(provinceId.val());
+                                                        }
+                                                    });
+                                                }
+                                                function getDistricts(provinceId) {
+                                                    $.ajax({
+                                                        url: '/CompanyAdmin/GetDistricts',
+                                                        type: 'POST',
+                                                        dataType: 'json',
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({ provinceId: provinceId }),
+                                                        traditional: true,
+                                                        success: function (incomingDistricts) {
+                                                            var districtId = $("#districtId");
+                                                            districtId.empty();
+                                                            //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                            $.each(incomingDistricts, function () {
+                                                                districtId.append($("<option />").val(this.districtId).text(this.districtName));
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    Initial Setup Done?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="isFirstSetupDone" type="checkbox" />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        Initial setup done
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                <label>Branch Address</label>
+                                                <textarea name="branchAddress" required type="text" id="branchAddress" class="form-control" style="resize:none;" placeholder="Enter branch address"></textarea>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label> </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Employee Printer Name</label>
+                                                <input name="employeePrinterName" required type="text" id="employeePrinterName" class="form-control" style="resize:none;" placeholder="Enter employee printer name" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Employee Printer IP</label>
+                                                <input name="employeePrinterIp" required type="text" id="employeePrinterIp" class="form-control" style="resize:none;" placeholder="Enter employee printer IP" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    Employee Printer Prints Automatically?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="isEmployeePrinterAutomatic" type="checkbox" />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        Print automatically on the employee printer
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Cashier Printer Name</label>
+                                                <input name="cashierPrinterName" required type="text" id="cashierPrinterName" class="form-control" style="resize:none;" placeholder="Enter cashier printer name" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Cashier Printer IP</label>
+                                                <input name="cashierPrinterIp" required type="text" id="cashierPrinterIp" class="form-control" style="resize:none;" placeholder="Enter cashier printer IP" />
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    Announcements Active?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="isAnnouncementAreaActive" type="checkbox" />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        Show the announcement area
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>Actions</label>
+                                                <button type="button" onclick="addBranch()" class="btn btn-primary btn-md btn-grad form-control">Add Branch</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.form -->
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Branch ID</th>
+                                    <th>Branch Name</th>
+                                    <th>District / Province</th>
+                                    <th>Initial Setup Done?</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var branch in Model.Branches.OrderBy(x => x.branchId))
+                                {
+                                <tr>
+                                    <td>@branch.branchId</td>
+                                    <td>@branch.branchName</td>
+                                    <td>@branch.Districts.districtName / @branch.Districts.Provinces.provinceName</td>
+                                    <td>
+                                        @{
+                                            if(branch.isFirstSetupDone == true)
+                                            {
+                                                <text> <i class="fa fa-check"></i> </text>
+                                            }
+                                            else
+                                            {
+                                                <text> <i class="fa fa-times"></i> </text>
+                                            }
+
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#editBranch_@branch.branchId"></button>
+                                            <button class="btn btn-danger  btn-md btn-grad fa fa-trash" name="@branch.branchId" onclick="confirmDeleteBranch(this.name)"></button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @foreach (var branch in Model.Branches)
+            {
+                <!-- Edit branch -->
+                <div class="modal fade bd-example-modal-lg" id="editBranch_@branch.branchId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_editBranch_@branch.branchId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_editBranch_@branch.branchId">Edit Branch: @branch.branchName</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>Branch Name</label>
+                                            <input name="branchName_@branch.branchId" required type="text" id="branchName_@branch.branchId" class="form-control" placeholder="Enter branch name" value="@branch.branchName">
+                                            <input name="branchId_@branch.branchId" type="text" id="branchId_@branch.branchId" hidden="hidden" value="@branch.branchId">
+                                        </div>
+                                        <div class="col-md-4 col-md-offset-2 col-lg-offset-2 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>
+                                                Initial Setup Done?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="isFirstSetupDone_@branch.branchId" @{if (branch.isFirstSetupDone == true) { <text> checked="checked" </text>  }} type="checkbox">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    Initial setup done
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Country</label>
+                                            <select id="countryId_@branch.branchId" name="countryId_@branch.branchId" onchange="getProvincesForEdit(this.value,@branch.branchId)" class="form-control select2" style="width: 100%;">
+                                                <option value="@branch.Districts.Provinces.countryId">@branch.Districts.Provinces.Countries.countryName</option>
+                                                @foreach (var country in Model.Countries.Where(x => x.countryId != branch.Districts.Provinces.countryId).ToList())
+                                                {
+                                                    <option value="@country.countryId">@country.countryName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Province</label>
+                                            <select id="provinceId_@branch.branchId" name="provinceId_@branch.branchId" onchange="getDistrictsForEdit(this.value,@branch.branchId)" class="form-control select2" style="width: 100%;">
+                                                <option value="@branch.Districts.provinceId">@branch.Districts.Provinces.provinceName</option>
+                                                @foreach (var il in Model.Provinces.Where(x => x.provinceId != branch.Districts.provinceId && x.countryId == branch.Districts.Provinces.countryId).ToList())
+                                                {
+                                                    <option value="@il.provinceId">@il.provinceName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>District</label>
+                                            <select id="districtId_@branch.branchId" name="districtId_@branch.branchId" class="form-control select2" style="width: 100%;">
+                                                <option value="@branch.districtId">@branch.Districts.districtName</option>
+                                                @foreach (var district in Model.Districts.Where(x => x.districtId != branch.districtId && x.provinceId == branch.Districts.provinceId).ToList())
+                                                {
+                                                    <option value="@district.districtId">@district.districtName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <label>Branch Address</label>
+                                            <textarea name="branchAddress_@branch.branchId" required type="text" id="branchAddress_@branch.branchId" class="form-control" style="resize:none;" placeholder="Enter branch address">@branch.branchAddress</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Cashier Printer Name</label>
+                                            <input name="cashierPrinterName_@branch.branchId" required type="text" id="cashierPrinterName_@branch.branchId" class="form-control" style="resize:none;" placeholder="Enter cashier printer name" value="@branch.cashierPrinterName" />
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Cashier Printer IP</label>
+                                            <input name="cashierPrinterIp_@branch.branchId" required type="text" id="cashierPrinterIp_@branch.branchId" class="form-control" style="resize:none;" placeholder="Enter cashier printer IP" value="@branch.cashierPrinterIp"/>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Employee Printer Name</label>
+                                            <input name="employeePrinterName_@branch.branchId" required type="text" id="employeePrinterName_@branch.branchId" class="form-control" style="resize:none;" placeholder="Enter employee printer name" value="@branch.employeePrinterName"/>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                            <label>Employee Printer IP</label>
+                                            <input name="employeePrinterIp_@branch.branchId" required type="text" id="employeePrinterIp_@branch.branchId" class="form-control" style="resize:none;" placeholder="Enter employee printer IP" value="@branch.employeePrinterIp"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>
+                                                Employee Printer Prints Automatically?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="isEmployeePrinterAutomatic_@branch.branchId" @{if (branch.isEmployeePrinterAutomatic == true) { <text> checked="checked" </text>  }} type="checkbox">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    Print every order automatically on the employee printer
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>
+                                                Announcement Area Active?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="isAnnouncementAreaActive_@branch.branchId" @{if (branch.isAnnouncementAreaActive == true) { <text> checked="checked" </text>  }} type="checkbox">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    Show the announcement area
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-md-offset-8 col-lg-offset-8 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Actions</label>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" onclick="editBranch(this.name)" name="@branch.branchId" class="btn btn-warning btn-md btn-grad form-control">Update</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Password confirmation before deleting a branch -->
+                <div class="modal fade bd-example-modal-lg" id="CompleteBranchDelete_@branch.branchId" tabindex="-1" role="dialog" aria-labelledby="CompleteBranchDelete_@branch.branchId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="CompleteBranchDelete_@branch.branchId">Enter Your Company Password to Continue</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-3 col-lg-offset-3 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>Company Password</label>
+                                            <input id="companyPassword" name="companyPassword" class="form-control" type="password" placeholder="Enter your company password" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-md-offset-6 col-lg-offset-8 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Actions</label>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" onclick="deleteBranch(this.name)" name="@branch.branchId" class="btn btn-warning btn-md btn-grad form-control">Confirm</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             } 
+        </div>
+    </section>
+</div>
+
+
+<script>
+    function getProvincesForEdit(countryId, branchId) {
+        $.ajax({
+            url: '/CompanyAdmin/GetProvinces',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({ countryId: countryId }),
+            traditional: true,
+            success: function (incomingProvinces) {
+                var provinceId = $("#provinceId_" + branchId);
+                provinceId.empty();
+                $.each(incomingProvinces, function () {
+                    provinceId.append($("<option />").val(this.provinceId).text(this.provinceName));
+                });
+                getDistrictsForEdit(provinceId.val(), branchId);
+            }
+        });
+    }
+    function getDistrictsForEdit(provinceId, branchId) {
+        $.ajax({
+            url: '/CompanyAdmin/GetDistricts',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({ provinceId: provinceId }),
+            traditional: true,
+            success: function (incomingDistricts) {
+                var districtId = $("#districtId_" + branchId);
+                districtId.empty();
+                $.each(incomingDistricts, function () {
+                    districtId.append($("<option />").val(this.districtId).text(this.districtName));
+                });
+            }
+        });
+    }
+</script>
+<script>
+// Updates a branch
+    function editBranch(branchId) {
+        var formData = new FormData();
+        var branchName = $('#branchName_' + branchId).val();
+        var branchAddress = $('#branchAddress_' + branchId).val();
+        var isFirstSetupDone = $('#isFirstSetupDone_' + branchId).is(":checked");
+        var districtId = $('#districtId_' + branchId).val();
+        var cashierPrinterName = $('#cashierPrinterName_' + branchId).val();
+        var cashierPrinterIp = $('#cashierPrinterIp_' + branchId).val();
+        var employeePrinterName = $('#employeePrinterName_' + branchId).val();
+        var employeePrinterIp = $('#employeePrinterIp_' + branchId).val();
+        var isEmployeePrinterAutomatic = $('#isEmployeePrinterAutomatic_' + branchId).is(":checked");
+        var isAnnouncementAreaActive = $('#isAnnouncementAreaActive_' + branchId).is(":checked");
+
+        if (branchName != "" && branchAddress != "") {
+            formData.append("branchName", branchName);
+            formData.append("branchId", branchId);
+            formData.append("branchAddress", branchAddress);
+            formData.append("isFirstSetupDone", isFirstSetupDone);
+            formData.append("companyId", companyId);
+            formData.append("districtId", districtId);
+            formData.append("cashierPrinterName", cashierPrinterName);
+            formData.append("cashierPrinterIp", cashierPrinterIp);
+            formData.append("employeePrinterName", employeePrinterName);
+            formData.append("employeePrinterIp", employeePrinterIp);
+            formData.append("isEmployeePrinterAutomatic", isEmployeePrinterAutomatic);
+            formData.append("isAnnouncementAreaActive", isAnnouncementAreaActive);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/CompanyAdmin/UpdateBranch", true);
+            xhr.addEventListener("load",
+            function (data)
+            {
+                if (data.target.response == 0) {
+                    location.reload(true);
+                }
+                else if (data.target.response == 1) {
+                    alertError();
+                }
+                else {
+                    alertLoginError();
+                }
+            },
+            false);
+            xhr.addEventListener("error", function (data) { alertError(); }, false);
+            xhr.send(formData);
+        }
+        else {
+            alertFillFields();
+        }
+    }
+    
+    function addBranch() {
+        var branchName = $('#branchName').val();
+        var branchAddress = $('#branchAddress').val();
+        var isFirstSetupDone = $('#isFirstSetupDone').is(":checked");
+        var districtId = $('#districtId').val();
+        var cashierPrinterName = $('#cashierPrinterName').val();
+        var cashierPrinterIp = $('#cashierPrinterIp').val();
+        var employeePrinterName = $('#employeePrinterName').val();
+        var employeePrinterIp = $('#employeePrinterIp').val();
+        var isEmployeePrinterAutomatic = $('#isEmployeePrinterAutomatic').is(":checked");
+        var isAnnouncementAreaActive = $('#isAnnouncementAreaActive').is(":checked");
+
+        if (branchName != "" && branchAddress != "" && districtId != "") {
+            var formData = new FormData();
+            formData.append("branchName", branchName);
+            formData.append("branchAddress", branchAddress);
+            formData.append("isFirstSetupDone", isFirstSetupDone);
+            formData.append("companyId", companyId);
+            formData.append("districtId", districtId);
+            formData.append("cashierPrinterName", cashierPrinterName);
+            formData.append("cashierPrinterIp", cashierPrinterIp);
+            formData.append("employeePrinterName", employeePrinterName);
+            formData.append("employeePrinterIp", employeePrinterIp);
+            formData.append("isEmployeePrinterAutomatic", isEmployeePrinterAutomatic);
+            formData.append("isAnnouncementAreaActive", isAnnouncementAreaActive);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/CompanyAdmin/AddBranch", true);
+            xhr.addEventListener("load",
+            function (data)
+            {
+                if (data.target.response == 0) {
+                    location.reload(true);
+                }
+                else if (data.target.response == 1) {
+                    alertError();
+                }
+                else {
+                    alertLoginError();
+                }
+            },
+            false);
+            xhr.addEventListener("error", function (data) { alertError(); }, false);
+            xhr.send(formData);
+        }
+        else {
+            alertFillFields();
+        }
+    
+    }
+
+    function confirmDeleteBranch(branchId)
+    {
+        if (confirm('WARNING! You will lose all employee, menu, product, order, payment and other data belonging to this branch. This cannot be undone! Are you sure you want to delete it?'))
+        {
+            $("#CompleteBranchDelete_" + branchId).modal('toggle');
+        }
+    }
+    function deleteBranch(branchId)
+    {
+        var companyEmail = "@Session["companyEmail"]";
+        var companyPassword = $("#CompleteBranchDelete_" + branchId + " input[name=companyPassword]").val();
+        $.ajax({
+            type: 'POST',
+            url: '/CompanyAdmin/DeleteBranch/',
+            dataType: 'json',
+            data: { branchId: branchId, companyPassword: companyPassword, companyEmail: companyEmail },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else if (data == 1) {
+                    alertError();
+                }
+                else if (data == 2) {
+                    alert("The company password you entered does not match the company account you are logged in with. Please try again.");
+                }
+                else {
+                    alertLoginError();
+                }
+            }
+        });
+    }
+</script>
+<script>
+    $(function () {
+        $('.table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    });
+</script>

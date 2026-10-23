@@ -1,0 +1,1231 @@
+﻿@model iRestaurant.Controllers.ViewModelDemoVM
+@{
+
+    ViewBag.Title = "Cashier";
+    int counter2 = 0;
+
+}
+<script>
+    var branchId = "@Session["branchId"]";
+    var companyId = "@Session["companyId"]";
+    setInterval( // Update the date/time display
+        function () {
+            var date = new Date();
+            var dateDay = date.getDate();
+            var dateMonth = date.getMonth()+1;
+            var timeHours = date.getHours();
+            var timeMinutes = date.getMinutes();
+            if (date.getDate() <= 9) dateDay = "0" + dateDay;
+            if (date.getMonth() + 1 <= 9) dateMonth = "0" + dateMonth;
+            if (date.getHours() <= 9) timeHours = "0" + timeHours;
+            if (date.getMinutes() <= 9) timeMinutes = "0" + timeMinutes;
+            $("#dateTime").empty();
+            $("#dateTime").append(date.getFullYear() + '.' + dateMonth + '.' + dateDay + ' - ' + timeHours + ':' + timeMinutes);
+        }, 1000);
+</script>
+<!doctype html>
+<html style="background-color:#303030; ">
+<head>
+    <meta charset="UTF-8">
+    <!--IE Compatibility modes-->
+    <meta http-equiv="X-UA-Compatible" content="IE=11">
+    <!--Mobile first-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>iRestaurant - Cashier</title>
+
+    <meta name="description" content="Sirus Yazılım iRestaurant">
+    <meta name="author" content="">
+
+    <meta name="msapplication-TileColor" content="#5bc0de" />
+    <meta name="msapplication-TileImage" content="assets/img/metis-tile.png" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/bundles/as/css")
+    @Scripts.Render("~/bundles/as/js")
+    <script>
+        $.ajax({
+            cache: false
+        });
+    </script>
+    <style>
+        input[type="text"] {
+            background: transparent !important;
+            border: none !important;
+        }
+    </style>
+    <link rel="stylesheet" href="~/assets/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="~/assets/css/main.css">
+</head>
+<body id="body">
+    @Html.Partial("_AntiForgery")
+    <div class="row">
+        @if (!((bool)Session["webView"] == true))
+        {
+            <div id="poweroff" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <header>
+                                <h4 style="align-self:center; align-items:center; text-align:center;">
+                                    LOG OUT
+                                </h4>
+                            </header>
+                        </div>
+                        <div class="modal-body" style="padding:0px !important;">
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-xs-12" style="background-color:#222222; text-align:center;">
+                                    <div class="row" style="background-color:#BBBBBB;color:black; text-align:center;">
+                                        DEAR @Session["employeeName"]
+                                    </div>
+                                    <div class="row" style="background-color:#222222;color:white; text-align:center;">
+                                        PLEASE RE-ENTER YOUR PASSWORD TO LOG OUT
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important; text-align:center; font-size:22px;">
+                                    <br>
+                                    <br>
+                                </div>
+
+                                <div class="row" style="margin-left:0px !important; margin-right:0px !important; text-align:center; font-size:22px;">
+                                    <input type="password" placeholder="Manager password" id="employeePassword" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px; margin-bottom:15px; margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-xs-4">
+
+                                </div>
+                                <div class="col-xs-4">
+                                    <a style="min-width:100%; max-width:150px" class="btn btn-grad btn-danger" onclick="logout()"><i class="fa fa-power-off"></i></a>
+                                </div>
+                                <div class="col-xs-4">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="padding:0px !important; border-top: none !important;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if ((bool)Session["webView"] == true)
+        {
+            <script>
+
+            </script>
+        }
+    </div>
+    <div class="bg-light dk" id="wrap">
+        <div id="top">
+            <!-- .navbar -->
+            <nav class="navbar-inverse navbar-static-top">
+                <div class="container-fluid" style="padding:0px !important;">
+                    <!-- Top bar: start -->
+                    <div class="col-lg-12" style="text-align:right; vertical-align:middle; padding:0px !important; margin-top:5px; margin-bottom:5px; margin-left:unset !important; margin-right:unset !important; color:white; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                        <div class="btn-group" style="">
+                            <a class="btn btn-grad btn-lg btn-info" style="" onclick="refreshRevenueReport()" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#dailyOutput"><i class="fa fa-try"></i> Revenue Report</a>
+                            <a class="btn btn-grad btn-lg btn-metis-4" style="" onclick="return deneme()"><i class="fa fa-calendar"></i> <span id="dateTime"></span></a>
+                            @if (!((bool)Session["webView"] == true))
+                            {
+                                <a class="btn btn-grad btn-lg btn-warning" style="min-height:46px;" onclick="" data-toggle="modal" data-original-title="Help" data-placement="bottom" href="#poweroff"><i class="fa fa-power-off"></i><span> </span></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            <!-- /.navbar -->
+            <!-- /.head -->
+        </div>
+        <!-- /#top -->
+        <!-- Top bar: end -->
+        @{
+            DateTime morningDateTime = DateTime.Now.Date.AddHours(3);// The register's business day starts at 03:00 today
+            DateTime nightDateTime = DateTime.Now.Date.AddDays(1).AddHours(3);// ...and runs until 03:00 the next morning
+            if (DateTime.Now.TimeOfDay <= new TimeSpan(3, 0, 0) && DateTime.Now.TimeOfDay >= new TimeSpan(0, 0, 0))
+            {
+                morningDateTime = DateTime.Now.Subtract(new TimeSpan(24, 0, 0));
+                nightDateTime = DateTime.Now;
+            }
+        }
+        <div id="content">
+            <div class="outer">
+                <div class="inner bg-dark lter" style="padding:0px !important;">
+                    <div class="row" style="padding:0px !important; margin:0px !important;" id="tableList">
+                        <div class="row" style="margin:0px!important; padding:0px !important;">
+                            <!-- Each table: start -->
+                            @foreach (var table2 in Model.Tables.ToList())
+                            {
+                                <div class="col-xs-6 col-lg-2 col-sm-4 col-md-2 ui-sortable" style="padding:0px !important; min-height: 250px !important; max-width:152px !important">
+                                    <div class="box" style="position: relative; left: 0px; top: 0px; border:none !important;">
+                                        <div class="row" style="margin-left:5px !important; margin-right:5px !important;">
+                                            <div class="row btn btn-app btn-lg @if (table2.status == true) {<text>btn-success</text> } else {<text>btn-danger</text>}" style="min-height: 226px !important; min-width:100%; max-width: 100% !important; padding-top:1px !important; padding-bottom:1px !important;padding-left:1px !important; padding-right:1px !important; margin-left:0px !important; margin-right:0px !important;">
+                                                <div class="row" style="margin-left: 0px !important; margin-right: 0px !important; min-height:30px !important;">
+                                                    @if (Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault() != null)
+                                                    {
+                                                    <div id="DIVisBillRequested_@Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().tableSessionId" class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="">
+                                                        @if (Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).FirstOrDefault().billRequested == true)
+                                                        {
+                                                            <a style='font-size:12px' class='btn btn-info btn-sm btn-grad' name='isBillRequested_@Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().tableSessionId' id='isBillRequested_@Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().tableSessionId' onclick='sendBill(this)'>Bill Requested &times;</a>
+                                                        }
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+
+                                                    </div>
+                                                    }
+                                                </div>
+                                                <div class="row" style="margin-left: 0px !important; margin-right: 0px !important; padding-top: 30px; margin-top: -30px !important; padding-bottom:30px !important; margin-bottom:-30px !important;">
+                                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="padding-left:0px !important; padding-right:0px !important;">
+                                                        <a style="font-size:100px; text-decoration:none;" data-toggle="modal" data-original-title="Help" data-placement="bottom" @if (Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault() != null) { <text> id="hrefModalHref" onclick="getTableSessionDetail(@Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().tableSessionId)" href="#helpModal" </text>    }>
+                                                            <div class="row" style="padding-top:1px !important; padding-bottom:1px !important;padding-left:1px !important; padding-right:1px !important; margin-left:0px !important; margin-right:0px !important; color:white;  font-size:22px !important;">
+                                                                @table2.Floors.floorName
+                                                            </div>
+                                                            <div class="row" style="padding-top:0px !important; padding-bottom:0px !important;padding-left:0px !important; padding-right:0px !important; margin-left:0px !important; margin-right:0px !important;">
+                                                                <i class="fa fa-tablet"></i>
+                                                            </div>
+                                                            <div class="row" style="padding-top:1px !important; padding-bottom:1px !important;padding-left:1px !important; padding-right:1px !important; margin-left:0px !important; margin-right:0px !important; color:white;  font-size:22px !important;">
+                                                                @table2.tableName
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-left: 0px !important; margin-right: 0px !important; min-height:30px !important;">
+                                                    @if (Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault() != null)
+                                                    {
+                                                    <div id="DIVisWaiterCalled_@Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().tableSessionId" class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="">
+                                                        @if (Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().waiterRequested == true)
+                                                        {
+                                                            <a style='font-size:12px' class='btn btn-metis-3 btn-sm btn-grad' name='isWaiterCalled_@Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().tableSessionId' id='isWaiterCalled_@Model.TableSessions.Where(x => x.isPaid == false && x.tableId == table2.tableId).ToList().FirstOrDefault().tableSessionId' onclick='sendWaiter(this)'>Waiter Called &times;</a>
+                                                        }
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+
+                                                    </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                counter2++;
+                            }
+                            <!-- Each table: end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-light">
+            <div id="dailyOutput" class="modal">
+                <div class="modal-dialog" style="width:55%;">
+                    <div class="modal-content" id="dailyOutput_content">
+                        <div class="modal-header">
+                            <header>
+                                <h4 style="align-self:center; align-items:center; text-align:center;">
+                                    REVENUE REPORT
+                                </h4>
+                            </header>
+                        </div>
+                        <div class="modal-body" style="padding:0px !important;">
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-xs-12" style="background-color:#222222; text-align:center;">
+                                    <table style="background-color:#222222; text-align:center;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:white; text-align:center;">
+                                                    <i>Daily Revenue Report</i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row btn-metis-3" style="margin-left:0px !important; margin-right:0px !important; text-align:center; font-size:22px;">
+                                    @if (Model.PaymentTypes[0] != null)
+                                    {
+                                        <div class="col-xs-2 " style="border-right:1px solid cyan;">@Model.PaymentTypes[0].paymentTypeName @Model.PaymentTypes[0].Currencies.currencyName</div>
+                                    }
+                                    @if (Model.PaymentTypes[1] != null)
+                                    {
+                                        <div class="col-xs-2 " style="border-right:1px solid cyan;">@Model.PaymentTypes[1].paymentTypeName @Model.PaymentTypes[1].Currencies.currencyName</div>
+                                    }
+                                    @if (Model.PaymentTypes[2] != null)
+                                    {
+                                        <div class="col-xs-2 " style="border-right:1px solid cyan;">@Model.PaymentTypes[2].paymentTypeName @Model.PaymentTypes[2].Currencies.currencyName</div>
+                                    }
+                                    @if (Model.PaymentTypes[3] != null)
+                                    {
+                                        <div class="col-xs-2 " style="border-right:1px solid cyan;">@Model.PaymentTypes[3].paymentTypeName @Model.PaymentTypes[3].Currencies.currencyName</div>
+                                    }
+                                    @if (Model.PaymentTypes[4] != null)
+                                    {
+                                        <div class="col-xs-2 " style="border-right:1px solid cyan;">@Model.PaymentTypes[4].paymentTypeName @Model.PaymentTypes[4].Currencies.currencyName</div>
+                                    }
+                                    @if (Model.PaymentTypes[5] != null)
+                                    {
+                                        <div class="col-xs-2 ">@Model.PaymentTypes[5].paymentTypeName @Model.PaymentTypes[5].Currencies.currencyName</div>
+                                    }
+                                </div>
+                                <div class="row btn-metis-5" style="margin-left:0px !important; margin-right:0px !important; text-align:center;  font-size:20px;">
+                                    @foreach (var paymentType in Model.PaymentTypes)
+                                    {
+                                        <div id="daily_@paymentType.paymentTypeName" class="col-xs-2 " style="border-right:1px solid cyan;">
+                                            @paymentType.Payments.Where(x => x.paymentDate >= morningDateTime && x.paymentDate <= nightDateTime).Sum(x => x.paymentAmount)
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-xs-12" style="background-color:#222222;">
+                                <table style="background-color:#222222;">
+                                    <tbody>
+                                        <tr>
+                                            <td style="color:white">
+                                                <i>Revenue Report by Date Range:</i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-xs-2">
+                            </div>
+                            <div class="col-xs-4">
+                                <label>Start:</label>
+                                <!-- /.input group -->
+                                <div class='input-group date' id='startDate1'>
+                                    <input type='text' id="startDate" name="startDate" class="form-control" onmouseover="activateCalendars()" value="@morningDateTime.ToString("dd.MM.yyyy HH:mm")" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar">
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <label>End:</label>
+                                <!-- /.input group -->
+                                <div class='input-group date' id='endDate1'>
+                                    <input type='text' id="endDate" name="endDate" class="form-control" onmouseover="activateCalendars()" value="@nightDateTime.ToString("dd.MM.yyyy HH:mm")" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar">
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:15px; margin-bottom:15px; margin-left:0px !important; margin-right:0px !important;">
+                            <div class="col-xs-4">
+
+                            </div>
+                            <div class="col-xs-4">
+                                <a style="min-width:100%;" class="btn btn-grad btn-info" onclick="getReportByDate()">Get Report</a>
+                            </div>
+                            <div class="col-xs-4">
+
+                            </div>
+                        </div>
+                        <div class="row" id="historyReportPlace" hidden="hidden" style="margin-top:15px; margin-bottom:15px; margin-left:0px !important; margin-right:0px !important;">
+                            <!-- Date-range report results: start -->
+                            <div class="row" style="margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-lg-12" style="background-color:#222222; text-align:center;">
+                                    <table style="background-color:#222222; text-align:center;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:white; text-align:center;"><i>Revenue Report for Selected Dates</i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row btn-metis-3" style="margin-left:0px !important; margin-right:0px !important; text-align:center; font-size:22px;">
+                                @if (Model.PaymentTypes[0] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;">@Model.PaymentTypes[0].paymentTypeName @Model.PaymentTypes[0].Currencies.currencyName</div>
+                                }
+                                @if (Model.PaymentTypes[1] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;">@Model.PaymentTypes[1].paymentTypeName @Model.PaymentTypes[1].Currencies.currencyName</div>
+                                }
+                                @if (Model.PaymentTypes[2] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;">@Model.PaymentTypes[2].paymentTypeName @Model.PaymentTypes[2].Currencies.currencyName</div>
+                                }
+                                @if (Model.PaymentTypes[3] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;">@Model.PaymentTypes[3].paymentTypeName @Model.PaymentTypes[3].Currencies.currencyName</div>
+                                }
+                                @if (Model.PaymentTypes[4] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;">@Model.PaymentTypes[4].paymentTypeName @Model.PaymentTypes[4].Currencies.currencyName</div>
+                                }
+                                @if (Model.PaymentTypes[5] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2">@Model.PaymentTypes[5].paymentTypeName @Model.PaymentTypes[5].Currencies.currencyName</div>
+                                }
+
+                            </div>
+                            <div class="row btn-metis-5" style="margin-left:0px !important; margin-right:0px !important; text-align:center;  font-size:20px;">
+                                @if (Model.PaymentTypes[0] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;" id="byDate_@Model.PaymentTypes[0].paymentTypeName">---</div>
+                                }
+                                @if (Model.PaymentTypes[1] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;" id="byDate_@Model.PaymentTypes[1].paymentTypeName">---</div>
+                                }
+                                @if (Model.PaymentTypes[2] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;" id="byDate_@Model.PaymentTypes[2].paymentTypeName">---</div>
+                                }
+                                @if (Model.PaymentTypes[3] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;" id="byDate_@Model.PaymentTypes[3].paymentTypeName">---</div>
+                                }
+                                @if (Model.PaymentTypes[4] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" style="border-right:1px solid cyan;" id="byDate_@Model.PaymentTypes[4].paymentTypeName">---</div>
+                                }
+                                @if (Model.PaymentTypes[5] != null)
+                                {
+                                    <div class="col-md-2 col-lg-2" id="byDate_@Model.PaymentTypes[5].paymentTypeName">---</div>
+                                }
+                            </div>
+                            <div class="row" style="margin-top:15px; margin-bottom:15px; margin-left:0px !important; margin-right:0px !important;">
+                                <div class="col-lg-4">
+                                </div>
+                                <div class="col-lg-4">
+                                    <a style="min-width:100%;" class="btn btn-grad btn-success" onclick="getReportJs()">Print</a>
+                                </div>
+                                <div class="col-lg-4">
+                                </div>
+                            </div>
+                            <!-- Date-range report results: end -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:0px !important; border-top: none !important;">
+
+                </div>
+            </div>
+        </div>
+        <div class="row" id="tableSessionModal">
+            <div class="row" id="helpModal2">
+                <div id="helpModal" class="modal">
+                    <div class="modal-dialog" id="modaldialog_" style="width:92% !important;">
+                        <div class="modal-content" id="modalContent">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#wrap -->
+    </div>
+    <div id="footer" class="Footer bg-light dker">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:0px !important; margin:0px !important;">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align:left; vertical-align:middle;">
+                <p id="atTablesTotal">
+                    <i class="fa fa-try"></i>
+                </p>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align:center;">
+                <p>
+                    2017 &copy;
+                    <span>Sirus Yazılım<i class="fa fa-world"></i></span>
+                </p>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align:right; vertical-align:middle;">
+                <p id="atCashierTotal">
+                    <i class="fa fa-try"></i>
+                </p>
+            </div>
+        </div>
+    </div>
+<!-- /#footer -->
+<input hidden="hidden" id="floorValue" value="@(Request.Url.PathAndQuery.ToString())" />
+<script>
+    setInterval(function refreshTable() {
+        if ($("#body").attr("class") != "modal-open") {
+            $.ajax({
+                type: "POST",
+                url: "/Cashier/Tables",
+                dataType: "json",
+                async: false,
+                data: { tableSessionId: 0, branchId: branchId },
+                success: function (data) {
+                    if (data) {
+                        $("#tableList").empty();
+                        $('#tableList').html(data.responseText);
+                    }
+                    else {
+                        alert("Could not be loaded in time.");
+                    }
+                },
+                error: function (data) {
+                    if (data) {
+                        $("#tableList").empty();
+                        $('#tableList').html(data.responseText);
+                    }
+                    else {
+                        alert("Could not be loaded in time.");
+                    }
+                }
+            });
+        }
+    }, 5000);
+    setInterval(function refreshFooter() {
+        $.ajax({
+            url: "/Cashier/Footer",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({ branchId: branchId }),
+            traditional: true,
+            success: function (obj) {
+                if (obj == 1) {
+                    alertError();
+                }
+                else if (obj == -1) {
+                    alertLoginError();
+                }
+                else {
+                    $('#atTablesTotal').empty().show().html("Total at tables: " + obj.atTablesTotalObj + ' <i class="fa fa-try"></i>' );
+                    $('#atCashierTotal').empty().show().html("Total in register: " + obj.atCashierTotalObj + ' <i class="fa fa-try"></i>');
+                }
+            }
+        });
+
+    }, 5000);
+    function getTableSessionDetail(tableSessionId) {
+        $.ajax({
+            type: "POST",
+            url: "/Cashier/TableSessions",
+            dataType: "json",
+            async: false,
+            data:{ tableSessionId:tableSessionId, branchId: branchId },
+            success: function (data) {
+                if(data){
+                    $("#modalContent").empty();
+                    $('#modalContent').html(data.responseText);
+                }
+                else{
+                    alert("Could not be loaded in time.");
+                }
+            },
+            error:function (data) {
+                if(data){
+                    $("#modalContent").empty();
+                    $('#modalContent').html(data.responseText);
+                }
+                else{
+                    alert("Could not be loaded in time.");
+                }
+            }
+        });
+    }
+    function changeTable(tableSessionId){
+        var newTableId = $("#targetTable_"+tableSessionId).val();
+        $.ajax({
+            url: "/Cashier/ChangeTable",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({ tableSessionId: tableSessionId, newTableId: newTableId, branchId: branchId }),
+            traditional: true,
+            success: function (data2) {
+                if (data2) {
+                    //location.reload(true);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Cashier/Tables",
+                        dataType: "json",
+                        async: false,
+                        data: { tableSessionId: tableSessionId, branchId: branchId },
+                        success: function (data) {
+                            if (data) {
+                                $("#tableList").empty();
+                                $('#tableList').html(data.responseText);
+                            }
+                            else {
+                                alert("Could not be loaded in time.");
+                            }
+                        },
+                        error: function (data) {
+                            if (data) {
+                                $("#tableList").empty();
+                                $('#tableList').html(data.responseText);
+                            }
+                            else {
+                                alert("Could not be loaded in time.");
+                            }
+                        }
+                    });
+                }
+                else {
+                    alert("An error occurred!");
+                }
+            }
+        });
+    }
+    if ($("#body").attr("class") != "modal-open") {
+        $.ajax({
+            url: '/Cashier/IsAnyWaiterCall',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({ branchId: branchId }),
+            success: function (waiterCallingList) {
+                var array2 = waiterCallingList;
+                if (array2 != null) {
+                    for (var i = 0; i < array2.length; i++) {
+
+                        $('#DIVisWaiterCalled_' + array2[i]).html("<a style='font-size:12px' class='btn btn-metis-3 btn-sm btn-grad' name='isWaiterCalled_" + array2[i] + "' id='isWaiterCalled_" + array2[i] + "' onclick='sendWaiter(this)'>Waiter Called &times;</a>");
+                        $('#isWaiterCalled_' + array2[i]).pulsate({
+                            color: "#8BC13D",
+                            repeat: true
+                        });
+
+                    }
+                }
+            }
+        });
+    }
+    if ($("#body").attr("class") != "modal-open") {
+        $.ajax({
+            url: '/Cashier/IsAnyBillRequest',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({ branchId: branchId }),
+            success: function (billRequestingList) {
+                var array4 = billRequestingList;
+                if (array4 != null) {
+                    for (var i = 0; i < array4.length; i++) {
+                        $('#DIVisBillRequested_' + array4[i]).html("<a style='font-size:12px' class='btn btn-info btn-sm btn-grad'  name='isBillRequested_" + array4[i] + "' id='isBillRequested_" + array4[i] + "' onclick='sendBill(this)'>Bill Requested &times;</a>");
+                        $('#isBillRequested_' + array4[i]).pulsate({
+                            color: "#09f",
+                            repeat: true
+                        });
+
+                    }
+                }
+            }
+        });
+    }
+    function sendWaiter(item) {
+        var array = item.name.split('_');
+        $('#DIVisWaiterCalled_' + array[1]).empty();
+        $.ajax({
+            url: '/Cashier/SendWaiter',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({ tableSessionId: array[1], branchId: branchId}),
+            success: function (data) {
+            }
+        });
+    }
+
+    function sendBill(item) {
+
+        var array3 = item.name.split('_');
+        $('#DIVisBillRequested_' + array3[1]).empty();
+        if ("@Session["webView"].ToString()"=="True")
+        {
+        @{
+            if (Session["webView"].ToString() == "True") {
+            <text>
+            BrowserMethods.sendBill(array3[1], branchId);
+
+            </text>
+            }
+        }
+        }
+        else
+        {
+            alert("To print bills, please download our desktop application.");
+        }
+    }
+
+    function printBillReceipt(tableSessionId) {
+        if ("@Session["webView"].ToString()" == "True") {
+        @{
+            if (Session["webView"].ToString() == "True") {
+            <text>
+            BrowserMethods.printBillReceipt(tableSessionId, branchId);
+
+            </text>
+            }
+        }
+        }
+        else {
+            alert("To print bill receipts, please download our desktop application.");
+        }
+    }
+    function getReportJs() {
+        if ("@Session["webView"].ToString()" == "True") {
+        @{
+            if (Session["webView"].ToString() == "True")
+            {
+                <text>
+                if (confirm('Are you sure you want to print the report for this date range?')) {
+                    var startDate = $("#startDate").val();
+                    var endDate = $("#endDate").val();
+                    if (startDate != "" && endDate != "") {
+                        BrowserMethods.getReport(startDate, endDate, branchId);
+                    }
+                    else {
+                        alert("Values cannot be empty.");
+                    }
+
+                }
+                </text>
+            }
+        }
+        }
+        else {
+            alert("To print reports, please download our desktop application.");
+        }
+
+    }
+    function getReportByDate() {
+        var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
+        if (startDate != "" && endDate != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/Cashier/CashierReport/',
+                dataType: 'json',
+                data: { startDate: startDate, endDate: endDate, branchId: branchId },
+                async: false,
+                success: function (revenueList) {
+                    if (revenueList == -1) {
+                        alertLoginError();
+                    }
+                    else if (revenueList == 1) {
+                        alertError();
+                    }
+                    else
+                    {
+                        $('#historyReportPlace').show();
+                        revenueList.forEach(function (revenue) {
+                            $('#byDate_' + revenue.paymentTypeName).empty().html(revenue.amount);
+                        });
+                        /*
+                        $('#byDate_cash').empty().html(revenue.cash);
+                        $('#byDate_creditCard').empty().html(revenue.creditCard);
+                        $('#byDate_complimentary').empty().html(revenue.complimentary);
+                        $('#byDate_ticket').empty().html(revenue.ticket);
+                        $('#byDate_multinet').empty().html(revenue.multinet);
+                        $('#byDate_onAccount').empty().html(revenue.onAccount);
+                        */
+                    }
+                }
+            });
+        }
+        else {
+            alert("Values cannot be empty.");
+        }
+    }
+
+
+    setInterval(function waiterCalling() {
+        if ($("#body").attr("class") != "modal-open") {
+            $.ajax({
+                url: '/Cashier/IsAnyWaiterCall',
+                type: 'POST',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({ branchId: branchId }),
+                success: function (waiterCallingList) {
+                    var array2 = waiterCallingList;
+                    if (array2 != null) {
+                        for (var i = 0; i < array2.length; i++) {
+                            $('#DIVisWaiterCalled_' + array2[i]).html("<a style='font-size:12px' class='btn btn-metis-3 btn-sm btn-grad' name='isWaiterCalled_" + array2[i] + "' id='isWaiterCalled_" + array2[i] + "' onclick='sendWaiter(this)'>Waiter Called &times;</a>");
+                            $('#isWaiterCalled_' + array2[i]).pulsate({
+                                color: "#8BC13D",
+                                repeat: true
+                            });
+
+                        }
+                    }
+                }
+            });
+        }
+    }, 10000);
+    setInterval(function billRequesting() {
+        if ($("#body").attr("class") != "modal-open") {
+            $.ajax({
+                url: '/Cashier/IsAnyBillRequest',
+                type: 'POST',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({ branchId: branchId }),
+                success: function (billRequestingList) {
+                    var array4 = billRequestingList;
+                    if (array4 != null) {
+                        for (var i = 0; i < array4.length; i++) {
+                            $('#DIVisBillRequested_' + array4[i]).html("<a style='font-size:12px' class='btn btn-info btn-sm btn-grad'  name='isBillRequested_" + array4[i] + "' id='isBillRequested_" + array4[i] + "' onclick='sendBill(this)'>Bill Requested &times;</a>");
+                            $('#isBillRequested_' + array4[i]).pulsate({
+                                color: "#09f",
+                                repeat: true
+                            });
+
+                        }
+                    }
+                }
+            });
+        }
+    }, 10000);
+
+    function closeTableSession(tableSessionId){
+        $.ajax({
+            url: "/Cashier/CloseTableSession",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({tableSessionId:tableSessionId, branchId: branchId}),
+            success: function (isTableSessionClosed) {
+                if (isTableSessionClosed == true) {
+                    location.reload(true);
+                }
+                else {
+                    alert("Table sessions with orders cannot be closed without taking payment. This feature is only for closing empty sessions opened by mistake!");
+                }
+
+            }
+
+        });
+    }
+
+    function refreshRevenueReport() {
+        //$("#helpModal_" + tableSessionId).modal('toggle');
+        $.ajax({
+            type: 'POST',
+            url: '/Cashier/GetDailyRevenue/',
+            dataType: 'json',
+            data: { branchId: branchId },
+            async: false,
+            success: function (revenue) {
+                if (revenue ==-1 ) {
+                    alertLoginError();
+                }
+                else if (revenue == 1){
+                    alertError();
+                }
+                else {
+                    $('#daily_cash').empty().html(revenue.cash);
+                    $('#daily_creditCard').empty().html(revenue.creditCard);
+                    $('#daily_complimentary').empty().html(revenue.complimentary);
+                    $('#daily_ticket').empty().html(revenue.ticket);
+                    $('#daily_multinet').empty().html(revenue.multinet);
+                    $('#daily_onAccount').empty().html(revenue.onAccount);
+                }
+            }
+        });
+        //var loaded = $.load("/Cashier/Cashier #dailyOutput_content");
+        //$("#dailyOutput_content").empty();
+        //$("#dailyOutput_content").load(loaded);
+    }
+
+
+
+
+    $.datetimepicker.setLocale('tr');
+    function activateCalendars()
+    {
+        $('#startDate').datetimepicker({
+            format: 'd.m.Y H:i',
+            //startDate: '@DateTime.Now.ToShortDateString() @DateTime.Now.ToShortTimeString()'
+        });
+        $('#endDate').datetimepicker({
+            format: 'd.m.Y H:i',
+            //startDate: '@DateTime.Now.ToShortDateString() @DateTime.Now.ToShortTimeString()'
+        });
+    }
+
+    function cancelWithoutExtrasProduct(cancel,tableSessionId) {
+        var toCancelWithoutExtrasProductValues = cancel.name.split('_');
+        var tableSessionId = toCancelWithoutExtrasProductValues[2];
+        var productOptionId = toCancelWithoutExtrasProductValues[4];
+        //var orderQuantity = $('WithoutExtras_' + tableSessionId + '_productOptionId_' + productOptionId + '_quantity').val();
+        $.ajax({
+            url: "/Cashier/CancelWithoutExtrasProduct",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({ tableSessionId: tableSessionId, productOptionId: productOptionId, orderQuantity: 1, branchId: branchId }),
+            traditional: true,
+            success: function (data2) {
+            if (data2) {
+                getTableSessionDetail(tableSessionId);
+            /*
+                $("#helpModal_" + tableSessionId).modal('toggle');
+                $("#helpModal2_" + tableSessionId).empty();
+                $("#helpModal2_" + tableSessionId).load("/Cashier/Cashier #helpModal_" + tableSessionId,function(){$("#helpModal_" + tableSessionId).modal("show");});
+            */
+            }
+            else {
+                alertLoginError();
+            }
+        }
+        });
+
+
+    }
+    function cancelWithExtrasProduct(cancel,tableSessionId) {
+        var toCancelWithExtrasProductValues = cancel.name.split('_');
+        var orderProductId = toCancelWithExtrasProductValues[3];
+        $.ajax({
+            url: "/Cashier/CancelWithExtrasProduct",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({ orderProductId: orderProductId, branchId: branchId }),
+            traditional: true,
+            success: function (data2) {
+                if (data2) {
+                    getTableSessionDetail(tableSessionId);
+                    /*
+                    $("#helpModal_" + tableSessionId).modal('toggle');
+                    $("#helpModal2_" + tableSessionId).empty();
+                    $("#helpModal2_" + tableSessionId).load("/Cashier/Cashier #helpModal_" + tableSessionId,function(){$("#helpModal_" + tableSessionId).modal("show");});
+                    */
+            }
+            else {
+                alertLoginError();
+            }
+        }
+        });
+    }
+    function cancelCampaign(cancel,tableSessionId) {
+        var toCancelCampaignValues = cancel.name.split('_');
+        var tableSessionCampaignId = toCancelCampaignValues[3];
+        $.ajax({
+            url: "/Cashier/CancelCampaign",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({ tableSessionCampaignId: tableSessionCampaignId, branchId: branchId }),
+            traditional: true,
+            success: function (data2) {
+                if (data2) {
+                    getTableSessionDetail(tableSessionId);
+                    /*
+                    $("#helpModal_" + tableSessionId).modal('toggle');
+                    $("#helpModal2_" + tableSessionId).empty();
+                    $("#helpModal2_" + tableSessionId).load("/Cashier/Cashier #helpModal_" + tableSessionId,function(){$("#helpModal_" + tableSessionId).modal("show");});
+                    */
+                }
+                else {
+                    alertLoginError();
+                }
+            }
+
+        });
+    }
+    function selectAll(toPrintTableSessionId) {
+        $(document.getElementsByName('WithoutExtras_' + toPrintTableSessionId + '_quantity')).each(function (item) {
+            this.lastElementChild.selected = true;
+            var widgetValues = $(this).attr('id').split('_');
+            var tableSessionId = widgetValues[1];
+            var productOptionId = widgetValues[3];
+            var productPriceArray = $('#WithoutExtras_' + tableSessionId + '_productOptionId_' + productOptionId + '_productPrice').val().split(",");
+            var productPrice = parseFloat(productPriceArray[0] + "." + productPriceArray[1]);
+            var toCalculateSubtotal = '#WithoutExtras_' + tableSessionId + '_productOptionId_' + productOptionId + '_subtotal';
+            var quantity = $(this).val();
+            $(toCalculateSubtotal).val(parseFloat(productPrice * quantity));
+        });
+        $(document.getElementsByName('WithExtras_check_' + toPrintTableSessionId)).each(function () {
+
+            var arr = $(this).val().split('_');
+            $('#tableSessionId_' + toPrintTableSessionId + '_orderProductId_' + arr[3]).attr('checked', true);
+
+        });
+        $(document.getElementsByName('Campaign_check_' + toPrintTableSessionId)).each(function () {
+
+            var arr2 = $(this).val().split('_');
+            var checked = $('#tableSessionId_' + toPrintTableSessionId + '_tableSessionCampaignId_' + arr2[1]).attr('checked', true);;
+
+        });
+
+        calculate(toPrintTableSessionId);
+    }
+
+    function print(toPrint,paymentTypeId) {
+        $.ajax({
+            cache: false
+        });
+
+        var toPrintTableSessionId = parseInt(toPrint.name);
+        var tableSessionId = toPrintTableSessionId;
+        var realPaymentAmount = $('#subtotal_' + toPrintTableSessionId).val();
+        if (realPaymentAmount == 0) {
+            alert("You have not selected anything.");
+        }
+        else {
+
+            var paymentAmountArray = realPaymentAmount.split('.');
+            var paymentAmount = parseInt(paymentAmountArray[0]) + ',' + parseInt(paymentAmountArray[1]);
+
+            var withoutExtrasOrderProducts = []; // Holds the orderProductIds.
+            var orderProductCount = [];// Holds how many of each item are being paid for.
+            var withoutExtras = [];
+            var withExtrasCheckboxValuesArray = []; // Holds the checkbox values of items with extras.
+            var campaignCheckboxValuesArray = []; // Holds the checkbox values of campaign items.
+            var isRenewable = false;
+            var withoutExtrasPaid=false;
+            var withExtrasPaid=false;
+            var campaignPaid=false;
+            $(document.getElementsByName('WithoutExtras_' + toPrintTableSessionId + '_quantity')).each(function (item) {
+
+                var select = $(this).attr('orderProductIds');
+                withoutExtras.push({ orderQuantity: $(this).val(), productOptionId: select, tableSessionId: toPrintTableSessionId });
+            });
+            $(document.getElementsByName('WithExtras_check_' + toPrintTableSessionId)).each(function () {
+                var arr = $(this).val().split('_');
+                var checked = $('#tableSessionId_' + toPrintTableSessionId + '_orderProductId_' + arr[3]).is(':checked');
+                if (checked == true) {
+                    withExtrasCheckboxValuesArray.push({ orderProductId: arr[3] });
+                }
+            });
+            $(document.getElementsByName('Campaign_check_' + toPrintTableSessionId)).each(function () {
+                var arr2 = $(this).val().split('_');
+                var checked = $('#tableSessionId_' + toPrintTableSessionId + '_tableSessionCampaignId_' + arr2[1]).is(':checked');
+                if (checked == true) {
+                    campaignCheckboxValuesArray.push({ tableSessionCampaignId: arr2[1] });
+                }
+            });
+
+            // Chained POSTs: record the payment, then settle items with extras, items without extras and campaigns in turn
+            $.ajax({
+                type: 'POST',
+                url: '/Cashier/TakePayment/',
+                dataType: 'json',
+                data: { tableSessionId: tableSessionId, paymentAmount: paymentAmount, paymentTypeId: paymentTypeId, branchId: branchId },
+                success: function(){
+                    try{
+                        // Items with extras
+                        $.ajax({
+                            url: "/Cashier/WithExtrasCheckboxValuesArrayHandler",
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json",
+                            data: JSON.stringify({ withExtrasCheckboxValuesArray: withExtrasCheckboxValuesArray, tableSessionId: tableSessionId, branchId: branchId}),
+                            success:function(data1){
+                                if(data1==true){
+                                    withExtrasPaid=true;
+                                    // Items without extras
+                                    $.ajax({
+                                        url: "/Cashier/WithoutExtrasHandler",
+                                        type: "POST",
+                                        dataType: "json",
+                                        contentType: "application/json",
+                                        data: JSON.stringify({ withoutExtras, tableSessionId: tableSessionId, branchId: branchId}),
+                                                success:function(data2){
+                                                    if(data2==true){
+                                                        withoutExtrasPaid=true;
+                                                        // Campaign items
+                                                        $.ajax({
+                                                            url: "/Cashier/CampaignCheckboxValuesArrayHandler",
+                                                            type: "POST",
+                                                            dataType: "json",
+                                                            contentType: "application/json",
+                                                            data: JSON.stringify({ campaignCheckboxValuesArray, tableSessionId: tableSessionId, branchId: branchId}),
+                                                            success: function (data3) {
+                                                                if(data3==true){
+                                                                    campaignPaid=true;
+                                                                    try{
+                                                                        //if(withExtrasPaid&&withoutExtrasPaid&&campaignPaid){
+                                                                        $.ajax({
+                                                                            url: "/Cashier/IsFullyPaid",
+                                                                            type: "POST",
+                                                                            async:false,
+                                                                            dataType: "json",
+                                                                            data: {tableSessionId:tableSessionId},
+                                                                            success: function (isFullyPaid) {
+                                                                                if (isFullyPaid == true) {
+                                                                                    //setInterval(function () {
+                                                                                    location.reload(true);
+
+                                                                                    //}, 3000);
+                                                                                }
+                                                                                else {
+                                                                                    getTableSessionDetail(tableSessionId);
+                                                                                }
+
+                                                                            }
+                                                                        });
+                                                                        //}
+                                                                    }catch(error){
+
+                                                                        console(error.message);
+
+                                                                    };
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                    });
+                                }
+
+                            }
+                        });
+                    }
+                    catch(error){
+                        console(error.message);
+                    };
+                }
+            });
+
+            /*
+            // Prints a receipt for every individual payment. If this is enabled, the print-all in IsFullyPaid must be disabled.
+            $.ajax({
+                url: "/Cashier/PrintReceipt",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({ withExtrasCheckboxValuesArray: withExtrasCheckboxValuesArray, withoutExtras: withoutExtras, campaignCheckboxValuesArray: campaignCheckboxValuesArray }),
+                traditional: true,
+                success: function (isPrinted) {
+                    //isFullyPaid(toPrintTableSessionId);
+                    $.ajax({
+                        url: "/Cashier/IsFullyPaid/" + toPrintTableSessionId,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (isPaid) {
+                            if (isPaid == true) {
+                                //setInterval(function () {
+                                location.reload(true);
+
+                                //}, 3000);
+                            }
+                            else {
+                                //setInterval(function () {
+                                $("#helpModal_" + toPrintTableSessionId).modal('toggle');
+                                $("#helpModal2_" + toPrintTableSessionId).empty();
+                                $("#helpModal2_" + toPrintTableSessionId).load("/Cashier/Cashier #helpModal_" + toPrintTableSessionId, function () { $("#helpModal_" + toPrintTableSessionId).modal("show"); });
+                                //}, 3000);
+                            }
+
+                        }
+                    });
+                }
+
+            });
+            */
+        }
+    }
+    function calculate(tableSessionId) {
+        var withoutExtrasTotal = 0;
+        var withExtrasTotal = 0;
+        var campaignsTotal = 0;
+
+        $(document.getElementsByClassName('WithoutExtras_' + tableSessionId)).each(function (item) {
+            var withoutExtrasPriceArray = $(this).val().split(',');
+            var withoutExtrasPrice = "";
+            if (withoutExtrasPriceArray[1] == null) {
+                withoutExtrasPrice = withoutExtrasPriceArray[0];
+            }
+            else {
+                withoutExtrasPrice = parseInt(withoutExtrasPriceArray[0]) + '.' + parseInt(withoutExtrasPriceArray[1]);
+            }
+            withoutExtrasTotal += parseFloat(withoutExtrasPrice);
+
+        });
+        $(document.getElementsByClassName('withExtras_subtotal_'+tableSessionId)).each(function () {
+            var arr = $(this).val().split('_');
+            var checked = $('#tableSessionId_' + tableSessionId + '_orderProductId_' + arr[3]).is(':checked');
+            if (checked == true) {
+                var productPriceArray = $('#WithExtras_value_tableSessionId_' + tableSessionId + '_orderProductId_' + arr[3]).val().split(',');
+                var productPrice = "";
+                if (productPriceArray[1] == null) {
+                    productPrice = productPriceArray[0];
+                }
+                else {
+                    productPrice = parseInt(productPriceArray[0]) + '.' + parseInt(productPriceArray[1]);
+                }
+                withExtrasTotal += parseFloat(productPrice);
+            }
+        });
+        $(document.getElementsByClassName('campaigns_subtotal_' + tableSessionId)).each(function () {
+            var arr2 = $(this).val().split('_');
+            var checked2 = $('#tableSessionId_' + tableSessionId +'_tableSessionCampaignId_' + arr2[1]).is(':checked');
+            if (checked2 == true) {
+                var campaignPriceArray = $('#Campaign_value_tableSessionId_' + tableSessionId + '_tableSessionCampaignId_' + arr2[1]).val().split(',');
+                var campaignPrice = "";
+                if (campaignPriceArray[1] == null) {
+                    campaignPrice = campaignPriceArray[0];
+                }
+                else {
+                    campaignPrice = parseInt(campaignPriceArray[0]) + '.' + parseInt(campaignPriceArray[1]);
+                }
+                campaignsTotal += parseFloat(campaignPrice);
+            }
+        });
+        $('#subtotal_' + tableSessionId).val(parseFloat(withExtrasTotal + withoutExtrasTotal + campaignsTotal).toFixed(2));
+
+    }
+    function increaseDecrease(selectbox){
+        var widgetValues = $(selectbox).attr('id').split('_');
+        var tableSessionId = widgetValues[1];
+        var productOptionId = widgetValues[3];
+        var productPriceArray = $('#WithoutExtras_' + tableSessionId + '_productOptionId_' + productOptionId + '_productPrice').val().split(",");
+        var productPrice = parseFloat(productPriceArray[0]+"."+productPriceArray[1]);
+        var toCalculateSubtotal = '#WithoutExtras_' + tableSessionId + '_productOptionId_' + productOptionId + '_subtotal';
+        var quantity=$(selectbox).val();
+        $(toCalculateSubtotal).val(parseFloat(productPrice * quantity));
+    }
+
+
+    function logout() {
+        var employeeId = @Session["loggedInEmployeeId"];
+        var employeePassword = $('#employeePassword').val();
+        if (employeeId != "" && employeePassword != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/Cashier/CheckLogout/',
+                dataType: 'json',
+                data: { employeeId: employeeId, employeePassword: employeePassword, branchId: branchId },
+                success: function (data2) {
+                    if (data2 == 0) {
+                        location.href = "/Cashier/Login";
+                    }
+                    else if (data2 == 1) {
+                        alert("Incorrect manager password.");
+                    }
+                    else if (data2 == 2) {
+                        alert("You have been temporarily locked out due to too many failed attempts.");
+                    }
+                    else {
+
+                    }
+                }
+            });
+        }
+        else {
+            alert("Values cannot be empty.");
+        }
+    }
+</script>
+</body>
+</html>

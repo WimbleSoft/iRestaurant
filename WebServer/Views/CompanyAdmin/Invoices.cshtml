@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = "Invoices";
+    Layout = "~/Views/Shared/companyAdmin_Layout.cshtml";
+    int companyId = (int)Session["companyId"];
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+<div id="content">
+    <script>
+        document.getElementById("invoices").className = "active";
+    </script>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Invoices
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="#">Invoices</a></li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#odenmis" data-toggle="tab" aria-expanded="true">Paid Invoices</a></li>
+                            <li class=""><a href="#odenmemis" data-toggle="tab" aria-expanded="false">Unpaid Invoices</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="odenmis">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Invoice ID</th>
+                                                    <th>Invoice Date</th>
+                                                    <th></th>
+                                                    <th>Invoice Details</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var invoice in Model.Invoices.Where(x=>x.isPaid==true))
+                                                {
+                                                    <tr class="parent" id="rowParent_@invoice.invoiceId">
+                                                        <td>#@invoice.invoiceId</td>
+                                                        <td>@invoice.invoiceDate</td>
+                                                        <td></td>
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-success fa fa-plus" data-toggle="collapse" data-target=".invoiceDetail_@invoice.invoiceId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-parent="#rowParent_@invoice.invoiceId" class="collapse invoiceDetail_@invoice.invoiceId">
+                                                        @{ 
+                                                            <th class="label-danger">License</th>
+                                                            <th class="label-danger">Quantity Purchased</th>
+                                                            <th class="label-danger">Period</th>
+                                                            <th class="label-danger">Campaign</th>
+                                                        }
+                                                    </tr>
+                                                    foreach (var invoiceService in invoice.InvoiceServices.Where(x=>x.invoiceId==invoice.invoiceId))
+                                                    {
+                                                    <tr data-parent="#rowParent_@invoice.invoiceId" class="collapse label-success invoiceDetail_@invoice.invoiceId">
+                                                        <td>
+                                                            @invoiceService.Services.serviceName
+                                                        </td>
+                                                        <td>
+                                                            @invoiceService.quantity
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (invoiceService.isYearly)
+                                                                {
+                                                                    <text>Yearly</text>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>Monthly</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (invoiceService.serviceCampaignId !=null)
+                                                                {
+
+                                                                    if(Model.ServiceCampaigns.Where(x => x.serviceCampaignId == invoiceService.serviceCampaignId).Count() == 1)
+                                                                    {
+                                                                        <text>
+                                                                            @Model.ServiceCampaigns.Where(x => x.serviceCampaignId == invoiceService.serviceCampaignId).First().serviceCampaignName
+                                                                        </text>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <text>No campaign</text>
+                                                                    }
+                                                                    
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>No campaign</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="odenmemis">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="example1" class="table table-bordered table-striped table-responsive" data-page-length='30'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Invoice ID</th>
+                                                    <th>Invoice Date</th>
+                                                    <th></th>
+                                                    <th>Invoice Details</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var invoice in Model.Invoices.Where(x=>x.isPaid==false))
+                                                {
+                                                    <tr class="parent" id="rowParent_@invoice.invoiceId">
+                                                        <td>#@invoice.invoiceId</td>
+                                                        <td>@invoice.invoiceDate</td>
+                                                        <td></td>
+                                                        <td>
+                                                            <span class="button-group">
+                                                                <button type="button" class="btn btn-success fa fa-plus" data-toggle="collapse" data-target=".invoiceDetail_@invoice.invoiceId"></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-parent="#rowParent_@invoice.invoiceId" class="collapse invoiceDetail_@invoice.invoiceId">
+                                                        @{ 
+                                                            <th class="label-danger">License</th>
+                                                            <th class="label-danger">Quantity Purchased</th>
+                                                            <th class="label-danger">Period</th>
+                                                            <th class="label-danger">Campaign</th>
+                                                        }
+                                                    </tr>
+                                                    foreach (var invoiceService in invoice.InvoiceServices.Where(x=>x.invoiceId==invoice.invoiceId))
+                                                    {
+                                                    <tr data-parent="#rowParent_@invoice.invoiceId" class="collapse label-success invoiceDetail_@invoice.invoiceId">
+                                                        <td>
+                                                            @invoiceService.Services.serviceName
+                                                        </td>
+                                                        <td>
+                                                            @invoiceService.quantity
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (invoiceService.isYearly)
+                                                                {
+                                                                    <text>Yearly</text>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>Monthly</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @{
+                                                                if (invoiceService.serviceCampaignId !=null)
+                                                                {
+
+                                                                    if(Model.ServiceCampaigns.Where(x => x.serviceCampaignId == invoiceService.serviceCampaignId).Count() == 1)
+                                                                    {
+                                                                        <text>
+                                                                            @Model.ServiceCampaigns.Where(x => x.serviceCampaignId == invoiceService.serviceCampaignId).First().serviceCampaignName
+                                                                        </text>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <text>No campaign</text>
+                                                                    }
+                                                                    
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <text>No campaign</text>
+                                                                }
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": false,
+            "info": false,
+            "autoWidth": true
+        });
+    });
+    function editLicense(serviceLicenseId) {
+        var branchId = $('#branchId_' + serviceLicenseId).val();
+        var companyId = "@companyId";
+        if (branchId != "" && companyId != "" && serviceLicenseId!="") {
+            $.ajax({
+                type: 'POST',
+                url: '/CompanyAdmin/UpdateServiceLicense/',
+                dataType: 'json',
+                data: { companyId: companyId, branchId: branchId, serviceLicenseId: serviceLicenseId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else if (data == 1) {
+                        alertError();
+                    }
+                    else if (data == 2) {
+                        alert("This license is already assigned to this branch.");
+                    }
+                    else if (data == 3) {
+                        alert("The branch information you submitted is not valid.");
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertFillFields();
+        }
+    }
+</script>
+

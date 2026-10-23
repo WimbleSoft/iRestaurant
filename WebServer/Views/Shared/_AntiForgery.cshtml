@@ -1,0 +1,53 @@
+@*
+    CSRF protection for every page.
+    Renders the anti-forgery token once and makes sure it is sent with every same-origin POST:
+    jQuery/XMLHttpRequest calls get a "RequestVerificationToken" header, and plain HTML forms get the
+    hidden "__RequestVerificationToken" field when they are submitted.
+    The server checks it in Security/AntiForgery.cs (ValidateAntiForgeryOnPostAttribute).
+*@
+<div id="antiForgeryToken" style="display:none">@Html.AntiForgeryToken()</div>
+<script>
+    (function () {
+        var field = document.querySelector('#antiForgeryToken input[name="__RequestVerificationToken"]');
+        if (!field) return;
+        var token = field.value;
+
+        function isSameOrigin(url) {
+            var link = document.createElement('a');
+            link.href = url;
+            return !link.host || link.host === window.location.host;
+        }
+
+        var open = XMLHttpRequest.prototype.open;
+        var send = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.open = function (method, url) {
+            this._csrfMethod = method;
+            this._csrfUrl = url;
+            return open.apply(this, arguments);
+        };
+        XMLHttpRequest.prototype.send = function () {
+            if (this._csrfMethod && this._csrfMethod.toUpperCase() === 'POST' && isSameOrigin(this._csrfUrl)) {
+                try { this.setRequestHeader('RequestVerificationToken', token); } catch (e) { }
+            }
+            return send.apply(this, arguments);
+        };
+
+        function addTokenTo(form) {
+            if (!form || (form.getAttribute('method') || '').toUpperCase() !== 'POST') return;
+            if (form.querySelector('input[name="__RequestVerificationToken"]')) return;
+            var hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = '__RequestVerificationToken';
+            hidden.value = token;
+            form.appendChild(hidden);
+        }
+
+        // Forms present at load time (also covers forms submitted from script via form.submit()).
+        document.addEventListener('DOMContentLoaded', function () {
+            var forms = document.getElementsByTagName('form');
+            for (var i = 0; i < forms.length; i++) addTokenTo(forms[i]);
+        });
+        // Forms added later.
+        document.addEventListener('submit', function (event) { addTokenTo(event.target); }, true);
+    })();
+</script>

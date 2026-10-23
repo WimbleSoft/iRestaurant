@@ -1,0 +1,329 @@
+﻿@{
+    Layout = "~/Views/Shared/home_Layout.cshtml";
+    ViewBag.Title = "Checkout";
+    int currencyId = 0;
+    if (Session["currencyId"] == null)
+    {
+        currencyId = 1;
+    }
+    else
+    {
+        if ((int)Session["currencyId"] > 0 && (int)Session["currencyId"] <= 4)
+        {
+            currencyId = (int)Session["currencyId"];
+        }
+        else
+        {
+            currencyId = 1;
+        }
+    }
+}
+@model  iRestaurant.Controllers.ViewModelDemoVM
+<!-- Header -->
+<header class="header bg-gray">
+    <div class="container">
+        <h1 class="display-4">Checkout</h1>
+        <p class="lead-2 mt-6">Looks like you're all set! Review your details and complete your payment.</p>
+    </div>
+</header><!-- /.header -->
+<!-- Main Content -->
+<main class="main-content">
+    <section class="section">
+        <div class="container">
+            <form class="row gap-y" action="/Home/Buy" enctype="application/x-www-form-urlencoded">
+            @if (Model.CartServices.Count > 0)
+            {
+                <div class="col-lg-8">
+                    <table class="table table-cart">
+                        <tbody valign="middle">
+                            @foreach (var item in Model.CartServices.Where(x => x.serviceCampaignId != null).GroupBy(x => x.serviceCampaignId))
+                            {
+                                <tr>
+                                    <td>
+                                        <h5>@Model.ServiceCampaigns.Where(x => x.serviceCampaignId == item.Key).First().serviceCampaignName</h5>
+                                        <p>
+                                            @{
+                                                if (Model.CartServices.Where(x => x.serviceCampaignId == item.Key).First().isYearly)
+                                                {
+                                                    <text>Yearly</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>Monthly</text>
+                                                }
+                                            }
+                                    
+                                                Campaign
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <label>Quantity</label>
+                                        <span>@Model.CartServices.Where(x=>x.serviceCampaignId == item.Key).First().quantity</span>
+                                    </td>
+                                    <td>
+                                        <h4 class="price" >
+                                        @{ 
+                                            ServiceCampaigns serviceCampaign = Model.ServiceCampaigns.Where(x => x.serviceCampaignId == item.Key).First();
+                                            if (serviceCampaign != null)
+                                            {
+                                    
+                                                    <span id="feeCampaign_@Model.CartServices.Where(x=>x.serviceCampaignId == item.Key).First().serviceCampaignId">@(serviceCampaign.serviceCampaignPrice)</span>
+                                            
+                                            }
+                                            else
+                                            {
+                                                <meta http-equiv="refresh" content="0; url=/Home/Error404" />
+                                            }
+                                        }
+
+                                        @{
+                                            if (Model.ServiceCampaigns.Where(y => y.serviceCampaignId == item.Key).First().Currencies != null)
+                                            {
+                                                <span>
+                                                    @Model.ServiceCampaigns.Where(y => y.serviceCampaignId == item.Key).First().Currencies.currencyName
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                            <span>
+                                                <meta http-equiv="refresh" content="0; url=/Home/Error404" />
+                                            </span>
+                                            }
+                                        }
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
+                            @foreach (var item in Model.CartServices.Where(x => x.serviceCampaignId == null))
+                            {
+                                <tr>
+                                    <td>
+                                        <h5>@item.serviceName</h5>
+                                        <p>
+                                            @{
+                                                if (item.isYearly)
+                                                {
+                                                    <text>Yearly</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>Monthly</text>
+                                                }
+                                            }
+                                    
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <label>Quantity</label>
+                                        <span>@item.quantity</span>
+                                    </td>
+                                    <td>
+                                        <h4 class="price" id="feeItem_@item.serviceId">
+                                            @if (item.isYearly)
+                                            {
+                                                <span>@(item.serviceMonthlyFee * 12)</span>
+                                            }
+                                            else
+                                            {
+                                                <span>
+                                                    @item.serviceMonthlyFee
+                                                </span>
+                                            }
+                                        @{
+                                            if (Model.Currencies.Where(x => x.currencyId == item.currencyId).Count() > 0)
+                                            {
+                                                <span>
+                                                    @Model.Currencies.Where(x => x.currencyId == item.currencyId).First().currencyName
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                            <span>
+                                                0
+                                            </span>
+                                            }
+                                        }
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr class="my-8">
+                    <h5 class="mb-6">Billing Details</h5>
+                    <div class="form-row">
+                        @if (Session["companyId"] == null)
+                        {
+                            <span>Purchases without an account are currently disabled. Please register first, then try your purchase again.</span>
+                        }
+                        <div class="col-md-6 form-group">
+                            <label>Company Name</label>
+                            <input class="form-control" type="text" name="companyName"required placeholder="Company name" disabled="disabled" value="@Session["companyName"]">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Company Email</label>
+                            <input class="form-control" type="text" name="companyEmail"required placeholder="Company email address" disabled="disabled" value="@Session["companyEmail"]">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Company Phone</label>
+                            <input class="form-control" type="text" name="companyPhone"required placeholder="Company phone" disabled="disabled" value="@Session["companyPhone"]">
+                        </div>
+                        @{ 
+                            if (Session["companyId"] != null)
+                            {
+                                Companies company = Model.Companies.Where(x => x.companyId == (int)Session["companyId"]).First();
+                                <div class="col-md-6 form-group">
+                                    <label>Billing Country</label>
+                                    <select id="countryId" name="countryId" disabled required class="form-control select2" style="width: 100%;">
+                                        <option selected>@company.Districts.Provinces.Countries.countryName</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Billing Province</label>
+                                    <select id="provinceId" name="provinceId" disabled required class="form-control select2" style="width: 100%;">
+                                        <option selected>@company.Districts.Provinces.provinceName</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Billing District</label>
+                                    <select id="districtId" disabled required class="form-control select2" style="width: 100%;">
+                                        <option selected value="@company.districtId">@company.Districts.districtName</option>
+                                    </select>
+                                    <input hidden name="districtId" readonly required style="width:100%;" value="@company.districtId"/>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6 form-group">
+                                    <label>Billing Country</label>
+                                    <select id="countryId" name="countryId" onchange="getProvinces(this.value)"required class="form-control select2" style="width: 100%;">
+                                        <option>Select Country</option>
+                                        @foreach (var country in Model.Countries)
+                                        {
+                                            <option value="@country.countryId">@country.countryName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Billing Province</label>
+                                    <select id="provinceId" name="provinceId" onchange="getDistricts(this.value)"required class="form-control select2" style="width: 100%;"></select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Billing District</label>
+                                    <select id="districtId" name="districtId" class="form-control select2"required style="width: 100%;"></select>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        var countrySelector = $("#countryId");
+                            
+                                        getProvinces(countrySelector[0].value);
+                                    });
+                                    function getProvinces(countryId) {
+                                        $.ajax({
+                                            url: '/CompanyAdmin/GetProvinces',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            data: JSON.stringify({ countryId: countryId }),
+                                            traditional: true,
+                                            success: function (incomingProvinces) {
+                                                var provinceId = $("#provinceId");
+                                                provinceId.empty();
+                                                //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                $.each(incomingProvinces, function () {
+                                                    provinceId.append($("<option />").val(this.provinceId).text(this.provinceName));
+                                                });
+                                                getDistricts(provinceId.val());
+                                            }
+                                        });
+                                    }
+                                    function getDistricts(provinceId) {
+                                        $.ajax({
+                                            url: '/CompanyAdmin/GetDistricts',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            contentType: "application/json",
+                                            data: JSON.stringify({ provinceId: provinceId }),
+                                            traditional: true,
+                                            success: function (incomingDistricts) {
+                                                var districtId = $("#districtId");
+                                                districtId.empty();
+                                                //districtId.append($("<option />").val("A").text("⬇⬇⬇⬇⬇⬇⬇⬇"));
+                                                $.each(incomingDistricts, function () {
+                                                    districtId.append($("<option />").val(this.districtId).text(this.districtName));
+                                                });
+                                            }
+                                        });
+                                    }
+                                </script>
+                            }
+                        }
+                        <div class="col-12 form-group">
+                            <label>Billing Address</label>
+                            <textarea class="form-control" style="resize:none!important;" type="text" name="companyAddress" required placeholder="Billing address"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="cart-price">
+                        <div class="flexbox">
+                            <div>
+                                <p><strong>Subtotal:</strong></p>
+                                <p><strong>VAT (18%):</strong></p>
+                            </div>
+                            <div>
+                                <p>@{
+                                        double subtotal = (Model.CartServices.Where(x => x.isYearly == true && x.serviceCampaignId == null).Sum(x => x.serviceMonthlyFee * x.quantity) * 12)+
+                                            Model.CartServices.Where(x => x.isYearly == false && x.serviceCampaignId == null).Sum(x => x.serviceMonthlyFee * x.quantity);
+
+                                        double subtotal2 = 0;
+                                        foreach(var serviceCampaign in Model.CartServices.Where(x =>x.serviceCampaignId != null).GroupBy(x => x.serviceCampaignId))
+                                        {
+                                            subtotal2+= Model.ServiceCampaigns.Where(x => x.serviceCampaignId == serviceCampaign.Key.Value).First().serviceCampaignPrice* Model.CartServices.Where(x => x.serviceCampaignId == serviceCampaign.Key.Value).First().quantity;
+                                        }
+                                        }
+                                    @(subtotal+subtotal2) 
+                                    @Model.Currencies.Where(x => x.currencyId == currencyId).First().currencyName
+                                </p>
+                                <p>
+                                    @((subtotal + subtotal2) * 0.18) 
+                                    @Model.Currencies.Where(x => x.currencyId == currencyId).First().currencyName
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="flexbox">
+                            <div>
+                                <p><strong>Total:</strong></p>
+                            </div>
+                            <div>
+                                <p class="fw-600">@((subtotal + subtotal2) * 1.18) @Model.Currencies.Where(x => x.currencyId == currencyId).First().currencyName</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <a class="btn btn-block btn-secondary" href="/Home/Cart">Edit Cart</a>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-block btn-primary" type="submit">Pay Now <i class="ti-angle-right fs-9"></i></button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-lg btn-light btn-round btn-outline-success" href="/Home/Pricing">Your cart is empty. Click here to see our plans.</a>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            }
+            </form>
+        </div>
+    </section>
+</main>

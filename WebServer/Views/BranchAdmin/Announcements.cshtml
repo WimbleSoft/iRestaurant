@@ -1,0 +1,341 @@
+﻿
+@{
+    ViewBag.Title = "Announcements";
+    Layout = "~/Views/Shared/branchAdmin_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Employees.Where(x => x.employeeId == (int)Session["loggedInEmployeeId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="updateSettingsModal_@a.employeeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Name</label>
+                                <input name="employeeName" type="text" id="employeeName_id_@a.employeeId" class="form-control" placeholder="Enter employee name" value="@a.employeeName">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Password</label>
+                                <input name="employeePassword" type="password" required min="8" max="20" id="employeePassword_id_@a.employeeId" class="form-control" placeholder="Enter employee password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Email</label>
+                                <input name="employeeEmail" type="text" id="employeeEmail_id_@a.employeeId" @if (a.isManager == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Enter employee email" value="@a.employeeEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Phone</label>
+                                <input name="employeePhone" type="text" id="employeePhone_id_@a.employeeId" class="form-control" placeholder="Enter employee phone" value="@a.employeePhone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Actions</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="updateSettings(this.id)" id="updateSettings_id_@a.employeeId" class="btn btn-warning btn-md btn-grad form-control">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- PAGE CONTENT -->
+<script>
+document.getElementById("announcements").className = "active";
+</script>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Announcements
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="#">Announcements</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Add New Announcement
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                                <label>Announcement Title</label>
+                                                <input name="announcementTitle" required type="text" id="announcementTitle" class="form-control" placeholder="Enter announcement title">
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                                <label>Announcement Image</label>
+                                                <input type="file" name="announcementImage" class="" id="announcementImage" accept="image/*" reject="*/*" runat="server" />
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                                <label>Actions</label>
+                                                <button type="button" onclick="addAnnouncement()" class="btn btn-primary btn-md btn-grad form-control">Add Announcement</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+                                                <label>Announcement Description</label>
+                                                <textarea name="announcementDescription" required type="text" id="announcementDescription" class="form-control" style="resize:none;" placeholder="Enter announcement description"></textarea>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+                                                <label>
+                                                    Published?
+                                                </label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="isPublished" type="checkbox" checked />
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.form -->
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Announcement Image</th>
+                                    <th>Announcement Title</th>
+                                    <th>Published</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var announcement in Model.Announcements.OrderBy(x => x.announcementId))
+                                {
+                                <tr>
+                                    <td><img width="100" height="100" src="../assets/announcement-images/@announcement.announcementImage"/></td>
+                                    <td>@announcement.announcementTitle</td>
+                                    <td>
+                                        @{
+                                            if (announcement.isPublished==true)
+                                            {
+                                                <text>Active</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Inactive</text>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#EditAnnouncement_@announcement.announcementId"></button>
+                                            <button class="btn btn-danger  btn-md btn-grad fa fa-trash"name="@announcement.announcementId" onclick="deleteAnnouncement(this.name)"></button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @foreach (var announcement in Model.Announcements)
+            {
+                <!-- Edit announcement -->
+                <div class="modal fade bd-example-modal-lg" id="EditAnnouncement_@announcement.announcementId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_EditAnnouncement_@announcement.announcementId">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel_EditProduct_@announcement.announcementId">Edit Announcement: @announcement.announcementTitle</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Announcement Title</label>
+                                            <input name="announcementTitle" required type="text" id="announcementTitle_@announcement.announcementId" class="form-control" placeholder="Enter announcement title" value="@announcement.announcementTitle">
+                                            <input name="announcementId"     type="text" id="announcementId_@announcement.announcementId" hidden="hidden" value="@announcement.announcementId">
+                                        </div>
+                                        <div class="col-md-4 col-md-offset-4 col-lg-offset-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>
+                                                Published?
+                                            </label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="isPublished_@announcement.announcementId" @{if (announcement.isPublished == true) { <text> checked="checked" </text>  }} type="checkbox" />
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <hr>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Current Image</label>
+                                            <img style="margin-left: 5px !important; margin-right: 5px !important; border:3px;" width="250" height="250" src="../assets/announcement-images/@announcement.announcementImage" />
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Announcement Image</label>
+                                            <input type="file" name="announcementImage_@announcement.announcementId" id="announcementImage_@announcement.announcementId"  accept="image/*" reject="*/*" runat="server" />
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                            <label>Actions</label>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                                    <button type="button" onclick="editAnnouncement(this.name)" name="@announcement.announcementId" class="btn btn-warning btn-md btn-grad form-control">Update</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <label>Announcement Description</label>
+                                            <textarea name="announcementDescription_@announcement.announcementId" required type="text" id="announcementDescription_@announcement.announcementId" class="form-control" style="resize:none;" placeholder="Enter announcement description">@announcement.announcementDescription</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            } 
+        </div>
+    </section>
+</div>
+<script>
+    
+// Edit announcement
+function editAnnouncement(announcementId) {
+    var formData = new FormData();
+    var announcementTitle = $('#announcementTitle_' + announcementId).val();
+    var announcementId = $('#announcementId_' + announcementId).val();
+    var announcementDescription = $('#announcementDescription_' + announcementId).val();
+    var isPublished = $('#isPublished_' + announcementId).is(":checked");
+    var announcementImage = $('#announcementImage_' + announcementId)[0].files[0];
+    
+    if (announcementTitle != "" && announcementDescription != "") {
+        formData.append("announcementTitle", announcementTitle);
+        formData.append("announcementId", announcementId);
+        formData.append("announcementDescription", announcementDescription);
+        formData.append("isPublished", isPublished);
+        formData.append("announcementImageFile", announcementImage);
+        formData.append("branchId", branchId);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/BranchAdmin/UpdateAnnouncement", true);
+        xhr.addEventListener("load",
+        function (data)
+        {
+            if (data.target.response == 0) {
+                location.reload(true);
+            }
+            else if (data.target.response == 1) {
+                alertError();
+            }
+            else {
+                alertLoginError();
+            }
+        },
+        false);
+        xhr.addEventListener("error", function (data) { alertError(); }, false);
+        xhr.send(formData);
+    }
+    else {
+        alert("Please fill in the title and description.");
+    }
+}
+    
+function addAnnouncement() {
+    var announcementTitle = $('#announcementTitle').val();
+    var announcementDescription = $('#announcementDescription').val();
+    var isPublished = $('#isPublished').is(":checked");
+    var announcementImage = $('#announcementImage')[0].files[0];
+
+    if (announcementTitle != "" && announcementDescription != "") {
+        var formData = new FormData();
+        formData.append("announcementTitle", announcementTitle);
+        formData.append("announcementDescription", announcementDescription);
+        formData.append("isPublished", isPublished);
+        formData.append("announcementImageFile", announcementImage);
+        formData.append("branchId", branchId);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/BranchAdmin/AddAnnouncement", true);
+        xhr.addEventListener("load",
+        function (data)
+        {
+            if (data.target.response == 0) {
+                location.reload(true);
+            }
+            else if (data.target.response == 1) {
+                alertError();
+            }
+            else {
+                alertLoginError();
+            }
+        },
+        false);
+        xhr.addEventListener("error", function (data) { alertError(); }, false);
+        xhr.send(formData);
+    }
+    else {
+        alertFillFields();
+    }
+    
+}
+
+function deleteAnnouncement(announcementId) {
+    if (confirm('Are you sure you want to delete this item? This cannot be undone!')) {
+        $.ajax({
+            type: 'POST',
+            url: '/BranchAdmin/DeleteAnnouncement/',
+            dataType: 'json',
+            data: { announcementId: announcementId, branchId: branchId },
+            success: function (data) {
+                if (data == 0) {
+                    location.reload(true);
+                }
+                else if (data == 1) {
+                    alertError();
+                }
+                else {
+                    alertLoginError();
+                }
+            }
+        });
+    }
+}
+</script>

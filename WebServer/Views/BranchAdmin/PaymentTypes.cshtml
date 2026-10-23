@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "Payment Types";
+    Layout = "~/Views/Shared/branchAdmin_Layout.cshtml";
+}
+@model iRestaurant.Controllers.ViewModelDemoVM
+@foreach (var a in Model.Employees.Where(x => x.employeeId == (int)Session["loggedInEmployeeId"]))
+{
+    <div class="modal fade bs-example-modal-lg" id="updateSettingsModal_@a.employeeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Name</label>
+                                <input name="employeeName" type="text" id="employeeName_id_@a.employeeId" class="form-control" placeholder="Enter employee name" value="@a.employeeName">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Password</label>
+                                <input name="employeePassword" type="password" required min="8" max="20" id="employeePassword_id_@a.employeeId" class="form-control" placeholder="Enter employee password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Email</label>
+                                <input name="employeeEmail" type="text" id="employeeEmail_id_@a.employeeId" @if (a.isManager == false) { <text> disabled="disabled" readonly="readonly" </text>    } class="form-control" placeholder="Enter employee email" value="@a.employeeEmail">
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                                <label>Employee Phone</label>
+                                <input name="employeePhone" type="text" id="employeePhone_id_@a.employeeId" class="form-control" placeholder="Enter employee phone" value="@a.employeePhone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Actions</label>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                    <button type="button" onclick="updateSettings(this.id)" id="updateSettings_id_@a.employeeId" class="btn btn-warning btn-md btn-grad form-control">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+document.getElementById("paymentTypes").className = "active";
+</script>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Payment Types
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="#">Payment Types</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <button type="button" class="btn btn-lg btn-box-tool" style="color:black !important; font-weight:600; " data-widget="collapse">
+                                            <i class="fa fa-plus"></i> &nbsp;&nbsp; Add New Payment Type
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="col-md-2 col-lg-4 col-xs-12 col-sm-6">
+                                                <label>Payment Type Name</label>
+                                                <input name="paymentTypeName" required type="text" id="paymentTypeName" class="form-control" placeholder="Enter payment type name">
+                                            </div>
+                                            <div class="col-md-2 col-lg-2 col-xs-12 col-sm-12">
+                                                <label>Currency</label>
+                                                <select name="currencyId" id="currencyId"  class="form-control">
+                                                    @foreach(var currency in Model.Currencies)
+                                                    {
+                                                        <option value="@currency.currencyId">@currency.currencyName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 col-lg-2 col-xs-12 col-sm-6">
+                                                <label>Actions</label>
+                                                <button type="button" onclick="addPaymentType()" class="btn btn-primary btn-md btn-grad form-control">Add Payment Type</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Payment Type Id</th>
+                                    <th>Payment Type Name</th>
+                                    <th>Payment Type Currency</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var paymentType in Model.PaymentTypes.ToList())
+                                {
+                                <tr>
+                                    <td>@paymentType.paymentTypeId</td>
+                                    <td>@paymentType.paymentTypeName</td>
+                                    <td>@paymentType.Currencies.currencyName</td>
+                                    <td>
+                                        <span class="button-group">
+                                            <button type="button" class="btn btn-warning btn-md btn-grad fa fa-pencil" data-toggle="modal" data-target="#myModalId_@paymentType.paymentTypeId"></button>
+                                            <a href="#" name="@paymentType.paymentTypeId" onclick="deletePaymentType(this.name)" class="btn btn-danger btn-md btn-grad fa fa-trash"></a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <!-- Edit payment type modals -->
+                        @foreach (var paymentType in Model.PaymentTypes.ToList())
+                        {
+                        <div class="modal fade bs-example-modal-lg" id="myModalId_@paymentType.paymentTypeId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Edit Payment Type</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>Payment Type Name</label>
+                                                    <input name="paymentTypeName_@paymentType.paymentTypeId" required type="text" id="paymentTypeName_@paymentType.paymentTypeId" class="form-control" placeholder="Enter payment type name" value="@paymentType.paymentTypeName">
+                                                    <input name="paymentTypeId_@paymentType.paymentTypeId" type="text" id="paymentTypeId_@paymentType.paymentTypeId" hidden="hidden" value="@paymentType.paymentTypeId">
+                                                </div>
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>Currency</label>
+                                                    <select name="currencyId_@paymentType.paymentTypeId" id="currencyId_@paymentType.paymentTypeId">
+                                                        <option selected value="@paymentType.currencyId">@paymentType.Currencies.currencyName</option>
+                                                        @foreach(var currency in Model.Currencies.Where(x => x.currencyId != paymentType.currencyId))
+                                                        {
+                                                            <option value="@currency.currencyId">@currency.currencyName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 col-lg-6 col-xs-12 col-sm-12">
+                                                    <label>Actions</label>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                            <button type="button" class="btn btn-default btn-md btn-grad form-control" data-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                                            <button type="button" class="btn btn-warning btn-md btn-grad form-control" name="@paymentType.paymentTypeId" onclick="editPaymentType(this.name)">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    function addPaymentType() {
+        var paymentTypeName = $('#paymentTypeName').val();
+        var currencyId = $('#currencyId').val();
+
+        if (paymentTypeName != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/BranchAdmin/AddPaymentType/',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({ paymentTypeName: paymentTypeName, branchId: branchId, currencyId: currencyId }),
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertFillFields();
+        }
+        
+    }
+    function editPaymentType(paymentTypeId) {
+        var paymentTypeName = $('#paymentTypeName_' + paymentTypeId).val();
+        var currencyId = $('#currencyId_' + paymentTypeId).val();
+         
+        if (paymentTypeName != "" && paymentTypeId != "" && currencyId != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/BranchAdmin/UpdatePaymentType/',
+                dataType: 'json',
+                data: { paymentTypeName: paymentTypeName, paymentTypeId: paymentTypeId, branchId: branchId, currencyId: currencyId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertFillFields();
+        }
+    }
+    function deletePaymentType(paymentTypeId) {
+        if (confirm('Are you sure you want to delete this item? This cannot be undone!')) {
+            $.ajax({
+                type: 'POST',
+                url: '/BranchAdmin/DeletePaymentType/',
+                dataType: 'json',
+                data: { paymentTypeId: paymentTypeId, branchId: branchId },
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload(true);
+                    }
+                    else {
+                        alertLoginError();
+                    }
+                }
+            });
+        }
+        else {
+            alertOperationCancelled();
+        }
+            
+    }
+</script>
